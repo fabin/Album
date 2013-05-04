@@ -1,0 +1,23 @@
+@CHARSET "utf-8";
+
+.progress {
+	width: 760px;
+}
+
+.progress .progressBack {
+	width: 100%;
+	height: 32px;
+	background-color: #f0f0f0;
+}
+
+.progress .progressValue {
+	width: 0%;
+	text-align: right;
+	height: 32px;
+	background-color: #30ff30;
+	height: 32px;
+}
+
+.progress .progressText {
+	text-align: right;
+}

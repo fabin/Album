@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<link type="text/css" rel="stylesheet" href="/static/css/progress.css" />
+<title>jQuery File Upload Example</title>
+</head>
+<body>
+	<input id="fileupload" type="file" name="files[]" multiple>
+	<div class='progress'>
+		<div class='progressBack'>
+			<div class='progressValue'></div>
+		</div>
+		<div class='progressText'></div>
+	</div>
+	<script src="/static/js/jquery-1.9.1.min.js"></script>
+	<script src="/static/js/vendor/jquery.ui.widget.js"></script>
+	<script src="/static/js/jquery.iframe-transport.js"></script>
+	<script src="/static/js/jquery.fileupload.js"></script>
+	<script>
+		$(function() {
+			$('#fileupload').fileupload(
+					{
+						url : '/upload',
+						dataType : 'json',
+						/* add : function(e, data) {
+							console.log("added data: %o", data)
+							$('<p/>').text('added! ').appendTo(document.body);
+						}, */
+						/* change : function(e, data) {
+							$.each(data.files, function(index, file) {
+								$('<p/>').text('selected: ' + file.name)
+										.appendTo(document.body);
+							});
+						}, */
+						done : function(e, data) {
+							$.each(data.result.files, function(index, file) {
+								$('<p/>').text(file.name).appendTo(
+										document.body);
+								console.log("file: %o", file)
+							});
+						},
+						progressall : function(e, data) {
+							var progress = parseInt(data.loaded / data.total
+									* 100, 10);
+
+							console.log("progress: %o", progress)
+							$('.progressValue').width(progress + '%')
+							$('.progressText').text(progress + '%')
+						}
+					});
+		});
+	</script>
+</body>
+</html>

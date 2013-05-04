@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link type="text/css" rel="stylesheet" href="/static/css/albums.css" />
+<title>Albums</title>
+</head>
+<body>
+
+	<div>
+		{% for album in albums %} <a href="/albums/details/{{album.key()}}">
+			<div class='albumCover'>
+				<div class='image'>
+					<img src='/static/img/no_photo_135.png'>
+				</div>
+				<div class='name'>{{album.name}}</div>
+			</div>
+		</a> {% endfor %}
+	</div>
+	<div class='clean'></div>
+	<div>
+		<a href="/albums/create">Create!</a>
+	</div>
+</body>
+</html>
