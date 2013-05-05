@@ -13,48 +13,46 @@
 
 (function () {
     'use strict';
-
-    var isOnGitHub = window.location.hostname === 'blueimp.github.com' ||
-            window.location.hostname === 'blueimp.github.io',
-        url = isOnGitHub ? '//jquery-file-upload.appspot.com/' : 'server/php/';
-
+        
+    var url = '';
     angular.module('demo', [
         'blueimp.fileupload'
     ])
         .config([
             '$httpProvider', 'fileUploadProvider',
             function ($httpProvider, fileUploadProvider) {
-                if (isOnGitHub) {
-                    // Demo settings:
-                    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-                    angular.extend(fileUploadProvider.defaults, {
-                        disableImageResize: false,
-                        maxFileSize: 5000000,
-                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-                    });
-                }
+
+            	// Demo settings:
+            	delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            	angular.extend(fileUploadProvider.defaults, {
+            		disableImageResize: false,
+            		maxFileSize: 5000000,
+            		acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                });
+            
             }
         ])
 
         .controller('DemoFileUploadController', [
             '$scope', '$http',
             function ($scope, $http) {
-                if (!isOnGitHub) {
-                    $scope.loadingFiles = true;
-                    $scope.options = {
-                        url: url
-                    };
-                    $http.get(url)
-                        .then(
-                            function (response) {
-                                $scope.loadingFiles = false;
-                                $scope.queue = response.data.files;
-                            },
-                            function () {
-                                $scope.loadingFiles = false;
-                            }
-                        );
-                }
+//                if (!isOnGitHub) {}
+
+                $scope.loadingFiles = true;
+                $scope.options = {
+                    url: url
+                };
+                $http.get(url)
+                    .then(
+                        function (response) {
+                            $scope.loadingFiles = false;
+                            $scope.queue = response.data.files;
+                        },
+                        function () {
+                            $scope.loadingFiles = false;
+                        }
+                    );
+            
             }
         ])
 

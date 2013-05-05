@@ -79,7 +79,7 @@ class UploadHandler(webapp2.RequestHandler):
         files.finalize(blob)
         return files.blobstore.get_blob_key(blob)
 
-    def handle_upload(self):
+    def handle_upload(self, album_key):
         logging.info("handle_upload(...)")
         results = []
         blob_keys = []
@@ -100,7 +100,7 @@ class UploadHandler(webapp2.RequestHandler):
                 )
                 blob_keys.append(blob_key)
                 
-                album_key = self.request.get('album_key')
+#                 album_key = self.request.get('album_key')
                 image_url = images.get_serving_url(
                             blob_key,
                             secure_url=self.request.host_url.startswith(
@@ -108,7 +108,7 @@ class UploadHandler(webapp2.RequestHandler):
                             )
                         )
                 result['url'] = image_url
-                logging.info("blob_key == " + album_key)
+                logging.info("album_key == " + album_key)
                 logging.info("url == " + result['url'])
 
                 album = db.Model.get(album_key) 
@@ -155,23 +155,22 @@ class UploadHandler(webapp2.RequestHandler):
         logging.info("head(...)")
         pass
 
-    def get(self):
+    def get(self, album_key):
         logging.info("get(...)")
-#         self.redirect(WEBSITE)
+        album = Album.get(album_key)
         template_values = {
-                           'o':None,
-                           'formatFileSize':None
+                           'album':album
         }
 
-        template = JINJA_ENVIRONMENT.get_template('/templates/upload.html')
+        template = JINJA_ENVIRONMENT.get_template('/templates/albumUpload.html')
         self.response.write(template.render(template_values))
 
-    def post(self):
+    def post(self, album_key):
         logging.info("post(...)")
         
         if (self.request.get('_method') == 'DELETE'):
             return self.delete()
-        result = {'files': self.handle_upload()}
+        result = {'files': self.handle_upload(album_key)}
         s = json.dumps(result, separators=(',', ':'))
         redirect = self.request.get('redirect')
         if redirect:
@@ -200,7 +199,7 @@ class DownloadHandler(blobstore_handlers.BlobstoreDownloadHandler):
 
 app = webapp2.WSGIApplication(
     [
-        ('/upload', UploadHandler),
+        ('/upload/([^/]+)', UploadHandler),
         ('/upload/([^/]+)/([^/]+)', DownloadHandler)
     ],
     debug=True

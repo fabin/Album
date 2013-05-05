@@ -53,7 +53,7 @@ $(function () {
     // Change this to the location of your server-side upload handler:
     var url = '/upload/{{album.key()}}';
     $('#fileupload').fileupload({
-    	url : '',
+    	url : '/upload',
 		dataType : 'json',
 
 		add : function(e, data) {
