@@ -1,44 +1,58 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<link type="text/css" rel="stylesheet"
-	href="/static/css/album.details.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/progress.css" />
-<script src="/static/js/jquery-1.9.1.min.js"></script>
-<script src="/static/js/vendor/jquery.ui.widget.js"></script>
-<script src="/static/js/jquery.iframe-transport.js"></script>
-<script src="/static/js/jquery.fileupload.js"></script>
-<script src="/static/js/app/upload.js"></script>
-<title>Albums</title>
+<title>PhotoSwipe</title>
+<meta name="author"
+	content="Ste Brennan - Code Computerlove - http://www.codecomputerlove.com/" />
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="/static/photoswipe/styles.css" type="text/css"
+	rel="stylesheet" />
+
+<link href="/static/photoswipe/photoswipe.css"
+	type="text/css" rel="stylesheet" />
+
+<script type="text/javascript"
+	src="/static/photoswipe/lib/klass.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+
+<script type="text/javascript"
+	src="/static/photoswipe/code.photoswipe.jquery-3.0.5.min.js"></script>
+
+<script type="text/javascript">
+	(function(window, $, PhotoSwipe) {
+
+		$(document).ready(function() {
+
+			var options = {};
+			$("#Gallery a").photoSwipe(options);
+
+		});
+
+	}(window, window.jQuery, window.Code.PhotoSwipe));
+</script>
+
 </head>
 <body>
 
-	<div>{{album.name}}</div>
-	<div>{{album.description}}</div>
-	<div>{{album.date}}</div>
-	<input id='album_key' type="hidden" value="{{album.key()}}">
+	<div id="MainContent">
 
-	<div>
-		<input id="fileupload" type="file" name="files[]" multiple>
-		<div class='progress'>
-			<div class='progressBack'>
-				<div class='progressValue'></div>
-			</div>
-			<div class='progressText'></div>
+		<div class="page-content">
+			<h1>{{album.name}}</h1>
+			<div>{{album.description}}</div>
 		</div>
+
+		<ul id="Gallery" class="gallery">
+			{% for picture in pictures %}
+			<li><a href="{{picture.image}}=s1600"><img
+					src="{{picture.image}}=s240-c" alt="{{picture.name}}" /></a></li> {% endfor
+			%}
+		</ul>
+
 	</div>
 
-	<div>
-		{% for picture in pictures %}
-		<div class='thumbnail'>
-			<div>
-				<img src="{{picture.image}}=s320-c">
-			</div>
-			<div>{{picture.name}}</div>
-		</div>
-		{% endfor %}
-	</div>
-	<div class='clean'></div>
 </body>
 </html>

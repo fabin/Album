@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="/static/js/jquery-1.9.1.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="/static/css/progress.css" />
+<script src="/static/js/jquery.fileupload.js"></script>
+<script src="/static/js/app/upload.js"></script>
+
+<title>Albums</title>
+</head>
+<body>
+
+	<div>{{album.name}}</div>
+	<div>{{album.description}}</div>
+	<div>{{album.date}}</div>
+	<input id='album_key' type="hidden" value="{{album.key()}}">
+
+	<div>
+		<input id="fileupload" type="file" name="files[]" multiple>
+		<div class='progress'>
+			<div class='progressBack'>
+				<div class='progressValue'></div>
+			</div>
+			<div class='progressText'></div>
+		</div>
+	</div>
+
+</body>
+</html>
