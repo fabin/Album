@@ -1,6 +1,8 @@
 body {
-  font-family: Verdana, Helvetica, sans-serif;
-  background-color: #DDDDDD;
+	font-family: Verdana, Helvetica, sans-serif;
+	background-color: #c0c0c0;
+	padding: 0px;
+	margin: 0px;
 }
 
 .clean {

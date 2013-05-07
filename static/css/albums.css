@@ -1,10 +1,5 @@
 @CHARSET "utf-8";
 
-body {
-	font-family: Verdana, Helvetica, sans-serif;
-	background-color: #c0c0c0;
-}
-
 .albumCover {
 	background-color: #707070;
 	float: left;
@@ -14,6 +9,127 @@ body {
 	text-align: center;
 	float: left;
 	padding: 32px;
+}
+
+#cover {
+	margin: 0px;
+	margin: 0px;
+	position: relative;
+	color: #fff;
+	min-height: 160px;
+}
+
+#cover .landscape img {
+	width: 100%;
+}
+
+#cover .covershadowPosition {
+	height: 160px;
+	margin-left: -11px;
+	padding-left: 11px;
+	width: 100%;
+	z-index: 2;
+}
+
+#cover .covershadow {
+	background: url('/static/img/map_gradient.png');
+	background: -webkit-linear-gradient(transparent 0%, rgba(0, 0, 0, 0.3)
+		30%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.7) 100%);
+	background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.3) 30%,
+		rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.7) 100%);
+	bottom: 0;
+	position: absolute;
+}
+
+#cover .profile {
+	background-color: transparent;
+	bottom: 0;
+	font-size: 12px;
+	position: absolute;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+#cover .profile .details {
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+	width: 900px;
+}
+
+#cover .profile .details .head {
+	left: 20px;
+	width: 120px;
+	height: 120px;
+	margin-top: 0;
+	position: absolute;
+	top: 20px;
+	margin-top: 0;
+}
+
+#cover .profile .details .textcontainer {
+	display: table;
+	font-size: 12px;
+	height: 100%;
+	margin: 0 20px 0 160px;
+}
+
+#cover .profile .details .textcontainer .text {
+	display: table-cell;
+	text-align: left;
+	vertical-align: middle;
+}
+
+#cover .profile .details .textcontainer .text .couples {
+	display: inline-block;
+	margin-bottom: 5px;
+	white-space: nowrap;
+	font-size: 28px;
+	margin: 0 10px 0 0;
+	max-width: 482px;
+	text-align: left;
+}
+
+#cover .profile .details .textcontainer .text .descItem {
+	display: inline-block;
+	margin: 5px 15px 0 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#cover .profile .details .textcontainer .text .descItem .iconcontainer {
+	display: inline-block;
+	height: 16px;
+	margin-right: 0;
+	position: relative;
+	vertical-align: middle;
+	width: auto;
+}
+
+#cover .profile .details .textcontainer .text .descItem .iconcontainer .icon
+	{
+	background: no-repeat url('/static/img/profile.icons.png') 0 -787px;
+	height: 12px;
+	top: 0;
+	width: 11px;
+	opacity: .7;
+	display: inline-block;
+	left: 0;
+	margin-right: 5px;
+	position: relative;
+	vertical-align: top;
+}
+
+#cover .profile .details .textcontainer .text .descItem .descItemDetails
+	{
+	filter: alpha(opacity =   67);
+	opacity: .67;
+	color: #fff;
+}
+
+#cover .profile .details .head img {
+	width: 100%;
+	height: 100%;
 }
 
 .albumCover .image {

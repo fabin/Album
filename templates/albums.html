@@ -2,11 +2,46 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
 <link type="text/css" rel="stylesheet" href="/static/css/albums.css" />
+<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.corner.js"></script>
+<script type="text/javascript" src="/static/js/app/albums.js"></script>
 <title>Albums</title>
 </head>
 <body>
-
+	<div id="cover">
+		<div class='landscape'>
+			<img alt="" src="/static/img/Green-Grass-lite.jpg">
+		</div>
+		<div class="covershadowPosition covershadow"></div>
+		<div class="covershadowPosition profile">
+			<div class="details">
+				<div class='head'>
+					<img src="/static/img/profile.head.jpg">
+				</div>
+				<div class='textcontainer'>
+					<div class='text'>
+						<div class='couples'>吕伊莘 & 罗天舒</div>
+						<div>
+							<div class='descItem'>
+								<span class='iconcontainer'> <span class="icon"></span>
+								</span> <span class='descItemDetails'>相识在大学校园</span>
+							</div>
+							<div class='descItem'>
+								<span class='iconcontainer'> <span class="icon"></span>
+								</span> <span class='descItemDetails'>相结在美丽的上海</span>
+							</div>
+							<div class='descItem'>
+								<span class='iconcontainer'> <span class="icon"></span>
+								</span> <span class='descItemDetails'>相知一生相伴一世</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div>
 		{% for album in albums %} <a href="/albums/details/{{album.key()}}">
 			<div class='albumCover'>
