@@ -1,16 +1,5 @@
 @CHARSET "utf-8";
 
-.albumCover {
-	background-color: #707070;
-	float: left;
-	margin: 12px;
-	padding: 32px;
-	float: left;
-	text-align: center;
-	float: left;
-	padding: 32px;
-}
-
 #cover {
 	margin: 0px;
 	margin: 0px;
@@ -64,6 +53,10 @@
 	position: absolute;
 	top: 20px;
 	margin-top: 0;
+}
+#cover .profile .details .head img{
+	-webkit-border-radius: 60px;
+	border-radius: 60px;
 }
 
 #cover .profile .details .textcontainer {
@@ -122,7 +115,7 @@
 
 #cover .profile .details .textcontainer .text .descItem .descItemDetails
 	{
-	filter: alpha(opacity =   67);
+	filter: alpha(opacity =                                                 67);
 	opacity: .67;
 	color: #fff;
 }
@@ -132,14 +125,89 @@
 	height: 100%;
 }
 
-.albumCover .image {
-	
+#albums {
+	text-align: center;
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
-.albumCover .name {
-	margin-top: 16px;
+#albums .album {
+	float: left;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 2px #c4c4c4;
+	box-shadow: 0 1px 2px #c4c4c4;
+	background-color: #fff;
+	border-top: 5px solid #fff;
+	margin: 30px 10px;
+	width: 320px;
 }
 
-.clean {
-	clear: both;
+#albums .albumTopColor-0 {
+	border-top-color: #76a7fa;
+}
+
+#albums .albumTopColor-1 {
+	border-top-color: #bc5679;
+}
+
+#albums .albumTopColor-2 {
+	border-top-color: #e46f61;
+}
+
+#albums .albumTopColor-3 {
+	border-top-color: #fbcb43;
+}
+
+#albums .albumTopColor-4 {
+	border-top-color: #8cc474;
+}
+
+#albums .albumTopColor-5 {
+	border-top-color: #f9b256;
+}
+
+#albums .album .name {
+	padding: 17px 20px 15px;
+	vertical-align: top;
+	text-align: left;
+	color: #262626;
+	font-size: 20px;
+}
+
+#albums .album .container {
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+	color: #404040;
+	overflow: hidden;
+	padding: 0 20px 17px;
+}
+
+#albums .album .container .albumCover {
+	text-align: center;
+}
+
+#albums .album .container .albumCover img {
+	border: 0px;
+}
+
+#albums .album .container .description {
+	margin: 16px 0 0;
+	overflow: hidden;
+	vertical-align: top;
+	text-align: left;
+	line-height: 1.4;
+	margin-bottom: 23px;
+}
+
+#albums .album .container .description .lable {
+	color: #262626;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#albums .album .container .description .details {
+	font-size: 13px;
 }

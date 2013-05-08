@@ -42,15 +42,22 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		{% for album in albums %} <a href="/albums/details/{{album.key()}}">
-			<div class='albumCover'>
-				<div class='image'>
-					<img src='/static/img/no_photo_135.png'>
+	<div id='albums'>
+		{% for album in albums %}
+		<div class='album'>
+			<div class='name'>{{album.name}}</div>
+			<div class='container'>
+				<div class='albumCover'>
+					<a href="/albums/details/{{album.key()}}"><img
+						src='/static/img/no_photo_135.png'></a>
 				</div>
-				<div class='name'>{{album.name}}</div>
+				<div class='description'>
+					<div class='lable'>描述</div>
+					<div class='details'>{{album.description}}</div>
+				</div>
 			</div>
-		</a> {% endfor %}
+		</div>
+		{% endfor %}
 	</div>
 	<div class='clean'></div>
 	<div>

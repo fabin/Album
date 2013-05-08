@@ -5,6 +5,14 @@
  */
 $(document).ready(function() {
 
-	$('#cover .profile .details .head img').corner('60px');
+	$('#albums .album').each(function(index) {
+		$(this).addClass('albumTopColor-' + (index % 6));
+	});
+//	$('#cover .profile .details .head img').each(function(index) {
+//		$(this).corner('60px');
+//	});
+//	$('#albums .album').each(function(index) {
+//		$(this).corner('3px');
+//	});
 
 });
