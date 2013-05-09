@@ -48,8 +48,14 @@
 			<div class='name'>{{album.name}}</div>
 			<div class='container'>
 				<div class='albumCover'>
-					<a href="/albums/details/{{album.key()}}"><img
+					<a href="/albums/details/{{album.key()}}">
+					{%if album.cover %}
+					<img
+						src='{{album.cover}}=s140'></a>
+					{% else %}	
+					<img
 						src='/static/img/no_photo_135.png'></a>
+					{% endif %}
 				</div>
 				<div class='description'>
 					<div class='lable'>描述</div>

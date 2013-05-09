@@ -2,23 +2,150 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
-<title>Create - Albums</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/jquery.file.upload/css/style.css">
+<link rel="stylesheet"
+	href="/static/bootstrap/css/bootstrap-responsive.min.css">
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<link rel="stylesheet"
+	href="/static/jquery.file.upload/css/jquery.fileupload-ui.css">
+<title>新建相册 - 婚纱照</title>
 </head>
 <body>
-
-	<div>
-		<form action="/albums/create" method="post">
-			<div>
-				<input name="name" />
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="/">婚纱相册</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="#">新建相册</a></li>
+						<li><a href="#about">关于</a></li>
+						<li><a href="#contact">联系我们</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
 			</div>
-			<div>
-				<textarea name="description" rows="3" cols="60"></textarea>
+		</div>
+	</div>
+	<div class="container">
+		<form id='form' class="form-horizontal" action="/albums/create" method="post">
+			<input id='album_cover_url' name='cover' type="hidden" value=''>
+			<div class="control-group">
+				<label class="control-label" for="name">名称</label>
+				<div class="controls">
+					<input type="text" id="name" name="name" placeholder="名称"><span> </span> <span id='error_no_name' class="alert alert-error"
+						style="display: none;">名称不能为空</span>
+				</div>
 			</div>
-			<div>
-				<input type="submit" value="Create!" />
+			<div class="control-group">
+				<label class="control-label" for="image">封面</label>
+				<div id="image" class="controls">
+					<img src="/static/img/no_photo_135.png">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="description">选择封面</label>
+				<div class="controls">
+					<span class="btn btn-success fileinput-button"> <i
+						class="icon-arrow-up icon-white"></i> <span>上传封面</span> <!-- The file input field used as target for the file upload widget -->
+						<input id="fileupload" type="file" name="files[]">
+					</span><span> </span> <span id='error_no_cover' class="alert alert-error"
+						style="display: none;"> 必须选择上传封面 </span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div id="progress"
+					class="progress progress-success progress-striped controls">
+					<div class="bar"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="description">描述</label>
+				<div class="controls">
+					<textarea id="description" name="description" placeholder="详细描述信息"></textarea><span> </span> <span id='error_no_description' class="alert alert-error"
+						style="display: none;">描述不能为空</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<a id='create' type="submit" class="btn btn-primary"><i
+						class="icon-plus icon-white"></i> <span>新建相册</span></a>
+				</div>
 			</div>
 		</form>
 	</div>
+	<script src="/static/js/jquery-1.9.1.min.js"></script>
+	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+	<script src="/static/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="/static/jquery.file.upload/js/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="/static/jquery.file.upload/js/jquery.fileupload.js"></script>
+	<script>
+		/*jslint unparam: true */
+		/*global window, $ */
+		$(function() {
+			'use strict';
+			$('#fileupload').fileupload(
+					{
+						url : '/albums/create/cover',
+						dataType : 'json',
+						done : function(e, data) {
+							console.log("data.result.files: %o",
+									data.result.files);
+							$.each(data.result.files, function(index, file) {
+								$('#image img').attr('src', file.url + '=s135');
+								$('#album_cover_url').val(file.url);
+								$('#error_no_cover').css({
+									'display' : 'none'
+								})
+							});
+						},
+						progressall : function(e, data) {
+							var progress = parseInt(data.loaded / data.total
+									* 100, 10);
+							$('#progress .bar').css('width', progress + '%');
+						}
+					});
+			$('#create').click(function() {
+
+				$('.alert-error').css({
+					'display' : 'none'
+				})
+
+				var failed = false;
+				if ($('#album_cover_url').val() == '') {
+					$('#error_no_cover').css({
+						'display' : 'inline'
+					})
+					failed = true;
+				}
+				if ($('#name').val() == '') {
+					$('#error_no_name').css({
+						'display' : 'inline'
+					})
+					failed = true;
+				}
+				if ($('#description').val() == '') {
+					$('#error_no_description').css({
+						'display' : 'inline'
+					})
+					failed = true;
+				}
+				
+				if(!failed){
+					$('#form').submit();
+				}
+			});
+		});
+	</script>
 </body>
 </html>
