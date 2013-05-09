@@ -20,7 +20,7 @@ import urllib
 import webapp2
 import logging
 from main import JINJA_ENVIRONMENT
-from albums import Album, Picture
+import albums
 from google.appengine.ext import db
 
 WEBSITE = 'http://blueimp.github.com/jQuery-File-Upload/'
@@ -79,7 +79,7 @@ class UploadHandler(webapp2.RequestHandler):
         files.finalize(blob)
         return files.blobstore.get_blob_key(blob)
 
-    def handle_upload(self, album_key):
+    def handle_upload(self):
         logging.info("handle_upload(...)")
         results = []
         blob_keys = []
@@ -108,16 +108,8 @@ class UploadHandler(webapp2.RequestHandler):
                             )
                         )
                 result['url'] = image_url
-                logging.info("album_key == " + album_key)
                 logging.info("url == " + result['url'])
 
-                album = db.Model.get(album_key) 
-                picture = Picture(parent=album)
-                picture.name = result['name']
-                picture.image = result['url']
-                picture_key = picture.put()
-                result['picture_key'] = str(picture_key)
-                
                 result['delete_type'] = 'DELETE'
                 result['delete_url'] = self.request.host_url + \
                     '/?key=' + urllib.quote(blob_key, '')
@@ -157,7 +149,7 @@ class UploadHandler(webapp2.RequestHandler):
 
     def get(self, album_key):
         logging.info("get(...)")
-        album = Album.get(album_key)
+        album = albums.Album.get(album_key)
         template_values = {
                            'album':album
         }
@@ -170,7 +162,14 @@ class UploadHandler(webapp2.RequestHandler):
         
         if (self.request.get('_method') == 'DELETE'):
             return self.delete()
-        result = {'files': self.handle_upload(album_key)}
+        album = db.Model.get(album_key) 
+        result = {'files': self.handle_upload()}
+        for uploaded_file in result['files']:
+            picture = albums.Picture(parent=album)
+            picture.name = uploaded_file['name']
+            picture.image = uploaded_file['url']
+            picture_key = picture.put()
+            uploaded_file['picture_key'] = str(picture_key)
         s = json.dumps(result, separators=(',', ':'))
         redirect = self.request.get('redirect')
         if redirect:

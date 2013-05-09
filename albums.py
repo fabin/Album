@@ -50,7 +50,8 @@ class Albums(webapp2.RequestHandler):
         greetings_query = Album.all().order('-date')
         albums = greetings_query.fetch(10)
 
-        if users.get_current_user():
+        user = users.get_current_user()
+        if user:
             url = users.create_logout_url(self.request.uri)
             url_linktext = 'Logout'
         else:
