@@ -45,7 +45,7 @@ class Picture(db.Model):
     image = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     
-def album_key(album_name=None):
+def create_album_key(album_name=None):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return db.Key.from_path('Album', album_name or 'default_album')
 
@@ -75,15 +75,26 @@ class Albums(webapp2.RequestHandler):
 class AlbumCreate(webapp2.RequestHandler):
 
     def get(self):
+        album = None
+        album_key = self.request.get('album')
+        if album_key:
+            album = Album.get(album_key);
+        template_values = {
+            'album': album
+        }
         template = JINJA_ENVIRONMENT.get_template('/templates/albumsCreate.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_values))
         
     def post(self):
         # We set the same parent key on the 'Album' to ensure each greeting
         # is in the same entity group. Queries across the single entity group
         # will be consistent. However, the write rate to a single entity group
         # should be limited to ~1/second.
-        greeting = Album(parent=album_key());
+        album_key = self.request.get('album_key')
+        if album_key:
+            greeting = Album.get(album_key)
+        else :
+            greeting = Album(parent=create_album_key())
         greeting.name = self.request.get('name')
         greeting.cover = self.request.get('cover')
         greeting.description = self.request.get('description')

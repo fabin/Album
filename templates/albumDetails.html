@@ -42,6 +42,7 @@
 			<h1>{{album.name}}</h1>
 			<div>{{album.description}}</div>
 			<div><a href="/upload/{{album.key()}}">Upload!</a></div>
+			<div><a href="/albums/create?album={{album.key()}}">Edit!</a></div>
 		</div>
 
 		<ul id="Gallery" class="gallery">

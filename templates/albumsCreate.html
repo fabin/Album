@@ -17,7 +17,8 @@ body {
 <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
 <link rel="stylesheet"
 	href="/static/jquery.file.upload/css/jquery.fileupload-ui.css">
-<title>新建相册 - 婚纱照</title>
+<title>{% if album %} 修改相册 - 婚纱照 {% else %} 新建相册 - 婚纱照 {% endif
+	%}</title>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,19 +37,26 @@ body {
 		</div>
 	</div>
 	<div class="container">
-		<form id='form' class="form-horizontal" action="/albums/create" method="post">
-			<input id='album_cover_url' name='cover' type="hidden" value=''>
+		<form id='form' class="form-horizontal" action="/albums/create"
+			method="post">
+			<input id='album_cover_url' name='cover' type="hidden"
+				value='{{album.cover}}'> {% if album %} <input
+				id='album_key' name='album_key' type="hidden" value='{{album.key()}}'>
+			{% endif %}
 			<div class="control-group">
 				<label class="control-label" for="name">名称</label>
 				<div class="controls">
-					<input type="text" id="name" name="name" placeholder="名称"><span> </span> <span id='error_no_name' class="alert alert-error"
+					<input type="text" id="name" name="name" placeholder="名称"
+						value='{{album.name}}'><span> </span> <span
+						id='error_no_name' class="alert alert-error"
 						style="display: none;">名称不能为空</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="image">封面</label>
 				<div id="image" class="controls">
-					<img src="/static/img/no_photo_135.png">
+					{% if album and album.cover%} <img src="{{album.cover}}"> {%
+					else %} <img src="/static/img/no_photo_135.png"> {% endif %}
 				</div>
 			</div>
 			<div class="control-group">
@@ -70,14 +78,16 @@ body {
 			<div class="control-group">
 				<label class="control-label" for="description">描述</label>
 				<div class="controls">
-					<textarea id="description" name="description" placeholder="详细描述信息"></textarea><span> </span> <span id='error_no_description' class="alert alert-error"
-						style="display: none;">描述不能为空</span>
+					<textarea id="description" name="description" placeholder="详细描述信息">{{album.description}}</textarea>
+					<span> </span> <span id='error_no_description'
+						class="alert alert-error" style="display: none;">描述不能为空</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<div class="controls">
 					<a id='create' type="submit" class="btn btn-primary"><i
-						class="icon-plus icon-white"></i> <span>新建相册</span></a>
+						class="icon-plus icon-white"></i> <span> {% if album %}
+							修改相册 {% else %} 新建相册 {% endif %} </span></a>
 				</div>
 			</div>
 		</form>
@@ -101,13 +111,15 @@ body {
 						done : function(e, data) {
 							console.log("data.result.files: %o",
 									data.result.files);
-							$.each(data.result.files, function(index, file) {
-								$('#image img').attr('src', file.url + '=s135');
-								$('#album_cover_url').val(file.url);
-								$('#error_no_cover').css({
-									'display' : 'none'
-								})
-							});
+							$.each(data.result.files,
+									function(index, file) {
+										$('#image img').attr('src',
+												file.url + '=s135');
+										$('#album_cover_url').val(file.url);
+										$('#error_no_cover').css({
+											'display' : 'none'
+										})
+									});
 						},
 						progressall : function(e, data) {
 							var progress = parseInt(data.loaded / data.total
@@ -140,8 +152,8 @@ body {
 					})
 					failed = true;
 				}
-				
-				if(!failed){
+
+				if (!failed) {
 					$('#form').submit();
 				}
 			});
