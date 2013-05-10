@@ -131,8 +131,12 @@ class AlbumPicture(blobstore_handlers.BlobstoreDownloadHandler):
             self.response.headers['Cache-Control'] = \
                 'public,max-age=%d' % EXPIRATION_TIME
             self.send_blob(picture.image)
-
-
+class AlbumDelete(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, album_key):
+        album = Album.get(album_key)
+        album.delete()
+        self.redirect('/albums')
+        
 MIN_FILE_SIZE = 1  # bytes
 MAX_FILE_SIZE = 5000000  # bytes
 IMAGE_TYPES = re.compile('image/(gif|p?jpeg|(x-)?png)')
@@ -258,6 +262,7 @@ app = webapp2.WSGIApplication([('/albums', Albums),
                                ('/', Albums),
                                ('/albums/picture/([^/]+)', AlbumPicture),
                                ('/albums/details/([^/]+)', AlbumDetails),
+                               ('/albums/delete/([^/]+)', AlbumDelete),
                                ('/albums/create/cover', AlbumCoverUploadHandler),
                                ('/albums/create', AlbumCreate)],
                               debug=True)
