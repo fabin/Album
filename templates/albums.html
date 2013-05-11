@@ -22,11 +22,11 @@
 				</div>
 				<div class='textcontainer'>
 					<div class='text'>
-						<div class='couples'>吕伊莘 & 罗天舒</div>
+						<div class='couples'>吕伊莘 &amp; 罗天舒</div>
 						<div>
 							<div class='descItem'>
 								<span class='iconcontainer'> <span class="icon"></span>
-								</span> <span class='descItemDetails'>相识在大学校园</span>
+								</span> <span class='descItemDetails'>相识在华灯初上的傍晚</span>
 							</div>
 							<div class='descItem'>
 								<span class='iconcontainer'> <span class="icon"></span>
@@ -41,9 +41,14 @@
 				</div>
 			</div>
 		</div>
-	<div class='admin'>
-		<a href="{{url_log}}">{{url_linktext}} </a>
-	</div>
+		<div class='admin'>
+		{% if user: %}
+			<span>{{user.nickname()}}</span><span> | </span>
+		{% endif %}
+		{% if isAdmin: %} <a
+				href="/albums/create">Create</a><span> | </span> {% endif %}
+			<a href="{{url_log}}">{{url_linktext}} </a> <span>&nbsp;&nbsp;</span>
+		</div>
 	</div>
 	<div id='albums'>
 		{% for album in albums %}
@@ -51,14 +56,10 @@
 			<div class='name'>{{album.name}}</div>
 			<div class='albumContainer'>
 				<div class='albumCover'>
-					<a href="/albums/details/{{album.key()}}">
-					{%if album.cover %}
-					<img
-						src='{{album.cover}}=s140'></a>
-					{% else %}	
-					<img
-						src='/static/img/no_photo_135.png'></a>
-					{% endif %}
+					<a href="/albums/details/{{album.key()}}"> {%if album.cover %}
+						<img src='{{album.cover}}=s140'>
+					</a> {% else %} <img src='/static/img/no_photo_135.png'></a> {% endif
+					%}
 				</div>
 				<div class='description'>
 					<div class='lable'>描述</div>
@@ -69,10 +70,5 @@
 		{% endfor %}
 	</div>
 	<div class='clean'></div>
-	{% if isAdmin: %}
-	<div>
-		<a href="/albums/create">Create!</a>
-	</div>
-	{% endif %}
 </body>
 </html>

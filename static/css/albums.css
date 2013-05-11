@@ -139,8 +139,12 @@
 	width: 100%;
 }
 
-#cover .admin a {
+#cover .admin, #cover .admin a {
 	color: #fff;
+	filter: alpha(opacity =   
+		                                                         
+		     67);
+	opacity: .67;
 	text-decoration: none;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
 }
