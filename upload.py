@@ -13,8 +13,7 @@
 from __future__ import with_statement
 from albums import JINJA_ENVIRONMENT
 from google.appengine.api import files, images
-from google.appengine.ext import blobstore, deferred, db
-from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import blobstore, db
 import albums
 import json
 import logging
@@ -22,13 +21,10 @@ import re
 import urllib
 import webapp2
 
-WEBSITE = 'http://blueimp.github.com/jQuery-File-Upload/'
 MIN_FILE_SIZE = 1  # bytes
 MAX_FILE_SIZE = 5000000  # bytes
 IMAGE_TYPES = re.compile('image/(gif|p?jpeg|(x-)?png)')
 ACCEPT_FILE_TYPES = IMAGE_TYPES
-THUMBNAIL_MODIFICATOR = '=s240'  # max width / height
-EXPIRATION_TIME = 300  # seconds
 
 
 def cleanup(blob_keys):
@@ -131,11 +127,6 @@ class UploadHandler(webapp2.RequestHandler):
 #                             result['name'].encode('utf-8'), '')
 #                     result['thumbnail_url'] = result['url'] + THUMBNAIL_MODIFICATOR
             results.append(result)
-        deferred.defer(
-            cleanup,
-            blob_keys,
-            _countdown=EXPIRATION_TIME
-        )
         return results
 
     def options(self):
@@ -184,21 +175,9 @@ class UploadHandler(webapp2.RequestHandler):
         blobstore.delete(self.request.get('key') or '')
 
 
-class DownloadHandler(blobstore_handlers.BlobstoreDownloadHandler):
-    def get(self, key, filename):
-        logging.info("DownloadHandler.get(...)")
-        if not blobstore.get(key):
-            self.error(404)
-        else:
-            # Cache for the expiration time:
-            self.response.headers['Cache-Control'] = \
-                'public,max-age=%d' % EXPIRATION_TIME
-            self.send_blob(key, save_as=filename)
-
 app = webapp2.WSGIApplication(
     [
-        ('/upload/([^/]+)', UploadHandler),
-        ('/upload/([^/]+)/([^/]+)', DownloadHandler)
+        ('/upload/([^/]+)', UploadHandler)
     ],
     debug=True
 )

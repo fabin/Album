@@ -15,21 +15,16 @@
 # limitations under the License.
 #
 from __future__ import with_statement
+from base import JINJA_ENVIRONMENT, BaseHandler
 from google.appengine.api import files, images, users
 from google.appengine.ext import blobstore, db
+from google.appengine.ext.db import BadKeyError
 from google.appengine.ext.webapp import blobstore_handlers
-import jinja2
 import json
 import logging
-import os
 import re
 import urllib
 import webapp2
-
-
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-    
 
 
 EXPIRATION_TIME = 300  # seconds
@@ -49,7 +44,7 @@ def create_album_key(album_name=None):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return db.Key.from_path('Album', album_name or 'default_album')
 
-class Albums(webapp2.RequestHandler):
+class Albums(BaseHandler):
 
     def get(self):
         greetings_query = Album.all().order('-date')
@@ -72,7 +67,7 @@ class Albums(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('/templates/albums.html')
         self.response.write(template.render(template_values))
         
-class AlbumCreate(webapp2.RequestHandler):
+class AlbumCreate(BaseHandler):
 
     def get(self):
         album = None
@@ -101,9 +96,13 @@ class AlbumCreate(webapp2.RequestHandler):
         greeting.put()
         self.redirect('/albums')
 
-class AlbumDetails(webapp2.RequestHandler):
+class AlbumDetails(BaseHandler):
     def get(self, key):
-        album = Album.get(key) 
+        album = None
+        try:
+            album = Album.get(key)
+        except BadKeyError:
+            self.error(404)
         if not album:
             self.error(404)
         else:
@@ -142,7 +141,7 @@ MAX_FILE_SIZE = 5000000  # bytes
 IMAGE_TYPES = re.compile('image/(gif|p?jpeg|(x-)?png)')
 ACCEPT_FILE_TYPES = IMAGE_TYPES
 
-class AlbumCoverUploadHandler(webapp2.RequestHandler):
+class AlbumCoverUploadHandler(BaseHandler):
 
 
     def initialize(self, request, response):
