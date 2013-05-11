@@ -110,8 +110,6 @@ body {
 							data.submit();
 						},
 						done : function(e, data) {
-							console.log("data.result.files: %o",
-									data.result.files);
 							$.each(data.result.files, function(index, file) {
 								$('<img/>').attr('src', file.url + '=s360')
 										.appendTo('#files');

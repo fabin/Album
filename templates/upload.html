@@ -24,7 +24,6 @@
 						url : '/upload',
 						dataType : 'json',
 						/* add : function(e, data) {
-							console.log("added data: %o", data)
 							$('<p/>').text('added! ').appendTo(document.body);
 						}, */
 						/* change : function(e, data) {
@@ -34,18 +33,15 @@
 							});
 						}, */
 						done : function(e, data) {
-							console.log("data.result.files: %o", data.result.files)
 							$.each(data.result.files, function(index, file) {
 								$('<p/>').text(file.name).appendTo(
 										document.body);
-								console.log("file: %o", file)
 							});
 						},
 						progressall : function(e, data) {
 							var progress = parseInt(data.loaded / data.total
 									* 100, 10);
 
-							console.log("progress: %o", progress)
 							$('.progressValue').width(progress + '%')
 							$('.progressText').text(progress + '%')
 						}

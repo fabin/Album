@@ -9,8 +9,6 @@
 
 		var options = {};
 		var images = $("#Gallery a");
-		console.log('images = %o', images);
-		console.log('images.length = %o', images.length);
 		if (images.length > 0) {
 			images.photoSwipe(options);
 		}
