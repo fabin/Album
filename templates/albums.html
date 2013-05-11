@@ -41,6 +41,9 @@
 				</div>
 			</div>
 		</div>
+	<div class='admin'>
+		<a href="{{url_log}}">{{url_linktext}} </a>
+	</div>
 	</div>
 	<div id='albums'>
 		{% for album in albums %}
@@ -66,8 +69,10 @@
 		{% endfor %}
 	</div>
 	<div class='clean'></div>
+	{% if isAdmin: %}
 	<div>
 		<a href="/albums/create">Create!</a>
 	</div>
+	{% endif %}
 </body>
 </html>

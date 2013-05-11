@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>PhotoSwipe</title>
+<title>{{album.name}} - 婚纱相册</title>
 <meta
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
@@ -38,9 +38,7 @@
 				<a class="brand" href="/">婚纱相册</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="#">新建相册</a></li>
-						<li><a href="#about">关于</a></li>
-						<li><a href="#contact">联系我们</a></li>
+						<li class="active"><a href="#">{{album.name}}</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -48,8 +46,7 @@
 		</div>
 	</div>
 	<div class="container">
-		<h2>{{album.name}}</h2>
-		<div>{{album.description}}</div>
+		{% if isAdmin: %}
 		<div>
 			<a id='upload' class="btn btn-primary" href="/upload/{{album.key()}}"><i
 				class="icon-plus icon-white"></i> <span>上传</span></a> <a id='edit'
@@ -58,6 +55,7 @@
 				class="btn btn-danger" href="/albums/delete/{{album.key()}}"><i
 				class="icon-trash icon-white"></i> <span>删除</span></a>
 		</div>
+		{% endif %}
 	</div>
 
 	<ul id="Gallery" class="gallery">

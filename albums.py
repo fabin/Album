@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2007 Google Inc.
 #
@@ -53,17 +54,19 @@ class Albums(BaseHandler):
         user = users.get_current_user()
         if user:
             url = users.create_logout_url(self.request.uri)
-            url_linktext = 'Logout'
+            url_linktext = "Logout"
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
 
         template_values = {
             'albums': albums,
-            'url': url,
+            'url_log': url,
             'url_linktext': url_linktext,
+            'user': user,
+            'isAdmin': users.is_current_user_admin()
         }
-
+        
         template = JINJA_ENVIRONMENT.get_template('/templates/albums.html')
         self.response.write(template.render(template_values))
         
@@ -108,9 +111,10 @@ class AlbumDetails(BaseHandler):
         else:
             
             pictures = Picture.all().ancestor(album)
-            
+            isAdmin = users.is_current_user_admin()
             template = JINJA_ENVIRONMENT.get_template('/templates/albumDetails.html')
             template_values = {
+            'isAdmin': isAdmin,
             'album': album,
             'pictures': pictures
             }

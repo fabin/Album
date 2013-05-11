@@ -54,7 +54,8 @@
 	top: 20px;
 	margin-top: 0;
 }
-#cover .profile .details .head img{
+
+#cover .profile .details .head img {
 	-webkit-border-radius: 60px;
 	border-radius: 60px;
 }
@@ -115,7 +116,9 @@
 
 #cover .profile .details .textcontainer .text .descItem .descItemDetails
 	{
-	filter: alpha(opacity =                                                 67);
+	filter: alpha(opacity =   
+		                                                         
+		     67);
 	opacity: .67;
 	color: #fff;
 }
@@ -123,6 +126,23 @@
 #cover .profile .details .head img {
 	width: 100%;
 	height: 100%;
+}
+
+#cover .admin {
+	background-color: transparent;
+	bottom: 0;
+	font-size: 12px;
+	height: 32px;
+	position: absolute;
+	z-index: 3;
+	text-align: right;
+	width: 100%;
+}
+
+#cover .admin a {
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
 }
 
 #albums {
