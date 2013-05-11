@@ -115,7 +115,7 @@ class AlbumDetails(webapp2.RequestHandler):
             'album': album,
             'pictures': pictures
             }
-        self.response.write(template.render(template_values))
+            self.response.write(template.render(template_values))
 class AlbumPicture(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, picture_key):
         picture = Picture.get(picture_key)
@@ -190,7 +190,7 @@ class AlbumCoverUploadHandler(webapp2.RequestHandler):
         logging.info("handle_upload(...)")
         results = []
         blob_keys = []
-        for name, fieldStorage in self.request.POST.items():
+        for name, fieldStorage in self.request.POST.items():  # @UnusedVariable
             if type(fieldStorage) is unicode:
                 continue
             result = {}

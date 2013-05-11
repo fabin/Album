@@ -8,8 +8,16 @@
 	$(document).ready(function() {
 
 		var options = {};
-		$("#Gallery a").photoSwipe(options);
+		var images = $("#Gallery a");
+		console.log('images = %o', images);
+		console.log('images.length = %o', images.length);
+		if (images.length > 0) {
+			images.photoSwipe(options);
+		}
 
+		$('#delete').click(function() {
+			return confirm('确定要删除吗？');
+		});
 	});
 
 }(window, window.jQuery, window.Code.PhotoSwipe));

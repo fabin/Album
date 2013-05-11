@@ -11,17 +11,16 @@
 #
 
 from __future__ import with_statement
+from albums import JINJA_ENVIRONMENT
 from google.appengine.api import files, images
-from google.appengine.ext import blobstore, deferred
+from google.appengine.ext import blobstore, deferred, db
 from google.appengine.ext.webapp import blobstore_handlers
+import albums
 import json
+import logging
 import re
 import urllib
 import webapp2
-import logging
-from main import JINJA_ENVIRONMENT
-import albums
-from google.appengine.ext import db
 
 WEBSITE = 'http://blueimp.github.com/jQuery-File-Upload/'
 MIN_FILE_SIZE = 1  # bytes
@@ -83,7 +82,7 @@ class UploadHandler(webapp2.RequestHandler):
         logging.info("handle_upload(...)")
         results = []
         blob_keys = []
-        for name, fieldStorage in self.request.POST.items():
+        for name, fieldStorage in self.request.POST.items():  # @UnusedVariable
             if type(fieldStorage) is unicode:
                 continue
             result = {}
