@@ -177,7 +177,7 @@
 	font-size: 20px;
 }
 
-#albums .album .container {
+#albums .album .albumContainer {
 	-webkit-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 	color: #404040;
@@ -185,15 +185,16 @@
 	padding: 0 20px 17px;
 }
 
-#albums .album .container .albumCover {
+#albums .album .albumContainer .albumCover {
 	text-align: center;
 }
 
-#albums .album .container .albumCover img {
+#albums .album .albumContainer .albumCover img {
 	border: 0px;
+	height: 120px;
 }
 
-#albums .album .container .description {
+#albums .album .albumContainer .description {
 	margin: 16px 0 0;
 	overflow: hidden;
 	vertical-align: top;
@@ -202,12 +203,12 @@
 	margin-bottom: 23px;
 }
 
-#albums .album .container .description .lable {
+#albums .album .albumContainer .description .lable {
 	color: #262626;
 	font-size: 14px;
 	font-weight: bold;
 }
 
-#albums .album .container .description .details {
+#albums .album .albumContainer .description .details {
 	font-size: 13px;
 }
