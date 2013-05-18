@@ -4,7 +4,14 @@
     android:layout_height="match_parent"
     android:background="#ffffffff" >
 
+    <TextView
+        android:id="@+id/album_pictures_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_test" />
+
     <GridView
+        android:layout_below="@id/album_pictures_test"
         android:id="@+id/album_pictures_grid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
