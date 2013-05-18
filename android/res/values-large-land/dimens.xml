@@ -18,7 +18,7 @@
 
     <dimen name="slidingmenu_offset">400dp</dimen>
 
-    <integer name="num_cols">2</integer>
+    <integer name="pictures_grid_num_cols">4</integer>
     
 	<string name="value_test">values-large-land</string>
 </resources>

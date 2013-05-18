@@ -1,6 +1,6 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="72dip"
+    android:layout_height="@dimen/pictures_grid_item_height"
     android:scaleType="centerCrop" >
 
 </ImageView>

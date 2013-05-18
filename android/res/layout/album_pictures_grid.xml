@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/value_test" />
-
+    <!--
     <GridView
         android:layout_below="@id/album_pictures_test"
         android:id="@+id/album_pictures_grid"
@@ -22,5 +22,17 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="3dp" />
+    -->
+
+    <GridView
+        android:id="@+id/album_pictures_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/album_pictures_test"
+        android:drawSelectorOnTop="true"
+        android:horizontalSpacing="@dimen/pictures_grid_horizontal_spacing"
+        android:numColumns="@integer/pictures_grid_num_cols"
+        android:padding="@dimen/pictures_grid_padding"
+        android:verticalSpacing="@dimen/pictures_grid_vertical_spacing" />
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 
 	private ArrayList<Picture>	pictures;
 	private Album				album;
+	private String				thumbnailFlag;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -68,9 +70,6 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		adapter = new PictureAdapter(getActivity());
 		grid.setAdapter(adapter);
 
-		imageManager = AlbumApplication.getImageLoader();
-		imageTagFactory = ImageTagFactory.newInstance(120, 120, R.drawable.ic_launcher);
-
 		grid.setOnItemClickListener(this);
 
 		return v;
@@ -80,6 +79,28 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		Display display = activity.getWindowManager().getDefaultDisplay();
+		@SuppressWarnings("deprecation")
+		int screenWidth = display.getWidth(); // 屏幕宽（像素，如：480px）
+		// int screenHeight = display.getHeight(); // 屏幕高（像素，如：800p）
+
+		int numCols = getResources().getInteger(R.integer.pictures_grid_num_cols);
+		int padding = getResources().getDimensionPixelSize(R.dimen.pictures_grid_padding);
+		int horizontalSpacing = getResources().getDimensionPixelSize(R.dimen.pictures_grid_horizontal_spacing);
+		int imageWidth = (screenWidth - padding * 2 - horizontalSpacing * (numCols - 1)) / numCols;
+		int imageHeight = getResources().getDimensionPixelSize(R.dimen.pictures_grid_item_height);
+		imageManager = AlbumApplication.getImageLoader();
+		imageTagFactory = ImageTagFactory.newInstance(imageWidth, imageHeight, R.drawable.ic_launcher);
+
+		thumbnailFlag = "=s" + Math.max(imageWidth, imageHeight) + "c";
+		Log.i(TAG, "screenWidth = " + screenWidth + "; numCols = " + numCols);
+		Log.i(TAG, "imageWidth = "
+				+ imageWidth
+				+ "; imageHeight ="
+				+ imageHeight
+				+ "; thumbnailFlag = "
+				+ thumbnailFlag);
+
 		PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
 		task.execute(album);
 	}
@@ -87,12 +108,10 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 	public class PictureAdapter extends BaseAdapter
 	{
 		private LayoutInflater	mInflater;
-		private String			thumbnailFlag;
 
 		public PictureAdapter(Context c)
 		{
 			mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			thumbnailFlag = getString(R.string.thumbnail_flag);
 		}
 
 		public int getCount()

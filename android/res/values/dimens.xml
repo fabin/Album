@@ -7,6 +7,11 @@
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="list_padding">24dip</dimen>
     <dimen name="shadow_width">15dp</dimen>
+    
+    <dimen name="pictures_grid_item_height">200dip</dimen>
+    <dimen name="pictures_grid_padding">3dip</dimen>
+    <dimen name="pictures_grid_horizontal_spacing">6dip</dimen>
+    <dimen name="pictures_grid_vertical_spacing">6dip</dimen>
 
-    <integer name="num_cols">1</integer>
+    <integer name="pictures_grid_num_cols">2</integer>
 </resources>
