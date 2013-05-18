@@ -1,9 +1,12 @@
 package com.corising.weddingalbum;
 
+import java.util.Set;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
@@ -13,6 +16,7 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class MainActivity extends SlidingFragmentActivity implements PictureFragmentChangeSupport
 {
+	private static final String		TAG	= MainActivity.class.getName();
 	private int						mTitleRes;
 	private CanvasTransformer		mTransformer;
 	protected ListFragment			mFrag;
@@ -52,17 +56,19 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
+		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+		Log.i(TAG, "savedInstanceState == null ? " + savedInstanceState);
 		if (savedInstanceState == null)
 		{
-			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
 			mFrag = new SampleListFragment();
 			t.replace(R.id.menu_frame, mFrag);
 			t.commit();
-
 		}
 		else
 		{
+			logBundle(savedInstanceState, "\t");
 			mFrag = (ListFragment) this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+			Log.i(TAG, "mFrag = " + mFrag);
 		}
 
 		// customize the SlidingMenu
@@ -74,26 +80,27 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// set the Above View
-		setContentView(R.layout.content_frame);
-		Fragment contentFragment = null;
-		if (savedInstanceState == null)
-		{
-			contentFragment = new WelcomeFragment();
-		}
-		else
-		{
-			contentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_frame);
-		}
-		getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
-
 		setSlidingActionBarEnabled(true);
 		sm.setBehindScrollScale(0.0f);
 		sm.setBehindCanvasTransformer(mTransformer);
 
+		// set the Above View
+		setContentView(R.layout.content_frame);
 		int containerId = R.id.content_frame;
 		pictureFragmentManager = new PictureFragmentManager(this, containerId);
+		pictureFragmentManager.onCreate(savedInstanceState);
+		String fragemtTag = null;
+		if (savedInstanceState == null)
+		{
+			fragemtTag = WelcomeFragment.class.getName();
+			pictureFragmentManager.addPictureFragment(fragemtTag, WelcomeFragment.class, null);
+		}
+		else
+		{
+			fragemtTag = pictureFragmentManager.getLastTag();
+		}
+		pictureFragmentManager.onPictureFragmentChanged(fragemtTag);
+
 	}
 
 	@Override
@@ -121,4 +128,34 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 		getSlidingMenu().showContent();
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		Log.i(TAG, "onSaveInstanceState(...)");
+		outState.putString("lastFragmentTag", pictureFragmentManager.getLastTag());
+		pictureFragmentManager.onSaveInstanceState(outState);
+	}
+
+	private void logBundle(Bundle bundle, String pre)
+	{
+		Set<String> keys = bundle.keySet();
+		for (String key : keys)
+		{
+			Object value = bundle.get(key);
+			if (value instanceof Bundle)
+			{
+				Log.i(TAG, "\t" + key + ":");
+				if (value instanceof Bundle)
+				{
+					Bundle newBundle = (Bundle) value;
+					logBundle(newBundle, pre + key + ":");
+				}
+			}
+			else
+			{
+				Log.i(TAG, pre + key + " = " + value);
+			}
+		}
+	}
 }
