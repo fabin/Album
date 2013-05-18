@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/profile_head"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile_head" />
+
+        <TextView
+            android:id="@+id/profile_couple"
+            android:layout_width="wrap_content"
+            android:layout_height="48dip"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="24dip"
+            android:layout_toRightOf="@id/profile_head"
+            android:text="@string/profile_couple"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="#ffffffff" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dip"
+            android:src="@drawable/icon_go" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_couple"
+            android:layout_toRightOf="@id/profile_head"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile_line" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dip"
+        android:layout_marginLeft="24dip"
+        android:layout_marginTop="2dip"
+        android:text="相册"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="#54ffffff" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_marginLeft="12dip"
+        android:layout_marginRight="12dip"
+        android:background="#ff585858" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/list_divider"
+        android:paddingLeft="@dimen/list_padding"
+        android:paddingRight="@dimen/list_padding"
+        android:scrollbars="none" />
+
+</LinearLayout>

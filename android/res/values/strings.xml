@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WeddingAlbum</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="anim_scale">Scale</string>
+	<string name="profile_couple">吕伊莘 &amp; 罗天舒</string>
+	<string name="thumbnail_flag">=s120c</string>
+</resources>
