@@ -183,6 +183,15 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		{
 			Album album = params[0];
 			String url = context.getString(R.string.server) + "/interface/album/" + album.getKey();
+
+			boolean isNetworkAvailable = NetworkChangedReceiver.isNetworkAvailable(context);
+			Log.i(TAG, "isNetworkAvailable == " + isNetworkAvailable);
+			if (!isNetworkAvailable)
+			{
+				String string = httpResonseDAO.findByUri(url);
+				return processJsonString(string);
+			}
+
 			try
 			{
 				HttpClient httpclient = new DefaultHttpClient();
@@ -200,39 +209,40 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 			{
 				Log.e(TAG, exception.getMessage(), exception);
 				String string = httpResonseDAO.findByUri(url);
-				try
-				{
-					return processJsonString(string);
-				}
-				catch (JSONException e)
-				{
-					Log.e(TAG, e.getMessage(), e);
-				}
+				return processJsonString(string);
 			}
-			return null;
 		}
 
-		private ArrayList<Picture> processJsonString(String string) throws JSONException
+		private ArrayList<Picture> processJsonString(String string)
 		{
-			JSONObject json = new JSONObject(string);
-			JSONArray jsonPictures = json.getJSONArray("pictures");
-			ArrayList<Picture> pictures = new ArrayList<Picture>(jsonPictures.length());
-			for (int i = 0; i < jsonPictures.length(); i++)
+			try
 			{
-				try
+				JSONObject json = new JSONObject(string);
+				JSONArray jsonPictures = json.getJSONArray("pictures");
+				ArrayList<Picture> pictures = new ArrayList<Picture>(jsonPictures.length());
+				for (int i = 0; i < jsonPictures.length(); i++)
 				{
-					JSONObject jsonPicture = jsonPictures.getJSONObject(i);
-					Picture picture = new Picture();
-					picture.setUrl(jsonPicture.getString("url"));
-					picture.setName(jsonPicture.getString("name"));
-					pictures.add(picture);
+					try
+					{
+						JSONObject jsonPicture = jsonPictures.getJSONObject(i);
+						Picture picture = new Picture();
+						picture.setUrl(jsonPicture.getString("url"));
+						picture.setName(jsonPicture.getString("name"));
+						pictures.add(picture);
+					}
+					catch (JSONException e)
+					{
+						Log.e(TAG, e.getMessage(), e);
+					}
 				}
-				catch (JSONException e)
-				{
-					Log.e(TAG, e.getMessage(), e);
-				}
+				return pictures;
+
 			}
-			return pictures;
+			catch (JSONException e)
+			{
+				Log.e(TAG, e.getMessage(), e);
+				return null;
+			}
 		}
 
 		@Override

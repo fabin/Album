@@ -1,6 +1,7 @@
 package com.corising.weddingalbum;
 
 import android.app.Application;
+import android.net.NetworkInfo;
 
 import com.novoda.imageloader.core.ImageManager;
 import com.novoda.imageloader.core.LoaderSettings;

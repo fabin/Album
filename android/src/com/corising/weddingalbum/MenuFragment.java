@@ -97,8 +97,15 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 		@Override
 		protected JSONArray doInBackground(Void... params)
 		{
-			HttpClient httpclient = new DefaultHttpClient();
 			String url = context.getString(R.string.server) + "/interface/albums";
+			if(!NetworkChangedReceiver.isNetworkAvailable(context))
+			{
+				String string = httpResonseDAO.findByUri(url);
+				JSONArray json = processJsonString(string);
+				return json;
+			}
+			
+			HttpClient httpclient = new DefaultHttpClient();
 			HttpUriRequest get = new HttpGet(url);
 			try
 			{
@@ -107,28 +114,34 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 				String string = EntityUtils.toString(entity, "utf-8");
 				httpResonseDAO.addOrUpdate(url, string);
 				entity.consumeContent();
-				JSONArray json = new JSONArray(string);
+				JSONArray json = processJsonString(string);
 				return json;
 			}
 			catch (Exception exception)
 			{
 				Log.e(TAG, exception.getMessage(), exception);
 				String string = httpResonseDAO.findByUri(url);
-				if (string == null || string.equals(""))
-				{
-					return null;
-				}
-				JSONArray json = null;
-				try
-				{
-					json = new JSONArray(string);
-				}
-				catch (JSONException e)
-				{
-					Log.e(TAG, e.getMessage(), e);
-				}
+				JSONArray json = processJsonString(string);
 				return json;
 			}
+		}
+
+		private JSONArray processJsonString(String string)
+		{
+			if (string == null || string.equals(""))
+			{
+				return null;
+			}
+			JSONArray json = null;
+			try
+			{
+				json = new JSONArray(string);
+			}
+			catch (JSONException e)
+			{
+				Log.e(TAG, e.getMessage(), e);
+			}
+			return json;
 		}
 
 		@Override
