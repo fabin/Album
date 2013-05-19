@@ -7,7 +7,6 @@ import com.novoda.imageloader.core.file.BasicFileManager;
 
 public class PictureGalleryFileManager extends BasicFileManager
 {
-
 	public PictureGalleryFileManager(LoaderSettings settings)
 	{
 		super(settings);
@@ -19,7 +18,18 @@ public class PictureGalleryFileManager extends BasicFileManager
 		url = processUrl(url);
 		int index = url.lastIndexOf('/');
 		String filename = url.substring(index + 1);
-		return new File(loaderSettings.getCacheDir(), filename);
+		File file = new File(loaderSettings.getCacheDir(), filename);
+		return file;
+	}
+
+	@Override
+	public File getFile(String url, int width, int height)
+	{
+		url = processUrl(url);
+		int index = url.lastIndexOf('/');
+		String filename = url.substring(index + 1) + "-" + width + "x" + height;
+		File file = new File(loaderSettings.getCacheDir(), filename);
+		return file;
 	}
 
 }

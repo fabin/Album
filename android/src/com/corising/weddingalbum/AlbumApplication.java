@@ -6,6 +6,7 @@ import com.novoda.imageloader.core.ImageManager;
 import com.novoda.imageloader.core.LoaderSettings;
 import com.novoda.imageloader.core.LoaderSettings.SettingsBuilder;
 import com.novoda.imageloader.core.cache.LruBitmapCache;
+import com.novoda.imageloader.core.cache.NoCache;
 
 public class AlbumApplication extends Application
 {
@@ -45,6 +46,8 @@ public class AlbumApplication extends Application
 
 		// We have different types of cache, check cache package for more info
 		settingsBuilder.withCacheManager(new LruBitmapCache(this));
+		// settingsBuilder.withCacheManager(new SoftMapCache());
+		// settingsBuilder.withCacheManager(new NoCache());
 
 		// You can set a specific read timeout
 		// settingsBuilder.withReadTimeout(30000);
@@ -53,7 +56,7 @@ public class AlbumApplication extends Application
 		// settingsBuilder.withConnectionTimeout(30000);
 
 		// You can disable the multi-threading ability to download image
-		// settingsBuilder.withAsyncTasks(false);
+		settingsBuilder.withAsyncTasks(false);
 
 		// You can set a specific directory for caching files on the sdcard
 		// settingsBuilder.withCacheDir(new File("/something"));
@@ -63,12 +66,10 @@ public class AlbumApplication extends Application
 		settingsBuilder.withEnableQueryInHashGeneration(false);
 
 		LoaderSettings loaderSettings = settingsBuilder.build(this);
-		
+		loaderSettings.setCacheDir(Utils.pictureCacheDir(this));
+
 		PictureGalleryFileManager pictureGalleryFileManager = new PictureGalleryFileManager(loaderSettings);
 		loaderSettings.setFileManager(pictureGalleryFileManager);
-		
-		// TODO may be we should force to user sd card
-		// loaderSettings.setCacheDir(sdcard);
 		imageManager = new ImageManager(this, loaderSettings);
 	}
 

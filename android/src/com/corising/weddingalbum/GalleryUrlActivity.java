@@ -35,7 +35,7 @@ public class GalleryUrlActivity extends Activity
 		List<String> images = new ArrayList<String>();
 		for (Picture picture : pictures)
 		{
-			String url = picture.getUrl() + "=s1600";
+			String url = picture.getUrl() + "=s1024";
 			images.add(url);
 		}
 
