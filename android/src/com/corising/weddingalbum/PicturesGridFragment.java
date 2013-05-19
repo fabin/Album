@@ -156,7 +156,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
 	{
 
-		Intent intent = new Intent(activity, GalleryUrlActivity.class);
+		Intent intent = new Intent(activity, PicturesGalleryActivity.class);
 		intent.putExtra("pictures", pictures);
 		intent.putExtra("position", position);
 		intent.putExtra("backTitle", "返回");

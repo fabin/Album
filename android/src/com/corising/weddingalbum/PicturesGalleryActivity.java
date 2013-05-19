@@ -22,7 +22,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class GalleryUrlActivity extends Activity
+public class PicturesGalleryActivity extends Activity
 {
 
 	private GalleryViewPager	mViewPager;
@@ -45,7 +45,7 @@ public class GalleryUrlActivity extends Activity
 			@Override
 			public void onItemChange(int currentPosition)
 			{
-				Toast.makeText(GalleryUrlActivity.this, "Current item is " + currentPosition, Toast.LENGTH_SHORT)
+				Toast.makeText(PicturesGalleryActivity.this, "Current item is " + currentPosition, Toast.LENGTH_SHORT)
 						.show();
 			}
 		});
