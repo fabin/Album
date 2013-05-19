@@ -28,9 +28,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SampleListFragment extends ListFragment implements OnItemClickListener
+public class MenuFragment extends ListFragment implements OnItemClickListener
 {
-	private static final String	TAG	= SampleListFragment.class.getName();
+	private static final String	TAG	= MenuFragment.class.getName();
 	private Activity			activity;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

@@ -60,7 +60,7 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 		Log.i(TAG, "savedInstanceState == null ? " + savedInstanceState);
 		if (savedInstanceState == null)
 		{
-			mFrag = new SampleListFragment();
+			mFrag = new MenuFragment();
 			t.replace(R.id.menu_frame, mFrag);
 			t.commit();
 		}
