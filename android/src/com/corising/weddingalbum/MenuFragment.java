@@ -35,7 +35,7 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.list, null);
+		return inflater.inflate(R.layout.menu_frame_content, null);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -64,7 +64,7 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 		{
 			if (convertView == null)
 			{
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.row, null);
+				convertView = LayoutInflater.from(getContext()).inflate(R.layout.album_list_item, null);
 			}
 			Album album = getItem(position);
 			ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
