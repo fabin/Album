@@ -62,27 +62,11 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		super.onCreate(savedInstanceState);
 		pictures = new ArrayList<Picture>();
 		album = getArguments().getParcelable("album");
-		getSherlockActivity().getSupportActionBar().setTitle(album.getName());
-	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View v = inflater.inflate(R.layout.album_pictures_grid, container, false);
+		PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
+		task.execute(album);
+		
 
-		GridView grid = (GridView) v.findViewById(R.id.album_pictures_grid);
-		adapter = new PictureAdapter(getActivity());
-		grid.setAdapter(adapter);
-
-		grid.setOnItemClickListener(this);
-
-		return v;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{
-		super.onActivityCreated(savedInstanceState);
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		@SuppressWarnings("deprecation")
 		int screenWidth = display.getWidth(); // 屏幕宽（像素，如：480px）
@@ -104,9 +88,28 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 				+ imageHeight
 				+ "; thumbnailFlag = "
 				+ thumbnailFlag);
+		
+	}
 
-		PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
-		task.execute(album);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		View v = inflater.inflate(R.layout.album_pictures_grid, container, false);
+
+		GridView grid = (GridView) v.findViewById(R.id.album_pictures_grid);
+		adapter = new PictureAdapter(getActivity());
+		grid.setAdapter(adapter);
+
+		grid.setOnItemClickListener(this);
+
+		return v;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
+		super.onActivityCreated(savedInstanceState);
+		getSherlockActivity().getSupportActionBar().setTitle(album.getName());
 	}
 
 	public class PictureAdapter extends BaseAdapter
