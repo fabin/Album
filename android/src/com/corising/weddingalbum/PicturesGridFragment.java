@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -155,23 +156,11 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
 	{
 
-		// Fragment newFragment = new PicturesGalleryFragment();
-		//
-		// Bundle args = new Bundle();
-		// args.putParcelable("server", server);
-		// args.putParcelable("category", category);
-		// args.putString("title", category.getName());
-		// newFragment.setArguments(args);
-		//
-		// FragmentsSupport tabFragmentsSupport = (FragmentsSupport) activity;
-		// tabFragmentsSupport.addFragment(newFragment);
-
-		// Intent intent = new Intent(activity, PictureGalleryActivity.class);
-		// intent.putExtra("server", server);
-		// intent.putExtra("pictures", pictures);
-		// intent.putExtra("position", position);
-		// intent.putExtra("backTitle", topActionAgency.getTitleValue());
-		// startActivity(intent);
+		Intent intent = new Intent(activity, GalleryUrlActivity.class);
+		intent.putExtra("pictures", pictures);
+		intent.putExtra("position", position);
+		intent.putExtra("backTitle", "返回");
+		startActivity(intent);
 
 	}
 

@@ -1,7 +1,5 @@
 package com.corising.weddingalbum;
 
-import java.io.File;
-
 import android.app.Application;
 
 import com.novoda.imageloader.core.ImageManager;
@@ -65,6 +63,10 @@ public class AlbumApplication extends Application
 		settingsBuilder.withEnableQueryInHashGeneration(false);
 
 		LoaderSettings loaderSettings = settingsBuilder.build(this);
+		
+		PictureGalleryFileManager pictureGalleryFileManager = new PictureGalleryFileManager(loaderSettings);
+		loaderSettings.setFileManager(pictureGalleryFileManager);
+		
 		// TODO may be we should force to user sd card
 		// loaderSettings.setCacheDir(sdcard);
 		imageManager = new ImageManager(this, loaderSettings);
