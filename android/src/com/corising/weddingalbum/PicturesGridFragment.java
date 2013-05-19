@@ -60,6 +60,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		super.onCreate(savedInstanceState);
 		pictures = new ArrayList<Picture>();
 		album = getArguments().getParcelable("album");
+		getSherlockActivity().getSupportActionBar().setTitle(album.getName());
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 
 	public MainActivity()
 	{
-		this(R.string.anim_scale);
+		this(R.string.app_name);
 		// this(R.string.anim_scale, new CanvasTransformer()
 		// {
 		// @Override
