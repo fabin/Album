@@ -159,7 +159,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		Intent intent = new Intent(activity, PicturesGalleryActivity.class);
 		intent.putExtra("pictures", pictures);
 		intent.putExtra("position", position);
-		intent.putExtra("backTitle", "返回");
+		intent.putExtra("album", album);
 		startActivity(intent);
 
 	}
@@ -197,6 +197,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 						JSONObject jsonPicture = jsonPictures.getJSONObject(i);
 						Picture picture = new Picture();
 						picture.setUrl(jsonPicture.getString("url"));
+						picture.setName(jsonPicture.getString("name"));
 						pictures.add(picture);
 					}
 					catch (JSONException e)

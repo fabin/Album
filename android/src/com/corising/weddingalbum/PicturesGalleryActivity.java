@@ -19,14 +19,16 @@ import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter.OnItemChangeListener;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
-public class PicturesGalleryActivity extends SherlockActivity
+public class PicturesGalleryActivity extends SherlockActivity implements OnItemChangeListener
 {
 
 	private GalleryViewPager	mViewPager;
+	private ArrayList<Picture>	pictures;
+	private Album				album;
+	private static final String	title	= "%1$s(%2$s/%3$s)";
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -34,7 +36,13 @@ public class PicturesGalleryActivity extends SherlockActivity
 		setContentView(R.layout.album_pictures_gallery);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		ArrayList<Picture> pictures = getIntent().getParcelableArrayListExtra("pictures");
+
+		album = getIntent().getParcelableExtra("album");
+		pictures = getIntent().getParcelableArrayListExtra("pictures");
+		int position = getIntent().getIntExtra("position", 0);
+		getSupportActionBar().setTitle(
+				String.format(title, album.getName(), String.valueOf(position + 1), String.valueOf(pictures.size())));
+
 		List<String> images = new ArrayList<String>();
 		for (Picture picture : pictures)
 		{
@@ -43,19 +51,12 @@ public class PicturesGalleryActivity extends SherlockActivity
 		}
 
 		BasePagerAdapter pagerAdapter = new LoaderImagePagerAdapter(this, images);
-		pagerAdapter.setOnItemChangeListener(new OnItemChangeListener()
-		{
-			@Override
-			public void onItemChange(int currentPosition)
-			{
-				Toast.makeText(PicturesGalleryActivity.this, "Current item is " + currentPosition, Toast.LENGTH_SHORT)
-						.show();
-			}
-		});
+		pagerAdapter.setOnItemChangeListener(this);
 
 		mViewPager = (GalleryViewPager) findViewById(R.id.viewer);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setAdapter(pagerAdapter);
+		mViewPager.setCurrentItem(position);
 
 	}
 
@@ -69,6 +70,14 @@ public class PicturesGalleryActivity extends SherlockActivity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onItemChange(int currentPosition)
+	{
+		getSupportActionBar().setTitle(
+				String.format(title, album.getName(), String.valueOf(currentPosition + 1),
+						String.valueOf(pictures.size())));
 	}
 
 }
