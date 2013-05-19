@@ -14,7 +14,7 @@ import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.SlidingMenu.CanvasTransformer;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class MainActivity extends SlidingFragmentActivity implements PictureFragmentChangeSupport
+public class MainActivity extends SlidingFragmentActivity implements AlbumFragmentChangeSupport
 {
 	private static final String		TAG	= MainActivity.class.getName();
 	private int						mTitleRes;

@@ -132,7 +132,7 @@ public class SampleListFragment extends ListFragment implements OnItemClickListe
 					adapter.add(albumEntity);
 					Bundle args = new Bundle();
 					args.putParcelable("album", albumEntity);
-					((PictureFragmentChangeSupport) context).addPictureFragment(key, PicturesGridFragment.class, args);
+					((AlbumFragmentChangeSupport) context).addPictureFragment(key, PicturesGridFragment.class, args);
 				}
 				catch (JSONException e)
 				{
@@ -148,6 +148,6 @@ public class SampleListFragment extends ListFragment implements OnItemClickListe
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
 	{
 		Album album = (Album) view.getTag();
-		((PictureFragmentChangeSupport) activity).onPictureFragmentChanged(album.getKey());
+		((AlbumFragmentChangeSupport) activity).onPictureFragmentChanged(album.getKey());
 	}
 }

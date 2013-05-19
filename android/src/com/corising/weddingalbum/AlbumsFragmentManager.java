@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-public class AlbumsFragmentManager implements PictureFragmentChangeSupport
+public class AlbumsFragmentManager implements AlbumFragmentChangeSupport
 {
 	private static final String					KEY_FRAGMENTS		= AlbumsFragmentManager.class.getName();
 	private static final String					KEY_LAST_FRAGMENT	= AlbumsFragmentManager.class.getName()
