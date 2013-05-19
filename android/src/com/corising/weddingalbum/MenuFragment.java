@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.corising.weddingalbum.dao.HttpResonseDAO;
+import com.corising.weddingalbum.dao.HttpResponseFactory;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -82,24 +85,27 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 	{
 		private ListFragment	listFragment;
 		private Context			context;
+		private HttpResonseDAO	httpResonseDAO;
 
 		public AlbumsWebServiceAsyncTask(Context context, ListFragment listFragment)
 		{
 			this.context = context;
 			this.listFragment = listFragment;
-
+			httpResonseDAO = HttpResponseFactory.getHttpResonseDAO(context);
 		}
 
 		@Override
 		protected JSONArray doInBackground(Void... params)
 		{
+			HttpClient httpclient = new DefaultHttpClient();
+			String url = context.getString(R.string.server) + "/interface/albums";
+			HttpUriRequest get = new HttpGet(url);
 			try
 			{
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpUriRequest get = new HttpGet(context.getString(R.string.server) + "/interface/albums");
 				HttpResponse response = httpclient.execute(get);
 				HttpEntity entity = response.getEntity();
 				String string = EntityUtils.toString(entity, "utf-8");
+				httpResonseDAO.addOrUpdate(url, string);
 				entity.consumeContent();
 				JSONArray json = new JSONArray(string);
 				return json;
@@ -107,8 +113,22 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 			catch (Exception exception)
 			{
 				Log.e(TAG, exception.getMessage(), exception);
+				String string = httpResonseDAO.findByUri(url);
+				if (string == null || string.equals(""))
+				{
+					return null;
+				}
+				JSONArray json = null;
+				try
+				{
+					json = new JSONArray(string);
+				}
+				catch (JSONException e)
+				{
+					Log.e(TAG, e.getMessage(), e);
+				}
+				return json;
 			}
-			return null;
 		}
 
 		@Override

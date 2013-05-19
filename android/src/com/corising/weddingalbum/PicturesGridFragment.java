@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.corising.weddingalbum.dao.HttpResonseDAO;
+import com.corising.weddingalbum.dao.HttpResponseFactory;
 import com.novoda.imageloader.core.ImageManager;
 import com.novoda.imageloader.core.model.ImageTagFactory;
 
@@ -167,52 +169,70 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 
 	private class PicturesWebServiceAsyncTask extends AsyncTask<Album, Void, ArrayList<Picture>>
 	{
-		private Context	context;
+		private Context			context;
+		private HttpResonseDAO	httpResonseDAO;
 
 		public PicturesWebServiceAsyncTask(Context context)
 		{
 			this.context = context;
+			httpResonseDAO = HttpResponseFactory.getHttpResonseDAO(context);
 		}
 
 		@Override
 		protected ArrayList<Picture> doInBackground(Album... params)
 		{
+			Album album = params[0];
+			String url = context.getString(R.string.server) + "/interface/album/" + album.getKey();
 			try
 			{
-				Album album = params[0];
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpUriRequest get = new HttpGet(context.getString(R.string.server)
-						+ "/interface/album/"
-						+ album.getKey());
+				HttpUriRequest get = new HttpGet(url);
 				HttpResponse response = httpclient.execute(get);
 				HttpEntity entity = response.getEntity();
 				String string = EntityUtils.toString(entity, "utf-8");
 				entity.consumeContent();
-				JSONObject json = new JSONObject(string);
-				JSONArray jsonPictures = json.getJSONArray("pictures");
-				ArrayList<Picture> pictures = new ArrayList<Picture>(jsonPictures.length());
-				for (int i = 0; i < jsonPictures.length(); i++)
-				{
-					try
-					{
-						JSONObject jsonPicture = jsonPictures.getJSONObject(i);
-						Picture picture = new Picture();
-						picture.setUrl(jsonPicture.getString("url"));
-						picture.setName(jsonPicture.getString("name"));
-						pictures.add(picture);
-					}
-					catch (JSONException e)
-					{
-						Log.e(TAG, e.getMessage(), e);
-					}
-				}
-				return pictures;
+
+				httpResonseDAO.addOrUpdate(url, string);
+
+				return processJsonString(string);
 			}
 			catch (Exception exception)
 			{
 				Log.e(TAG, exception.getMessage(), exception);
+				String string = httpResonseDAO.findByUri(url);
+				try
+				{
+					return processJsonString(string);
+				}
+				catch (JSONException e)
+				{
+					Log.e(TAG, e.getMessage(), e);
+				}
 			}
 			return null;
+		}
+
+		private ArrayList<Picture> processJsonString(String string) throws JSONException
+		{
+			JSONObject json = new JSONObject(string);
+			JSONArray jsonPictures = json.getJSONArray("pictures");
+			ArrayList<Picture> pictures = new ArrayList<Picture>(jsonPictures.length());
+			for (int i = 0; i < jsonPictures.length(); i++)
+			{
+				try
+				{
+					JSONObject jsonPicture = jsonPictures.getJSONObject(i);
+					Picture picture = new Picture();
+					picture.setUrl(jsonPicture.getString("url"));
+					picture.setName(jsonPicture.getString("name"));
+					pictures.add(picture);
+				}
+				catch (JSONException e)
+				{
+					Log.e(TAG, e.getMessage(), e);
+				}
+			}
+			return pictures;
 		}
 
 		@Override
