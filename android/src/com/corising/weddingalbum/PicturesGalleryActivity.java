@@ -18,11 +18,12 @@ import java.util.List;
 import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter.OnItemChangeListener;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class PicturesGalleryActivity extends Activity
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class PicturesGalleryActivity extends SherlockActivity
 {
 
 	private GalleryViewPager	mViewPager;
@@ -31,6 +32,8 @@ public class PicturesGalleryActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.album_pictures_gallery);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		ArrayList<Picture> pictures = getIntent().getParcelableArrayListExtra("pictures");
 		List<String> images = new ArrayList<String>();
 		for (Picture picture : pictures)
@@ -54,6 +57,18 @@ public class PicturesGalleryActivity extends Activity
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setAdapter(pagerAdapter);
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }
