@@ -20,7 +20,7 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 	private int						mTitleRes;
 	private CanvasTransformer		mTransformer;
 	protected ListFragment			mFrag;
-	private PictureFragmentManager	pictureFragmentManager;
+	private AlbumsFragmentManager	albumsFragmentManager;
 
 	public MainActivity()
 	{
@@ -87,19 +87,19 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 		// set the Above View
 		setContentView(R.layout.content_frame);
 		int containerId = R.id.content_frame;
-		pictureFragmentManager = new PictureFragmentManager(this, containerId);
-		pictureFragmentManager.onCreate(savedInstanceState);
+		albumsFragmentManager = new AlbumsFragmentManager(this, containerId);
+		albumsFragmentManager.onCreate(savedInstanceState);
 		String fragemtTag = null;
 		if (savedInstanceState == null)
 		{
 			fragemtTag = WelcomeFragment.class.getName();
-			pictureFragmentManager.addPictureFragment(fragemtTag, WelcomeFragment.class, null);
+			albumsFragmentManager.addPictureFragment(fragemtTag, WelcomeFragment.class, null);
 		}
 		else
 		{
-			fragemtTag = pictureFragmentManager.getLastTag();
+			fragemtTag = albumsFragmentManager.getLastTag();
 		}
-		pictureFragmentManager.onPictureFragmentChanged(fragemtTag);
+		albumsFragmentManager.onPictureFragmentChanged(fragemtTag);
 
 	}
 
@@ -118,13 +118,13 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 	@Override
 	public void addPictureFragment(String tag, Class<?> clss, Bundle args)
 	{
-		pictureFragmentManager.addPictureFragment(tag, clss, args);
+		albumsFragmentManager.addPictureFragment(tag, clss, args);
 	}
 
 	@Override
 	public void onPictureFragmentChanged(String tag)
 	{
-		pictureFragmentManager.onPictureFragmentChanged(tag);
+		albumsFragmentManager.onPictureFragmentChanged(tag);
 		getSlidingMenu().showContent();
 	}
 
@@ -133,8 +133,8 @@ public class MainActivity extends SlidingFragmentActivity implements PictureFrag
 	{
 		super.onSaveInstanceState(outState);
 		Log.i(TAG, "onSaveInstanceState(...)");
-		outState.putString("lastFragmentTag", pictureFragmentManager.getLastTag());
-		pictureFragmentManager.onSaveInstanceState(outState);
+		outState.putString("lastFragmentTag", albumsFragmentManager.getLastTag());
+		albumsFragmentManager.onSaveInstanceState(outState);
 	}
 
 	private void logBundle(Bundle bundle, String pre)

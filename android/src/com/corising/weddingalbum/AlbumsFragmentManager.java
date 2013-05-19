@@ -11,10 +11,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-public class PictureFragmentManager implements PictureFragmentChangeSupport
+public class AlbumsFragmentManager implements PictureFragmentChangeSupport
 {
-	private static final String					KEY_FRAGMENTS		= PictureFragmentManager.class.getName();
-	private static final String					KEY_LAST_FRAGMENT	= PictureFragmentManager.class.getName()
+	private static final String					KEY_FRAGMENTS		= AlbumsFragmentManager.class.getName();
+	private static final String					KEY_LAST_FRAGMENT	= AlbumsFragmentManager.class.getName()
 																			+ ":lastFramgent";
 	private final FragmentActivity				mActivity;
 	private final int							mContainerId;
@@ -97,7 +97,7 @@ public class PictureFragmentManager implements PictureFragmentChangeSupport
 																		};
 	}
 
-	public PictureFragmentManager(FragmentActivity activity, int containerId)
+	public AlbumsFragmentManager(FragmentActivity activity, int containerId)
 	{
 		mActivity = activity;
 		mContainerId = containerId;
@@ -167,7 +167,7 @@ public class PictureFragmentManager implements PictureFragmentChangeSupport
 
 	public void onSaveInstanceState(Bundle outState)
 	{
-		ArrayList<FragmentInfo> fragmentInfos = new ArrayList<PictureFragmentManager.FragmentInfo>(fragments.values());
+		ArrayList<FragmentInfo> fragmentInfos = new ArrayList<AlbumsFragmentManager.FragmentInfo>(fragments.values());
 		outState.putParcelableArrayList(KEY_FRAGMENTS, fragmentInfos);
 		outState.putParcelable(KEY_LAST_FRAGMENT, mLastFragment);
 	}
