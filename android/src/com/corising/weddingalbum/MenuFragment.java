@@ -2,6 +2,7 @@ package com.corising.weddingalbum;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
@@ -105,10 +106,10 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 		protected JSONArray doInBackground(Void... params)
 		{
 			String url = context.getString(R.string.server) + "/interface/albums";
-			if (!NetworkChangedReceiver.isNetworkAvailable(context))
+			String localJson = httpResonseDAO.findByUri(url);
+			if (localJson != null && !localJson.equals(""))
 			{
-				String string = httpResonseDAO.findByUri(url);
-				JSONArray json = processJsonString(string);
+				JSONArray json = processJsonString(localJson);
 				return json;
 			}
 
@@ -116,20 +117,21 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 			try
 			{
 				HttpResponse response = HttpClientFactory.getHttpClient().execute(get);
-				HttpEntity entity = response.getEntity();
-				String string = EntityUtils.toString(entity, "utf-8");
-				httpResonseDAO.addOrUpdate(url, string);
-				entity.consumeContent();
-				JSONArray json = processJsonString(string);
-				return json;
+				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+				{
+					HttpEntity entity = response.getEntity();
+					String string = EntityUtils.toString(entity, "utf-8");
+					httpResonseDAO.addOrUpdate(url, string);
+					entity.consumeContent();
+					JSONArray json = processJsonString(string);
+					return json;
+				}
 			}
 			catch (Exception exception)
 			{
 				Log.e(TAG, exception.getMessage(), exception);
-				String string = httpResonseDAO.findByUri(url);
-				JSONArray json = processJsonString(string);
-				return json;
 			}
+			return null;
 		}
 
 		private JSONArray processJsonString(String string)

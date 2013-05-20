@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -202,12 +203,10 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 			Album album = params[0];
 			String url = context.getString(R.string.server) + "/interface/album/" + album.getKey();
 
-			boolean isNetworkAvailable = NetworkChangedReceiver.isNetworkAvailable(context);
-			Log.i(TAG, "isNetworkAvailable == " + isNetworkAvailable);
-			if (!isNetworkAvailable)
+			String localJson = httpResonseDAO.findByUri(url);
+			if (localJson != null && !localJson.equals(""))
 			{
-				String string = httpResonseDAO.findByUri(url);
-				return processJsonString(string);
+				return processJsonString(localJson);
 			}
 
 			try
@@ -215,20 +214,23 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 				HttpClient httpclient = HttpClientFactory.getHttpClient();
 				HttpUriRequest get = new HttpGet(url);
 				HttpResponse response = httpclient.execute(get);
-				HttpEntity entity = response.getEntity();
-				String string = EntityUtils.toString(entity, "utf-8");
-				entity.consumeContent();
+				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+				{
+					HttpEntity entity = response.getEntity();
+					String string = EntityUtils.toString(entity, "utf-8");
+					entity.consumeContent();
 
-				httpResonseDAO.addOrUpdate(url, string);
+					httpResonseDAO.addOrUpdate(url, string);
 
-				return processJsonString(string);
+					return processJsonString(string);
+				}
 			}
 			catch (Exception exception)
 			{
 				Log.e(TAG, exception.getMessage(), exception);
-				String string = httpResonseDAO.findByUri(url);
-				return processJsonString(string);
 			}
+
+			return null;
 		}
 
 		private ArrayList<Picture> processJsonString(String string)
