@@ -2,19 +2,12 @@ package com.corising.weddingalbum;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.corising.weddingalbum.dao.HttpResonseDAO;
-import com.corising.weddingalbum.dao.HttpResponseFactory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +17,6 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,6 +24,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.corising.weddingalbum.dao.HttpResonseDAO;
+import com.corising.weddingalbum.dao.HttpResponseFactory;
 
 public class MenuFragment extends SherlockListFragment implements OnItemClickListener
 {
@@ -95,7 +92,7 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 			this.listFragment = listFragment;
 			httpResonseDAO = HttpResponseFactory.getHttpResonseDAO(context);
 		}
-		
+
 		@Override
 		protected void onPreExecute()
 		{
@@ -108,18 +105,17 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 		protected JSONArray doInBackground(Void... params)
 		{
 			String url = context.getString(R.string.server) + "/interface/albums";
-			if(!NetworkChangedReceiver.isNetworkAvailable(context))
+			if (!NetworkChangedReceiver.isNetworkAvailable(context))
 			{
 				String string = httpResonseDAO.findByUri(url);
 				JSONArray json = processJsonString(string);
 				return json;
 			}
-			
-			HttpClient httpclient = new DefaultHttpClient();
+
 			HttpUriRequest get = new HttpGet(url);
 			try
 			{
-				HttpResponse response = httpclient.execute(get);
+				HttpResponse response = HttpClientFactory.getHttpClient().execute(get);
 				HttpEntity entity = response.getEntity();
 				String string = EntityUtils.toString(entity, "utf-8");
 				httpResonseDAO.addOrUpdate(url, string);
@@ -161,14 +157,13 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 			if (result == null || result.length() < 1)
 			{
 				Toast.makeText(context, "no albums!", Toast.LENGTH_SHORT).show();
-				
 
 				SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 				activity.setSupportProgressBarIndeterminateVisibility(false);
-				
+
 				return;
 			}
-			
+
 			SampleAdapter adapter = new SampleAdapter(context);
 			for (int i = 0; i < result.length(); i++)
 			{
@@ -189,11 +184,11 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 				}
 			}
 			listFragment.setListAdapter(adapter);
-			
+
 			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 			activity.setSupportProgressBarIndeterminateVisibility(false);
 		}
-		
+
 		@Override
 		protected void onCancelled()
 		{
@@ -201,7 +196,7 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
 			activity.setSupportProgressBarIndeterminateVisibility(false);
 		}
-		
+
 	}
 
 	@Override

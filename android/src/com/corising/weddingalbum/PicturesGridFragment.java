@@ -7,7 +7,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +65,6 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 
 		PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
 		task.execute(album);
-		
 
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		@SuppressWarnings("deprecation")
@@ -89,7 +87,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 				+ imageHeight
 				+ "; thumbnailFlag = "
 				+ thumbnailFlag);
-		
+
 	}
 
 	@Override
@@ -214,7 +212,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 
 			try
 			{
-				HttpClient httpclient = new DefaultHttpClient();
+				HttpClient httpclient = HttpClientFactory.getHttpClient();
 				HttpUriRequest get = new HttpGet(url);
 				HttpResponse response = httpclient.execute(get);
 				HttpEntity entity = response.getEntity();
