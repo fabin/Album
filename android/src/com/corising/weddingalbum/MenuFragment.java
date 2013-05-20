@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.corising.weddingalbum.dao.HttpResonseDAO;
 import com.corising.weddingalbum.dao.HttpResponseFactory;
 
@@ -31,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MenuFragment extends ListFragment implements OnItemClickListener
+public class MenuFragment extends SherlockListFragment implements OnItemClickListener
 {
 	private static final String	TAG	= MenuFragment.class.getName();
 	private Activity			activity;
@@ -93,6 +95,14 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 			this.listFragment = listFragment;
 			httpResonseDAO = HttpResponseFactory.getHttpResonseDAO(context);
 		}
+		
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(true);
+		}
 
 		@Override
 		protected JSONArray doInBackground(Void... params)
@@ -151,8 +161,14 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 			if (result == null || result.length() < 1)
 			{
 				Toast.makeText(context, "no albums!", Toast.LENGTH_SHORT).show();
+				
+
+				SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+				activity.setSupportProgressBarIndeterminateVisibility(false);
+				
 				return;
 			}
+			
 			SampleAdapter adapter = new SampleAdapter(context);
 			for (int i = 0; i < result.length(); i++)
 			{
@@ -173,8 +189,19 @@ public class MenuFragment extends ListFragment implements OnItemClickListener
 				}
 			}
 			listFragment.setListAdapter(adapter);
+			
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(false);
 		}
-
+		
+		@Override
+		protected void onCancelled()
+		{
+			super.onCancelled();
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(false);
+		}
+		
 	}
 
 	@Override

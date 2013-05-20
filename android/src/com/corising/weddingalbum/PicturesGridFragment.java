@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.corising.weddingalbum.dao.HttpResonseDAO;
 import com.corising.weddingalbum.dao.HttpResponseFactory;
 import com.novoda.imageloader.core.ImageManager;
@@ -182,6 +183,22 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		}
 
 		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(true);
+		}
+
+		@Override
+		protected void onCancelled()
+		{
+			super.onCancelled();
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(false);
+		}
+
+		@Override
 		protected ArrayList<Picture> doInBackground(Album... params)
 		{
 			Album album = params[0];
@@ -255,10 +272,15 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 			if (result == null || result.size() == 0)
 			{
 				Toast.makeText(context, "no pictures!", Toast.LENGTH_SHORT).show();
-				return;
 			}
-			pictures = result;
-			adapter.notifyDataSetChanged();
+			else
+			{
+				pictures = result;
+				adapter.notifyDataSetChanged();
+			}
+
+			SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+			activity.setSupportProgressBarIndeterminateVisibility(false);
 		}
 
 	}
