@@ -8,7 +8,7 @@ import org.apache.http.params.HttpConnectionParams;
 public class HttpClientFactory
 {
 	private static final int	REQUEST_TIMEOUT	= 3000;
-	private static final int	SO_TIMEOUT		= 10000;
+	private static final int	SO_TIMEOUT		= 30000;
 	private static HttpClient	httpClient;
 
 	private static void init()
