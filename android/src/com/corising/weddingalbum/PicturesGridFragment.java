@@ -80,7 +80,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		imageManager = AlbumApplication.getImageLoader();
 		imageTagFactory = ImageTagFactory.newInstance(imageWidth, imageHeight, R.drawable.ic_launcher);
 
-		thumbnailFlag = "=s" + Math.max(imageWidth, imageHeight) + "c";
+		thumbnailFlag = "=s" + Math.max(imageWidth, imageHeight) + "-c";
 		Log.i(TAG, "screenWidth = " + screenWidth + "; numCols = " + numCols);
 		Log.i(TAG, "imageWidth = "
 				+ imageWidth
