@@ -29,7 +29,7 @@ public class LoaderImagePagerAdapter extends BasePagerAdapter implements OnImage
 		super(context, images);
 		imageManager = AlbumApplication.getImageLoader();
 		imageManager.setOnImageLoadedListener(this);
-		imageTagFactory = ImageTagFactory.newInstance(1600, 1600, R.drawable.ic_launcher);
+		imageTagFactory = ImageTagFactory.newInstance(1600, 1600, R.drawable.image_view_default);
 	}
 
 	@Override

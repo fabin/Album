@@ -78,7 +78,7 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		int imageWidth = (screenWidth - padding * 2 - horizontalSpacing * (numCols - 1)) / numCols;
 		int imageHeight = getResources().getDimensionPixelSize(R.dimen.pictures_grid_item_height);
 		imageManager = AlbumApplication.getImageLoader();
-		imageTagFactory = ImageTagFactory.newInstance(imageWidth, imageHeight, R.drawable.ic_launcher);
+		imageTagFactory = ImageTagFactory.newInstance(imageWidth, imageHeight, R.drawable.image_view_default);
 
 		thumbnailFlag = "=s" + Math.max(imageWidth, imageHeight) + "-c";
 		Log.i(TAG, "screenWidth = " + screenWidth + "; numCols = " + numCols);
