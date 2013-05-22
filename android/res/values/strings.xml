@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">伊莘&amp;天舒</string>
+    <string name="couple_name_girl">吕伊莘</string>
+    <string name="couple_name_boy">罗天舒</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_help">帮助</string>
     <string name="hello_world">Hello world!</string>
-	<string name="anim_scale">Scale</string>
-	<string name="profile_couple">吕伊莘 &amp; 罗天舒</string>
-	<string name="value_test">values</string>
+    <string name="anim_scale">Scale</string>
+    <string name="profile_couple">吕伊莘 &amp; 罗天舒</string>
+    <string name="value_test">values</string>
+    <string name="help_categoty_congratulations">恭喜</string>
+    <string name="help_categoty_congratulations_details">恭祝%1$s和%2$s喜结连理。愿你们的爱情生活，如同无花果树的果子渐渐成熟；又如葡萄树开花放香，作基督馨香的见证，与诸天穹苍一同地每日每夜述说着神的荣耀！</string>
+    <string name="help_categoty_function_title">功能</string>
+    <string name="help_categoty_function_albums_title">浏览新婚相册集</string>
+    <string name="help_categoty_function_albums_details">在首页向有轻滑，左侧会出现新婚相册列表，点击一个相册，右边会以网格的形式列出这个相册里面所有的婚纱照的缩略图。</string>
+    <string name="help_categoty_function_pictures_title">婚纱照大图浏览</string>
+    <string name="help_categoty_function_pictures_details">在婚纱照相册的缩略图中，点击一个缩略图会打开对应的大图。左右滑动可以查看上或下一张婚纱照，双指捏放可以放大和缩小，双击可以放到最大，再双击可以还原。</string>
+    <string name="help_categoty_function_sahre_title">分享婚纱照</string>
+    <string name="help_categoty_function_share_details">在浏览婚纱照大图的时候，顶部右上角有分享按钮，点击可以将婚纱照分享任何地方。</string>
+    <string name="help_categoty_function_tell_others_title">告诉其他朋友</string>
+    <string name="help_categoty_function_tell_others_details">要告诉其他朋友也安装%1$s和%2$s的婚纱照app，可以直接点击相册缩略图页面顶部的按钮，发短信、发邮件或者通过其他方式告诉你朋友这个app的下载地址。</string>
+    <string name="help_categoty_about_title">关于</string>
+    <string name="about_appVersion">Version %1$s</string>
+    <string name="about_thanks">鸣谢\n<a href="http://my.68design.net/94444">Judy</a>, <a href="http://www.jpush.cn/">JPush</a> and <a href="http://db.tt/kYShYCA">Dropbox</a></string>
+    <string name="about_copyright_ch"><a href="http://www.co-rising.com">酷睿星</a>旗下产品</string>
+    <string name="about_copyright_en">A <a href="http://www.co-rising.com">Co-risng Studio</a> Product</string>
+    <string name="menu_share">告诉朋友</string>
+    <string name="menu_help">帮助</string>
+    <string name="menu_more">更多</string>
+
 </resources>

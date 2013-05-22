@@ -2,13 +2,14 @@ package com.corising.weddingalbum;
 
 import java.util.Set;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.slidingmenu.lib.SlidingMenu;
@@ -52,7 +53,7 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 	public void onCreate(Bundle savedInstanceState)
 	{
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
+
 		super.onCreate(savedInstanceState);
 
 		setTitle(mTitleRes);
@@ -84,7 +85,7 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
-		
+
 		setSlidingActionBarEnabled(true);
 		sm.setBehindScrollScale(0.0f);
 		sm.setBehindCanvasTransformer(mTransformer);
@@ -109,12 +110,23 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getSupportMenuInflater().inflate(R.menu.actions, menu);
+
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
 			toggle();
+			return true;
+		case R.id.menu_help:
+			startActivity(new Intent(MainActivity.this, HelpActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
