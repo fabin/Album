@@ -12,23 +12,32 @@
  */
 package com.corising.weddingalbum;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.BasePagerAdapter.OnItemChangeListener;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.novoda.imageloader.core.ImageManager;
+import com.novoda.imageloader.core.file.FileManager;
 
 public class PicturesGalleryActivity extends SherlockActivity implements OnItemChangeListener
 {
 
+	private static final String	URL_SPECIAL_SIZE	= "=s1024";
 	private GalleryViewPager	mViewPager;
 	private ArrayList<Picture>	pictures;
 	private Album				album;
 	private static final String	title	= "%1$s(%2$s/%3$s)";
+	private static final String	TAG	= PicturesGalleryActivity.class.getName();
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -46,7 +55,7 @@ public class PicturesGalleryActivity extends SherlockActivity implements OnItemC
 		List<String> images = new ArrayList<String>();
 		for (Picture picture : pictures)
 		{
-			String url = picture.getUrl() + "=s1024";
+			String url = picture.getUrl() + URL_SPECIAL_SIZE;
 			images.add(url);
 		}
 
@@ -61,12 +70,34 @@ public class PicturesGalleryActivity extends SherlockActivity implements OnItemC
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getSupportMenuInflater().inflate(R.menu.actions_gallery, menu);
+
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
 	{
+		FileManager pictureGalleryFileManager;
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
 			onBackPressed();
+			return true;
+		case R.id.menu_share:
+			Intent share = new Intent(Intent.ACTION_SEND);
+			int position = mViewPager.getCurrentItem();
+			Picture picture = pictures.get(position);
+			ImageManager imageManager = AlbumApplication.getImageLoader();
+			pictureGalleryFileManager = imageManager.getFileManager();
+			File file = pictureGalleryFileManager.getFile(picture.getUrl() + URL_SPECIAL_SIZE);
+			Log.i(TAG, "file name = "+file.getName());
+			Log.i(TAG, "file = " + file.getAbsolutePath());
+			share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+			share.setType("image/*");
+			startActivity(Intent.createChooser(share, getString(R.string.pictures_gallery_share_image)));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
