@@ -64,25 +64,30 @@ public class AlbumNetworkManager implements NetworkManager
 		{
 			retrieveImageTry(url, f);
 		}
-		catch (FileNotFoundException e)
+		catch (Exception e)
 		{
-			Log.e(TAG, e.getMessage(), e);
+			Log.e(TAG+"1", e.getMessage(), e);
 			if (optionImageServerDomain != null && !optionImageServerDomain.equals(""))
 			{
-				url = url.replace("ggpht.com", optionImageServerDomain);
+				url = url.replace("ggpht\\.com", optionImageServerDomain);
+				Log.d(TAG, "new url = " + url);
 				try
 				{
 					retrieveImageTry(url, f);
 				}
-				catch (FileNotFoundException e1)
+				catch (Exception e1)
 				{
-					Log.e(TAG, e1.getMessage(), e1);
+					Log.e(TAG+"2", e1.getMessage(), e1);
 				}
+			}
+			else
+			{
+				Log.e(TAG + "3", "optionImageServerDomain == " + optionImageServerDomain);
 			}
 		}
 	}
 
-	private void retrieveImageTry(String url, File f) throws FileNotFoundException
+	private void retrieveImageTry(String url, File f) throws Exception
 	{
 
 		// url = url.replace("ggpht.com", "binshidai.com");
@@ -109,14 +114,6 @@ public class AlbumNetworkManager implements NetworkManager
 				os = new FileOutputStream(f);
 				fileUtil.copyStream(is, os);
 			}
-		}
-		catch (FileNotFoundException fnfe)
-		{
-			throw fnfe;
-		}
-		catch (Throwable ex)
-		{
-			Log.e(TAG, ex.getMessage(), ex);
 		}
 		finally
 		{

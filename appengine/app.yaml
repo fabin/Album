@@ -17,6 +17,8 @@ handlers:
   script: upload.app
 - url: /interface.*
   script: interface.app
+- url: /downloads.*
+  script: downloads.app
 - url: .*
   script: albums.app
 

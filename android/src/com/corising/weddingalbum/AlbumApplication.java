@@ -43,6 +43,8 @@ public class AlbumApplication extends Application
 
 		// You can force the urlConnection to disconnect after every call.
 		settingsBuilder.withDisconnectOnEveryCall(true);
+		settingsBuilder.withReadTimeout(30 * 1000);
+		settingsBuilder.withConnectionTimeout(3 * 1000);
 
 		// We have different types of cache, check cache package for more info
 		settingsBuilder.withCacheManager(new LruBitmapCache(this));
