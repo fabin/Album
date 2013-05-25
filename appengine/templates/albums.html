@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
 <link type="text/css" rel="stylesheet" href="/static/css/albums.css" />
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="/static/css/footer.css" />
 <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery.corner.js"></script>
 <script type="text/javascript" src="/static/js/app/albums.js"></script>
@@ -42,12 +44,10 @@
 			</div>
 		</div>
 		<div class='admin'>
-		{% if user: %}
-			<span>{{user.nickname()}}</span><span> | </span>
-		{% endif %}
-		{% if isAdmin: %} <a
-				href="/albums/create">Create</a><span> | </span> {% endif %}
-			<a href="{{url_log}}">{{url_linktext}} </a> <span>&nbsp;&nbsp;</span>
+			{% if user: %} <span>{{user.nickname()}}</span><span> | </span> {%
+			endif %} {% if isAdmin: %} <a href="/albums/create">新建</a><span>
+				| </span> {% endif %} <a href="{{url_log}}">{{url_linktext}} </a><span>
+				| </span><a href="/downloads">下载</a> <span>&nbsp;&nbsp;</span>
 		</div>
 	</div>
 	<div id='albums'>
@@ -70,5 +70,12 @@
 		{% endfor %}
 	</div>
 	<div class='clean'></div>
+	<div id="footer">
+		<div class="container">
+			<p class="muted credit">
+				&copy; 2013 <a href="http://www.co-rising.com/">Co-risng</a> &middot; Version: 1.0 Beta 
+			</p>
+		</div>
+	</div>
 </body>
 </html>
