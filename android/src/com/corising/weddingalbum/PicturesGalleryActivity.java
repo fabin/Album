@@ -27,7 +27,9 @@ import android.util.Log;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.novoda.imageloader.core.ImageManager;
+import com.novoda.imageloader.core.exception.ImageCopyException;
 import com.novoda.imageloader.core.file.FileManager;
+import com.novoda.imageloader.core.file.util.FileUtil;
 
 public class PicturesGalleryActivity extends SherlockActivity implements OnItemChangeListener
 {
@@ -36,8 +38,8 @@ public class PicturesGalleryActivity extends SherlockActivity implements OnItemC
 	private GalleryViewPager	mViewPager;
 	private ArrayList<Picture>	pictures;
 	private Album				album;
-	private static final String	title	= "%1$s(%2$s/%3$s)";
-	private static final String	TAG	= PicturesGalleryActivity.class.getName();
+	private static final String	title				= "%1$s(%2$s/%3$s)";
+	private static final String	TAG					= PicturesGalleryActivity.class.getName();
 
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -93,11 +95,21 @@ public class PicturesGalleryActivity extends SherlockActivity implements OnItemC
 			ImageManager imageManager = AlbumApplication.getImageLoader();
 			pictureGalleryFileManager = imageManager.getFileManager();
 			File file = pictureGalleryFileManager.getFile(picture.getUrl() + URL_SPECIAL_SIZE);
-			Log.i(TAG, "file name = "+file.getName());
-			Log.i(TAG, "file = " + file.getAbsolutePath());
-			share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-			share.setType("image/*");
-			startActivity(Intent.createChooser(share, getString(R.string.pictures_gallery_share_image)));
+			FileUtil fileUtil = new FileUtil();
+			File sharedFile = new File(file.getParentFile(), picture.getName());
+			try
+			{
+				fileUtil.copy(file, sharedFile);
+				Log.i(TAG, "file name = " + sharedFile.getName());
+				Log.i(TAG, "file = " + sharedFile.getAbsolutePath());
+				share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(sharedFile));
+				share.setType("image/*");
+				startActivity(Intent.createChooser(share, getString(R.string.pictures_gallery_share_image)));
+			}
+			catch (ImageCopyException e)
+			{
+				Log.e(TAG, e.getMessage(), e);
+			}
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
