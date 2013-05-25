@@ -1,13 +1,12 @@
 package com.corising.weddingalbum;
 
 import android.app.Application;
-import android.net.NetworkInfo;
 
 import com.novoda.imageloader.core.ImageManager;
 import com.novoda.imageloader.core.LoaderSettings;
 import com.novoda.imageloader.core.LoaderSettings.SettingsBuilder;
 import com.novoda.imageloader.core.cache.LruBitmapCache;
-import com.novoda.imageloader.core.cache.NoCache;
+import com.novoda.imageloader.core.network.NetworkManager;
 
 public class AlbumApplication extends Application
 {
@@ -68,6 +67,9 @@ public class AlbumApplication extends Application
 
 		LoaderSettings loaderSettings = settingsBuilder.build(this);
 		loaderSettings.setCacheDir(Utils.pictureCacheDir(this));
+		NetworkManager networkManager = new AlbumNetworkManager(loaderSettings,
+				getString(R.string.option_image_server_domain));
+		loaderSettings.setNetworkManager(networkManager);
 
 		PictureGalleryFileManager pictureGalleryFileManager = new PictureGalleryFileManager(loaderSettings);
 		loaderSettings.setFileManager(pictureGalleryFileManager);
