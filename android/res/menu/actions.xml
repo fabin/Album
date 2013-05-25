@@ -23,7 +23,7 @@
         android:title="@string/menu_more">
         <menu>
             <item
-                android:id="@+id/menu_share"
+                android:id="@+id/menu_tell"
                 android:icon="@drawable/ic_menu_start_conversation"
                 android:title="@string/menu_share"/>
             <item

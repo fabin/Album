@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -127,6 +126,16 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 			return true;
 		case R.id.menu_help:
 			startActivity(new Intent(MainActivity.this, HelpActivity.class));
+			return true;
+		case R.id.menu_tell:
+			Intent intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_content),
+					getString(R.string.app_name), getString(R.string.server) + "/downloads"));
+			intent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+					String.format(getString(R.string.share_subject), getString(R.string.app_name)));
+			startActivity(Intent.createChooser(intent, "选择操作"));
+
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

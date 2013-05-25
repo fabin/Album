@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">伊莘&amp;天舒</string>
+    <string name="share_subject">专属婚纱相册《%1$s》的下载地址</string>
+    <string name="share_content">专属婚纱相册《%1$s》的下载地址：%2$s</string>
     <string name="couple_name_girl">吕伊莘</string>
     <string name="couple_name_boy">罗天舒</string>
     <string name="action_settings">Settings</string>
