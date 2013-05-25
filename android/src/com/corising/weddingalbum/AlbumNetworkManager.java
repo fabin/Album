@@ -69,11 +69,12 @@ public class AlbumNetworkManager implements NetworkManager
 			Log.e(TAG+"1", e.getMessage(), e);
 			if (optionImageServerDomain != null && !optionImageServerDomain.equals(""))
 			{
-				url = url.replace("ggpht\\.com", optionImageServerDomain);
-				Log.d(TAG, "new url = " + url);
+				String newUrl = url.replace("ggpht.com", optionImageServerDomain);
+				Log.d(TAG, "newUrl = " + newUrl);
+				Log.d(TAG, "optionImageServerDomainl = " + optionImageServerDomain);
 				try
 				{
-					retrieveImageTry(url, f);
+					retrieveImageTry(newUrl, f);
 				}
 				catch (Exception e1)
 				{
