@@ -119,15 +119,19 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		switch (item.getItemId())
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home)
 		{
-		case android.R.id.home:
 			toggle();
 			return true;
-		case R.id.menu_help:
+		}
+		else if (itemId == R.id.menu_help)
+		{
 			startActivity(new Intent(MainActivity.this, HelpActivity.class));
 			return true;
-		case R.id.menu_tell:
+		}
+		else if (itemId == R.id.menu_tell)
+		{
 			Intent intent = new Intent(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_content),
@@ -135,7 +139,6 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 			intent.putExtra(android.content.Intent.EXTRA_SUBJECT,
 					String.format(getString(R.string.share_subject), getString(R.string.app_name)));
 			startActivity(Intent.createChooser(intent, "选择操作"));
-
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

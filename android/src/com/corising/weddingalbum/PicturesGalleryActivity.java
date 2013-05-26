@@ -83,12 +83,14 @@ public class PicturesGalleryActivity extends SherlockActivity implements OnItemC
 	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
 	{
 		FileManager pictureGalleryFileManager;
-		switch (item.getItemId())
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home)
 		{
-		case android.R.id.home:
 			onBackPressed();
 			return true;
-		case R.id.menu_share:
+		}
+		else if (itemId == R.id.menu_share)
+		{
 			Intent share = new Intent(Intent.ACTION_SEND);
 			int position = mViewPager.getCurrentItem();
 			Picture picture = pictures.get(position);
