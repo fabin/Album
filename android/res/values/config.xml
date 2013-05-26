@@ -3,7 +3,9 @@
 
     <string name="server">custom server in your project</string>
     <string name="option_image_server_domain">custom image server domain in your project</string>
-
-    <integer name="database_version">1</integer>
+    <string name="couple_name_girl">女方姓名</string>
+    <string name="couple_name_boy">男方姓名</string>
+    <string name="profile_couple">女方姓名 &amp; 男方姓名</string>
+    <string name="app_name">女方名字&amp;男方名字</string>
 
 </resources>

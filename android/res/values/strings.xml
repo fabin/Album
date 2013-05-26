@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">伊莘&amp;天舒</string>
+    <integer name="database_version">1</integer>
+
     <string name="share_subject">专属婚纱相册《%1$s》的下载地址</string>
     <string name="share_content">专属婚纱相册《%1$s》的下载地址：%2$s</string>
-    <string name="couple_name_girl">吕伊莘</string>
-    <string name="couple_name_boy">罗天舒</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_help">帮助</string>
     <string name="pictures_gallery_share_image">分享照片</string>
-    <string name="anim_scale">Scale</string>
-    <string name="profile_couple">吕伊莘 &amp; 罗天舒</string>
-    <string name="value_test">values</string>
     <string name="help_categoty_congratulations">恭喜</string>
     <string name="help_categoty_congratulations_details">恭祝%1$s和%2$s喜结连理。愿你们的爱情生活，如同无花果树的果子渐渐成熟；又如葡萄树开花放香，作基督馨香的见证，与诸天穹苍一同地每日每夜述说着神的荣耀！</string>
     <string name="help_categoty_function_title">功能</string>
