@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- <string name="server">http://10.0.201.59:8080</string> -->
-    <!-- 
-    <string name="server">http://192.168.1.3:8080</string>
-     -->
-    <string name="server">http://album.co-rising.com</string>
-    <string name="option_image_server_domain">binshidai.com</string>
+    <string name="server">custom server in your project</string>
+    <string name="option_image_server_domain">custom image server domain in your project</string>
+
     <integer name="database_version">1</integer>
 
 </resources>
