@@ -64,9 +64,6 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 		pictures = new ArrayList<Picture>();
 		album = getArguments().getParcelable("album");
 
-		PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
-		task.execute(album);
-
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		@SuppressWarnings("deprecation")
 		int screenWidth = display.getWidth(); // 屏幕宽（像素，如：480px）
@@ -110,6 +107,11 @@ public class PicturesGridFragment extends SherlockFragment implements OnItemClic
 	{
 		super.onActivityCreated(savedInstanceState);
 		getSherlockActivity().getSupportActionBar().setTitle(album.getName());
+		if (pictures == null || pictures.size() == 0)
+		{
+			PicturesWebServiceAsyncTask task = new PicturesWebServiceAsyncTask(activity);
+			task.execute(album);
+		}
 	}
 
 	public class PictureAdapter extends BaseAdapter
