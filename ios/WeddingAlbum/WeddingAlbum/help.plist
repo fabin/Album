@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>img</key>
+		<string>help_menu.png</string>
+		<key>text</key>
+		<string>sdfdf</string>
+	</dict>
+	<dict>
+		<key>img</key>
+		<string>help_pic.png</string>
+		<key>text</key>
+		<string>sdfdf</string>
+	</dict>
+	<dict>
+		<key>img</key>
+		<string>help_share.png</string>
+		<key>text</key>
+		<string>sdfdf</string>
+	</dict>
+	<dict>
+		<key>img</key>
+		<string>help_talk.png</string>
+		<key>text</key>
+		<string>sdfdf</string>
+	</dict>
+</array>
+</plist>
