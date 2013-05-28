@@ -64,6 +64,7 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
         android:divider="@drawable/list_divider"
         android:paddingLeft="@dimen/list_padding"
         android:paddingRight="@dimen/list_padding"
