@@ -14,7 +14,11 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+<<<<<<< HEAD
                BlueprintIdentifier = "E1918C3617546DB800984C77"
+=======
+               BlueprintIdentifier = "E1918C6817547D0100984C77"
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
                BuildableName = "WeddingAlbum.app"
                BlueprintName = "WeddingAlbum"
                ReferencedContainer = "container:WeddingAlbum.xcodeproj">
@@ -32,7 +36,11 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "E1918C3617546DB800984C77"
+=======
+            BlueprintIdentifier = "E1918C6817547D0100984C77"
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
             BuildableName = "WeddingAlbum.app"
             BlueprintName = "WeddingAlbum"
             ReferencedContainer = "container:WeddingAlbum.xcodeproj">
@@ -51,7 +59,11 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "E1918C3617546DB800984C77"
+=======
+            BlueprintIdentifier = "E1918C6817547D0100984C77"
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
             BuildableName = "WeddingAlbum.app"
             BlueprintName = "WeddingAlbum"
             ReferencedContainer = "container:WeddingAlbum.xcodeproj">
@@ -69,7 +81,11 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD
             BlueprintIdentifier = "E1918C3617546DB800984C77"
+=======
+            BlueprintIdentifier = "E1918C6817547D0100984C77"
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
             BuildableName = "WeddingAlbum.app"
             BlueprintName = "WeddingAlbum"
             ReferencedContainer = "container:WeddingAlbum.xcodeproj">

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
 		E1918C3B17546DB800984C77 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C3A17546DB800984C77 /* UIKit.framework */; };
 		E1918C3D17546DB800984C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C3C17546DB800984C77 /* Foundation.framework */; };
 		E1918C3F17546DB800984C77 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C3E17546DB800984C77 /* CoreGraphics.framework */; };
@@ -49,12 +50,57 @@
 				E1918C3B17546DB800984C77 /* UIKit.framework in Frameworks */,
 				E1918C3D17546DB800984C77 /* Foundation.framework in Frameworks */,
 				E1918C3F17546DB800984C77 /* CoreGraphics.framework in Frameworks */,
+=======
+		E1918C6D17547D0100984C77 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C6C17547D0100984C77 /* UIKit.framework */; };
+		E1918C6F17547D0100984C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C6E17547D0100984C77 /* Foundation.framework */; };
+		E1918C7117547D0100984C77 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C7017547D0100984C77 /* CoreGraphics.framework */; };
+		E1918C7717547D0100984C77 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1918C7517547D0100984C77 /* InfoPlist.strings */; };
+		E1918C7917547D0100984C77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C7817547D0100984C77 /* main.m */; };
+		E1918C7D17547D0100984C77 /* WAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C7C17547D0100984C77 /* WAAppDelegate.m */; };
+		E1918C7F17547D0100984C77 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C7E17547D0100984C77 /* Default.png */; };
+		E1918C8117547D0100984C77 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8017547D0100984C77 /* Default@2x.png */; };
+		E1918C8317547D0100984C77 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8217547D0100984C77 /* Default-568h@2x.png */; };
+		E1918C8617547D0100984C77 /* WAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C8517547D0100984C77 /* WAViewController.m */; };
+		E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */; };
+		E1918C8C17547D0100984C77 /* WAViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8A17547D0100984C77 /* WAViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E1918C6917547D0100984C77 /* WeddingAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1918C6C17547D0100984C77 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E1918C6E17547D0100984C77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E1918C7017547D0100984C77 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E1918C7417547D0100984C77 /* WeddingAlbum-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeddingAlbum-Info.plist"; sourceTree = "<group>"; };
+		E1918C7617547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E1918C7817547D0100984C77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E1918C7A17547D0100984C77 /* WeddingAlbum-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WeddingAlbum-Prefix.pch"; sourceTree = "<group>"; };
+		E1918C7B17547D0100984C77 /* WAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WAAppDelegate.h; sourceTree = "<group>"; };
+		E1918C7C17547D0100984C77 /* WAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WAAppDelegate.m; sourceTree = "<group>"; };
+		E1918C7E17547D0100984C77 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		E1918C8017547D0100984C77 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		E1918C8217547D0100984C77 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E1918C8417547D0100984C77 /* WAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WAViewController.h; sourceTree = "<group>"; };
+		E1918C8517547D0100984C77 /* WAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WAViewController.m; sourceTree = "<group>"; };
+		E1918C8817547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WAViewController_iPhone.xib; sourceTree = "<group>"; };
+		E1918C8B17547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WAViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1918C6617547D0100984C77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1918C6D17547D0100984C77 /* UIKit.framework in Frameworks */,
+				E1918C6F17547D0100984C77 /* Foundation.framework in Frameworks */,
+				E1918C7117547D0100984C77 /* CoreGraphics.framework in Frameworks */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 		E1918C2E17546DB800984C77 = {
 			isa = PBXGroup;
 			children = (
@@ -68,20 +114,45 @@
 			isa = PBXGroup;
 			children = (
 				E1918C3717546DB800984C77 /* WeddingAlbum.app */,
+=======
+		E1918C6017547D0100984C77 = {
+			isa = PBXGroup;
+			children = (
+				E1918C7217547D0100984C77 /* WeddingAlbum */,
+				E1918C6B17547D0100984C77 /* Frameworks */,
+				E1918C6A17547D0100984C77 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1918C6A17547D0100984C77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1918C6917547D0100984C77 /* WeddingAlbum.app */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		E1918C3917546DB800984C77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E1918C3A17546DB800984C77 /* UIKit.framework */,
 				E1918C3C17546DB800984C77 /* Foundation.framework */,
 				E1918C3E17546DB800984C77 /* CoreGraphics.framework */,
+=======
+		E1918C6B17547D0100984C77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1918C6C17547D0100984C77 /* UIKit.framework */,
+				E1918C6E17547D0100984C77 /* Foundation.framework */,
+				E1918C7017547D0100984C77 /* CoreGraphics.framework */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		E1918C4017546DB800984C77 /* WeddingAlbum */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,10 +163,23 @@
 				E1918C5517546DB800984C77 /* WAViewController_iPhone.xib */,
 				E1918C5817546DB800984C77 /* WAViewController_iPad.xib */,
 				E1918C4117546DB800984C77 /* Supporting Files */,
+=======
+		E1918C7217547D0100984C77 /* WeddingAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				E1918C7B17547D0100984C77 /* WAAppDelegate.h */,
+				E1918C7C17547D0100984C77 /* WAAppDelegate.m */,
+				E1918C8417547D0100984C77 /* WAViewController.h */,
+				E1918C8517547D0100984C77 /* WAViewController.m */,
+				E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */,
+				E1918C8A17547D0100984C77 /* WAViewController_iPad.xib */,
+				E1918C7317547D0100984C77 /* Supporting Files */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			path = WeddingAlbum;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		E1918C4117546DB800984C77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +190,18 @@
 				E1918C4C17546DB800984C77 /* Default.png */,
 				E1918C4E17546DB800984C77 /* Default@2x.png */,
 				E1918C5017546DB800984C77 /* Default-568h@2x.png */,
+=======
+		E1918C7317547D0100984C77 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1918C7417547D0100984C77 /* WeddingAlbum-Info.plist */,
+				E1918C7517547D0100984C77 /* InfoPlist.strings */,
+				E1918C7817547D0100984C77 /* main.m */,
+				E1918C7A17547D0100984C77 /* WeddingAlbum-Prefix.pch */,
+				E1918C7E17547D0100984C77 /* Default.png */,
+				E1918C8017547D0100984C77 /* Default@2x.png */,
+				E1918C8217547D0100984C77 /* Default-568h@2x.png */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -113,6 +209,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+<<<<<<< HEAD
 		E1918C3617546DB800984C77 /* WeddingAlbum */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1918C5D17546DB800984C77 /* Build configuration list for PBXNativeTarget "WeddingAlbum" */;
@@ -120,6 +217,15 @@
 				E1918C3317546DB800984C77 /* Sources */,
 				E1918C3417546DB800984C77 /* Frameworks */,
 				E1918C3517546DB800984C77 /* Resources */,
+=======
+		E1918C6817547D0100984C77 /* WeddingAlbum */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1918C8F17547D0100984C77 /* Build configuration list for PBXNativeTarget "WeddingAlbum" */;
+			buildPhases = (
+				E1918C6517547D0100984C77 /* Sources */,
+				E1918C6617547D0100984C77 /* Frameworks */,
+				E1918C6717547D0100984C77 /* Resources */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			buildRules = (
 			);
@@ -127,37 +233,59 @@
 			);
 			name = WeddingAlbum;
 			productName = WeddingAlbum;
+<<<<<<< HEAD
 			productReference = E1918C3717546DB800984C77 /* WeddingAlbum.app */;
+=======
+			productReference = E1918C6917547D0100984C77 /* WeddingAlbum.app */;
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
+<<<<<<< HEAD
 		E1918C2F17546DB800984C77 /* Project object */ = {
+=======
+		E1918C6117547D0100984C77 /* Project object */ = {
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = WA;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = SlowsLab;
 			};
+<<<<<<< HEAD
 			buildConfigurationList = E1918C3217546DB800984C77 /* Build configuration list for PBXProject "WeddingAlbum" */;
+=======
+			buildConfigurationList = E1918C6417547D0100984C77 /* Build configuration list for PBXProject "WeddingAlbum" */;
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
+<<<<<<< HEAD
 			mainGroup = E1918C2E17546DB800984C77;
 			productRefGroup = E1918C3817546DB800984C77 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				E1918C3617546DB800984C77 /* WeddingAlbum */,
+=======
+			mainGroup = E1918C6017547D0100984C77;
+			productRefGroup = E1918C6A17547D0100984C77 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1918C6817547D0100984C77 /* WeddingAlbum */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+<<<<<<< HEAD
 		E1918C3517546DB800984C77 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,12 +296,25 @@
 				E1918C5117546DB800984C77 /* Default-568h@2x.png in Resources */,
 				E1918C5717546DB800984C77 /* WAViewController_iPhone.xib in Resources */,
 				E1918C5A17546DB800984C77 /* WAViewController_iPad.xib in Resources */,
+=======
+		E1918C6717547D0100984C77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1918C7717547D0100984C77 /* InfoPlist.strings in Resources */,
+				E1918C7F17547D0100984C77 /* Default.png in Resources */,
+				E1918C8117547D0100984C77 /* Default@2x.png in Resources */,
+				E1918C8317547D0100984C77 /* Default-568h@2x.png in Resources */,
+				E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */,
+				E1918C8C17547D0100984C77 /* WAViewController_iPad.xib in Resources */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+<<<<<<< HEAD
 		E1918C3317546DB800984C77 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,32 +322,62 @@
 				E1918C4717546DB800984C77 /* main.m in Sources */,
 				E1918C4B17546DB800984C77 /* WAAppDelegate.m in Sources */,
 				E1918C5417546DB800984C77 /* WAViewController.m in Sources */,
+=======
+		E1918C6517547D0100984C77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1918C7917547D0100984C77 /* main.m in Sources */,
+				E1918C7D17547D0100984C77 /* WAAppDelegate.m in Sources */,
+				E1918C8617547D0100984C77 /* WAViewController.m in Sources */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+<<<<<<< HEAD
 		E1918C4317546DB800984C77 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E1918C4417546DB800984C77 /* en */,
+=======
+		E1918C7517547D0100984C77 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1918C7617547D0100984C77 /* en */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		E1918C5517546DB800984C77 /* WAViewController_iPhone.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E1918C5617546DB800984C77 /* en */,
+=======
+		E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1918C8817547D0100984C77 /* en */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = WAViewController_iPhone.xib;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		E1918C5817546DB800984C77 /* WAViewController_iPad.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E1918C5917546DB800984C77 /* en */,
+=======
+		E1918C8A17547D0100984C77 /* WAViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1918C8B17547D0100984C77 /* en */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			name = WAViewController_iPad.xib;
 			sourceTree = "<group>";
@@ -214,7 +385,11 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+<<<<<<< HEAD
 		E1918C5B17546DB800984C77 /* Debug */ = {
+=======
+		E1918C8D17547D0100984C77 /* Debug */ = {
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,7 +421,11 @@
 			};
 			name = Debug;
 		};
+<<<<<<< HEAD
 		E1918C5C17546DB800984C77 /* Release */ = {
+=======
+		E1918C8E17547D0100984C77 /* Release */ = {
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -272,7 +451,11 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 		E1918C5E17546DB800984C77 /* Debug */ = {
+=======
+		E1918C9017547D0100984C77 /* Debug */ = {
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -283,7 +466,11 @@
 			};
 			name = Debug;
 		};
+<<<<<<< HEAD
 		E1918C5F17546DB800984C77 /* Release */ = {
+=======
+		E1918C9117547D0100984C77 /* Release */ = {
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -297,24 +484,44 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+<<<<<<< HEAD
 		E1918C3217546DB800984C77 /* Build configuration list for PBXProject "WeddingAlbum" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1918C5B17546DB800984C77 /* Debug */,
 				E1918C5C17546DB800984C77 /* Release */,
+=======
+		E1918C6417547D0100984C77 /* Build configuration list for PBXProject "WeddingAlbum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1918C8D17547D0100984C77 /* Debug */,
+				E1918C8E17547D0100984C77 /* Release */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+<<<<<<< HEAD
 		E1918C5D17546DB800984C77 /* Build configuration list for PBXNativeTarget "WeddingAlbum" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1918C5E17546DB800984C77 /* Debug */,
 				E1918C5F17546DB800984C77 /* Release */,
+=======
+		E1918C8F17547D0100984C77 /* Build configuration list for PBXNativeTarget "WeddingAlbum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1918C9017547D0100984C77 /* Debug */,
+				E1918C9117547D0100984C77 /* Release */,
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
+<<<<<<< HEAD
 	rootObject = E1918C2F17546DB800984C77 /* Project object */;
+=======
+	rootObject = E1918C6117547D0100984C77 /* Project object */;
+>>>>>>> 43e3496654b27163256e702ff7d5964396b15173
 }
