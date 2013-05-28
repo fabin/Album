@@ -27,10 +27,10 @@
         
         UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
         
-        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+//        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
         
         MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                                 initWithCenterViewController:navigationController
+                                                 initWithCenterViewController:centerViewController
                                                  leftDrawerViewController:leftSideDrawerViewController
                                                  rightDrawerViewController:nil];
         [drawerController setMaximumRightDrawerWidth:200.0];

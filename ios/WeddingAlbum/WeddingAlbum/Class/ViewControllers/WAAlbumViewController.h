@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WAAlbumViewController : UIViewController
+@interface WAAlbumViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
+    
+    __weak IBOutlet UILabel *_titleLbl;
+    __weak IBOutlet UITableView *_tableView;
+}
+
+@property (nonatomic, copy) NSString *albumKey;
 
 @end

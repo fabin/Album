@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WAMenuViewController : UITableViewController
+@interface WAMenuViewController : UITableViewController{
+    NSMutableArray          *_dataSource;
+    
+    __weak IBOutlet UIImageView *_imgView;
+    __weak IBOutlet UILabel     *_titleLbl;
+}
 
 @end
