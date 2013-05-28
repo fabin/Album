@@ -97,13 +97,20 @@
 {
     NSDictionary *dic = _dataSource[indexPath.row];
     
-    WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-    albumVC.albumKey = dic[@"key"];
-    albumVC.title = dic[@"name"];
-    [self.mm_drawerController setCenterViewController:albumVC
-                                   withCloseAnimation:YES
-                                           completion:nil];
-    
+//    if (!_albumVC) {
+        WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+        albumVC.albumKey = dic[@"key"];
+        albumVC.title = dic[@"name"];
+        
+        [self.mm_drawerController setCenterViewController:albumVC
+                                       withCloseAnimation:YES
+                                               completion:nil];
+//    }else{
+//        _albumVC.albumKey = dic[@"key"];
+//        _albumVC.title = dic[@"name"];
+//        
+//        [_albumVC update];
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -148,5 +155,6 @@
     WASettingViewController *vc = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
     [self presentModalViewController:vc animated:YES];
 }
+
 
 @end

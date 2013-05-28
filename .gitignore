@@ -35,3 +35,5 @@ nosetests.xml
 
 # android
 gen
+
+.DS_Store

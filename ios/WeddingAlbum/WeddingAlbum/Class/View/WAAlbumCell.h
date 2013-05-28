@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface WAAlbumCell : UITableViewCell{
-    UIImageView         *_imgView0;
-    UIImageView         *_imgView1;
+    NSMutableArray      *_imgViews;
     
     NSDictionary        *_dic0;
     NSDictionary        *_dic1;
+    NSDictionary        *_dic2;
 }
 
-- (void)setData:(NSDictionary *)dic0 :(NSDictionary *)dic1;
+- (id)initWithOritation:(UIInterfaceOrientation)oritation reuseIdentifier:(NSString *)reuseIdentifier;
 
++ (NSUInteger)countForOneRowWithOritation:(UIInterfaceOrientation)oritation;
+
+- (void)setData:(NSArray *)arr;
 @end

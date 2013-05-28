@@ -20,7 +20,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
 //        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPhone" bundle:nil];
         
         UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
@@ -48,10 +48,19 @@
          }];
         
         self.window.rootViewController = drawerController;
-    } else {
-        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
-        self.window.rootViewController = self.viewController;
-    }
+//    } else {
+////        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
+//        UISplitViewController *vc = [[UISplitViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
+//        
+//        WAAlbumViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+//        
+//        WAMenuViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
+//        leftSideDrawerViewController.albumVC = centerViewController;
+//        
+//        vc.viewControllers = @[leftSideDrawerViewController, centerViewController];
+//        
+//        self.window.rootViewController = vc;
+//    }
 
     [self.window makeKeyAndVisible];
     return YES;
@@ -82,6 +91,10 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    return UIInterfaceOrientationMaskPortrait|UIInterfaceOrientationMaskLandscapeRight;
 }
 
 @end

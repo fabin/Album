@@ -12,8 +12,12 @@
     
     __weak IBOutlet UILabel *_titleLbl;
     __weak IBOutlet UITableView *_tableView;
+    
+    __weak IBOutlet UIButton *_shareBtn;
 }
 
 @property (nonatomic, copy) NSString *albumKey;
 
+
+//- (void)update;
 @end

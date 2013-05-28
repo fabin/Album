@@ -18,6 +18,8 @@
 
 #define CONFIG(key) [WADataEnvironment configForKey:key]
 
+#define is_iPhone ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+
 typedef void(^SLBlock)(void);
 typedef void(^SLBlockBlock)(SLBlock block);
 typedef void(^SLObjectBlock)(id obj);

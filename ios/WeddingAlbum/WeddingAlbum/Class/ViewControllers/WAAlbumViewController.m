@@ -11,7 +11,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "WAAlbumCell.h"
 
-@interface WAAlbumViewController ()
+@interface WAAlbumViewController () <UIActionSheetDelegate>
 
 @end
 
@@ -35,11 +35,17 @@
     if (_albumKey) {
         [self retrieveData];
     }else{
+        _shareBtn.hidden = YES;
         _tableView.hidden = YES;
+        
         UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
+        imgView.tag = 100;
+        imgView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         imgView.frame = CGRectMake(0, 100, 320, 287);
         [self.view addSubview:imgView];
     }
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeStatusBar:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 #pragma mark - Actions
@@ -49,7 +55,8 @@
 }
 
 - (IBAction)share:(id)sender {
-    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到微信", nil];
+    [sheet showInView:self.view];
 }
 
 #pragma mark - Table view data source
@@ -62,28 +69,31 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *pictures = _dataSource[@"pictures"];
-    return (pictures.count+1)/2;
+    NSUInteger row = (pictures.count+1)/[WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation];
+    
+    SLLog(@"row %d", [WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation]);
+    return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier0 = @"CellPotrait";
+    static NSString *CellIdentifier1 = @"CellLandScape";
+    NSString *CellIdentifier = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight?CellIdentifier1:CellIdentifier0);
+    
     WAAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[WAAlbumCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[WAAlbumCell alloc] initWithOritation:self.interfaceOrientation reuseIdentifier:CellIdentifier];
     }
     
     NSUInteger row = indexPath.row;
     NSArray *pictures = _dataSource[@"pictures"];
     
-    NSDictionary *dic0 = pictures[row*2];
-    NSDictionary *dic1 = nil;
+    NSUInteger count = [WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation];
     
-    if (row*2+1 < pictures.count) {
-        dic1 = pictures[row*2+1];
-    }
+    NSUInteger start = row*count;
     
-    [cell setData:dic0 :dic1];
+    [cell setData:[pictures subarrayWithRange:NSMakeRange(start, MIN(pictures.count-start, count))]];
     
     return cell;
 }
@@ -112,6 +122,17 @@
     
 }
 
+//- (void)update{
+//    _titleLbl.text = self.title;
+//    [self retrieveData];
+//    
+//    _tableView.hidden = NO;
+//    
+//    UIView *imgView = [self.view viewWithTag:100];
+//    [imgView removeFromSuperview];
+//}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -130,6 +151,20 @@
 
 - (void)viewDidUnload {
     _titleLbl = nil;
+    _shareBtn = nil;
     [super viewDidUnload];
 }
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        
+    }else{
+        
+    }
+}
+
+
+
 @end
