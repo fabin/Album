@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E14EDF2217549597007981AD /* WAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF2117549597007981AD /* WAViewController.m */; };
+		E14EDF2D175495D9007981AD /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF26175495D9007981AD /* MMDrawerBarButtonItem.m */; };
+		E14EDF2E175495D9007981AD /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF28175495D9007981AD /* MMDrawerController.m */; };
+		E14EDF2F175495D9007981AD /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF2A175495D9007981AD /* MMDrawerVisualState.m */; };
+		E14EDF30175495D9007981AD /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF2C175495D9007981AD /* UIViewController+MMDrawerController.m */; };
+		E14EDF3517549656007981AD /* WAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF3317549656007981AD /* WAMenuViewController.m */; };
+		E14EDF3617549656007981AD /* WAMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14EDF3417549656007981AD /* WAMenuViewController.xib */; };
+		E14EDF3A1754969A007981AD /* WAAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF381754969A007981AD /* WAAlbumViewController.m */; };
+		E14EDF3B1754969A007981AD /* WAAlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14EDF391754969A007981AD /* WAAlbumViewController.xib */; };
+		E14EDF3F1754975C007981AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14EDF3E1754975C007981AD /* QuartzCore.framework */; };
+		E14EDF4017549775007981AD /* MMExampleDrawerVisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E14EDF3D1754973D007981AD /* MMExampleDrawerVisualStateManager.m */; };
 		E1918C6D17547D0100984C77 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C6C17547D0100984C77 /* UIKit.framework */; };
 		E1918C6F17547D0100984C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C6E17547D0100984C77 /* Foundation.framework */; };
 		E1918C7117547D0100984C77 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1918C7017547D0100984C77 /* CoreGraphics.framework */; };
@@ -16,12 +27,30 @@
 		E1918C7F17547D0100984C77 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C7E17547D0100984C77 /* Default.png */; };
 		E1918C8117547D0100984C77 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8017547D0100984C77 /* Default@2x.png */; };
 		E1918C8317547D0100984C77 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8217547D0100984C77 /* Default-568h@2x.png */; };
-		E1918C8617547D0100984C77 /* WAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C8517547D0100984C77 /* WAViewController.m */; };
 		E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */; };
 		E1918C8C17547D0100984C77 /* WAViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8A17547D0100984C77 /* WAViewController_iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E14EDF2017549597007981AD /* WAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAViewController.h; sourceTree = "<group>"; };
+		E14EDF2117549597007981AD /* WAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAViewController.m; sourceTree = "<group>"; };
+		E14EDF25175495D9007981AD /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
+		E14EDF26175495D9007981AD /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
+		E14EDF27175495D9007981AD /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
+		E14EDF28175495D9007981AD /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerController.m; sourceTree = "<group>"; };
+		E14EDF29175495D9007981AD /* MMDrawerVisualState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerVisualState.h; sourceTree = "<group>"; };
+		E14EDF2A175495D9007981AD /* MMDrawerVisualState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerVisualState.m; sourceTree = "<group>"; };
+		E14EDF2B175495D9007981AD /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
+		E14EDF2C175495D9007981AD /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
+		E14EDF3217549656007981AD /* WAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAMenuViewController.h; sourceTree = "<group>"; };
+		E14EDF3317549656007981AD /* WAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAMenuViewController.m; sourceTree = "<group>"; };
+		E14EDF3417549656007981AD /* WAMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WAMenuViewController.xib; sourceTree = "<group>"; };
+		E14EDF371754969A007981AD /* WAAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAAlbumViewController.h; sourceTree = "<group>"; };
+		E14EDF381754969A007981AD /* WAAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAAlbumViewController.m; sourceTree = "<group>"; };
+		E14EDF391754969A007981AD /* WAAlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WAAlbumViewController.xib; sourceTree = "<group>"; };
+		E14EDF3C1754973D007981AD /* MMExampleDrawerVisualStateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMExampleDrawerVisualStateManager.h; sourceTree = "<group>"; };
+		E14EDF3D1754973D007981AD /* MMExampleDrawerVisualStateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMExampleDrawerVisualStateManager.m; sourceTree = "<group>"; };
+		E14EDF3E1754975C007981AD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1918C6917547D0100984C77 /* WeddingAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1918C6C17547D0100984C77 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E1918C6E17547D0100984C77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -35,8 +64,6 @@
 		E1918C7E17547D0100984C77 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		E1918C8017547D0100984C77 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		E1918C8217547D0100984C77 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		E1918C8417547D0100984C77 /* WAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WAViewController.h; sourceTree = "<group>"; };
-		E1918C8517547D0100984C77 /* WAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WAViewController.m; sourceTree = "<group>"; };
 		E1918C8817547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WAViewController_iPhone.xib; sourceTree = "<group>"; };
 		E1918C8B17547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WAViewController_iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14EDF3F1754975C007981AD /* QuartzCore.framework in Frameworks */,
 				E1918C6D17547D0100984C77 /* UIKit.framework in Frameworks */,
 				E1918C6F17547D0100984C77 /* Foundation.framework in Frameworks */,
 				E1918C7117547D0100984C77 /* CoreGraphics.framework in Frameworks */,
@@ -55,6 +83,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E14EDF1D17549597007981AD /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				E14EDF3117549642007981AD /* ViewControllers */,
+				E14EDF1E17549597007981AD /* Additions */,
+				E14EDF1F17549597007981AD /* Support */,
+				E14EDF2017549597007981AD /* WAViewController.h */,
+				E14EDF2117549597007981AD /* WAViewController.m */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		E14EDF1E17549597007981AD /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		E14EDF1F17549597007981AD /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				E14EDF24175495D9007981AD /* MMDrawerController */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		E14EDF231754959C007981AD /* images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		E14EDF24175495D9007981AD /* MMDrawerController */ = {
+			isa = PBXGroup;
+			children = (
+				E14EDF3C1754973D007981AD /* MMExampleDrawerVisualStateManager.h */,
+				E14EDF3D1754973D007981AD /* MMExampleDrawerVisualStateManager.m */,
+				E14EDF25175495D9007981AD /* MMDrawerBarButtonItem.h */,
+				E14EDF26175495D9007981AD /* MMDrawerBarButtonItem.m */,
+				E14EDF27175495D9007981AD /* MMDrawerController.h */,
+				E14EDF28175495D9007981AD /* MMDrawerController.m */,
+				E14EDF29175495D9007981AD /* MMDrawerVisualState.h */,
+				E14EDF2A175495D9007981AD /* MMDrawerVisualState.m */,
+				E14EDF2B175495D9007981AD /* UIViewController+MMDrawerController.h */,
+				E14EDF2C175495D9007981AD /* UIViewController+MMDrawerController.m */,
+			);
+			path = MMDrawerController;
+			sourceTree = "<group>";
+		};
+		E14EDF3117549642007981AD /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E14EDF3217549656007981AD /* WAMenuViewController.h */,
+				E14EDF3317549656007981AD /* WAMenuViewController.m */,
+				E14EDF3417549656007981AD /* WAMenuViewController.xib */,
+				E14EDF371754969A007981AD /* WAAlbumViewController.h */,
+				E14EDF381754969A007981AD /* WAAlbumViewController.m */,
+				E14EDF391754969A007981AD /* WAAlbumViewController.xib */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		E1918C6017547D0100984C77 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +167,7 @@
 		E1918C6B17547D0100984C77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E14EDF3E1754975C007981AD /* QuartzCore.framework */,
 				E1918C6C17547D0100984C77 /* UIKit.framework */,
 				E1918C6E17547D0100984C77 /* Foundation.framework */,
 				E1918C7017547D0100984C77 /* CoreGraphics.framework */,
@@ -85,10 +178,10 @@
 		E1918C7217547D0100984C77 /* WeddingAlbum */ = {
 			isa = PBXGroup;
 			children = (
+				E14EDF231754959C007981AD /* images */,
+				E14EDF1D17549597007981AD /* Class */,
 				E1918C7B17547D0100984C77 /* WAAppDelegate.h */,
 				E1918C7C17547D0100984C77 /* WAAppDelegate.m */,
-				E1918C8417547D0100984C77 /* WAViewController.h */,
-				E1918C8517547D0100984C77 /* WAViewController.m */,
 				E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */,
 				E1918C8A17547D0100984C77 /* WAViewController_iPad.xib */,
 				E1918C7317547D0100984C77 /* Supporting Files */,
@@ -168,6 +261,8 @@
 				E1918C8317547D0100984C77 /* Default-568h@2x.png in Resources */,
 				E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */,
 				E1918C8C17547D0100984C77 /* WAViewController_iPad.xib in Resources */,
+				E14EDF3617549656007981AD /* WAMenuViewController.xib in Resources */,
+				E14EDF3B1754969A007981AD /* WAAlbumViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +275,14 @@
 			files = (
 				E1918C7917547D0100984C77 /* main.m in Sources */,
 				E1918C7D17547D0100984C77 /* WAAppDelegate.m in Sources */,
-				E1918C8617547D0100984C77 /* WAViewController.m in Sources */,
+				E14EDF2217549597007981AD /* WAViewController.m in Sources */,
+				E14EDF2D175495D9007981AD /* MMDrawerBarButtonItem.m in Sources */,
+				E14EDF2E175495D9007981AD /* MMDrawerController.m in Sources */,
+				E14EDF2F175495D9007981AD /* MMDrawerVisualState.m in Sources */,
+				E14EDF30175495D9007981AD /* UIViewController+MMDrawerController.m in Sources */,
+				E14EDF3517549656007981AD /* WAMenuViewController.m in Sources */,
+				E14EDF3A1754969A007981AD /* WAAlbumViewController.m in Sources */,
+				E14EDF4017549775007981AD /* MMExampleDrawerVisualStateManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +415,7 @@
 				E1918C9117547D0100984C77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
