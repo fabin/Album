@@ -12,5 +12,9 @@
 	<string>罗天舒</string>
 	<key>couple_name_girl</key>
 	<string>吕伊莘</string>
+	<key>app_url</key>
+	<string>https://itunes.apple.com/cn/app/postcardlab-lite-chuang-yi/id618584093</string>
+	<key>email</key>
+	<string>test_slowslab@gmail.com</string>
 </dict>
 </plist>

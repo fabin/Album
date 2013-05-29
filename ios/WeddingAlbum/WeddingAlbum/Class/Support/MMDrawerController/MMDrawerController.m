@@ -958,4 +958,17 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
      [self isPointContainedWithinCenterViewContentRect:point]);
 }
 
+//- (NSUInteger)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskPortrait|UIInterfaceOrientationMaskLandscapeRight;
+//}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    if ((orientation == UIInterfaceOrientationPortrait) ||
+        (orientation == UIInterfaceOrientationLandscapeRight))
+        return YES;
+    
+    return NO;
+}
+
 @end
