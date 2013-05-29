@@ -17,7 +17,6 @@
 #define KeyCouple               @"profile_couple"
 #define KeyCoupleBoy            @"couple_name_boy"
 #define KeyCoupleGirl           @"couple_name_girl"
-#define KeyAppUrl               @"app_url"
 #define KeyEmail                @"email"
 
 #define CONFIG(key) [WADataEnvironment configForKey:key]

@@ -135,7 +135,11 @@
         }
     }else if ([title isEqualToString:@"短信分享"]) {
         MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
-        controller.body = [NSString stringWithFormat:@"分享app [%@] %@", [BundleHelper bundleDisplayNameString], CONFIG(KeyAppUrl)];;
+        NSString *server = CONFIG(KeyServer);
+        if (![server hasPrefix:@"http://"]) {
+            server = [NSString stringWithFormat:@"http://%@", server];
+        }
+        controller.body = [NSString stringWithFormat:@"专属相册《%@》的下载地址：%@/downloads", [BundleHelper bundleDisplayNameString], server];
         
         controller.messageComposeDelegate = self;
         [self presentModalViewController:controller animated:YES];
