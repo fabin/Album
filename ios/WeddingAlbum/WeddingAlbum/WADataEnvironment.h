@@ -21,4 +21,5 @@
 + (void)cachePhotoList:(id)data forName:(NSString *)name;
 + (id)cachedPhotoListForName:(NSString *)name;
 
++ (void)cleanCache;
 @end

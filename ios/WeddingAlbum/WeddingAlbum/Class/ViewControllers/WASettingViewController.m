@@ -13,6 +13,7 @@
 #import "UITableViewCell+BackgroundView.h"
 #import "UIViewController+MMDrawerController.h"
 #import "UIView+Addition.h"
+#import "UIView+Indicator.h"
 
 @interface WASettingViewController () <MFMailComposeViewControllerDelegate, UIActionSheetDelegate, MFMessageComposeViewControllerDelegate>
 
@@ -59,7 +60,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;//[_dataSource[@"helper"] count];
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,10 +81,13 @@
     NSUInteger row = indexPath.row;
     
     if (row == 0) {
-        cell.textLabel.text = @"  联系我们";
+        cell.textLabel.text = @"  清空本地缓存";
     }else if(row == 1){
-        cell.textLabel.text = @"  应用推荐给好友";
+        cell.textLabel.text = @"  联系我们";
+    }else if(row == 2){
+        cell.textLabel.text = @"  推荐给好友";
     }
+    
     
     return cell;
 }
@@ -93,7 +97,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = indexPath.row;
-    if (row == 0) {
+    if(row == 0){
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        [cell showIndicatorViewAtPoint:CGPointMake(cell.width-50, cell.height*0.5-10)];
+        [WADataEnvironment cleanCache];
+        
+        [cell performSelector:@selector(hideIndicatorView) withObject:nil afterDelay:1.0];
+    }else if (row == 1) {
         MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
         emailer.mailComposeDelegate = self;
         NSArray *toRecipients = [NSArray arrayWithObject:CONFIG(KeyEmail)];
@@ -103,7 +114,7 @@
             emailer.modalPresentationStyle = UIModalPresentationPageSheet;
         }
         [self presentModalViewController:emailer animated:YES];
-    }else if(row == 1){
+    }else if(row == 2){
         UIActionSheet *sheet;
         if([MFMessageComposeViewController canSendText]){
             sheet = [[UIActionSheet alloc] initWithTitle:@"分享给好友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
@@ -153,6 +164,10 @@
 #pragma mark - MFMailComposeViewControllerDelegate
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    [controller dismissModalViewControllerAnimated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
     [controller dismissModalViewControllerAnimated:YES];
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "WAAppDelegate.h"
-
 #import "WAViewController.h"
 #import "WAMenuViewController.h"
 #import "MMDrawerController.h"
@@ -20,47 +19,29 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPhone" bundle:nil];
-        
-        UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
-        
-        UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-        
-//        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-        
-        MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                                 initWithCenterViewController:centerViewController
-                                                 leftDrawerViewController:leftSideDrawerViewController
-                                                 rightDrawerViewController:nil];
-        [drawerController setMaximumRightDrawerWidth:200.0];
-        [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
-        [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-        
-        [drawerController
-         setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
-             MMDrawerControllerDrawerVisualStateBlock block;
-             block = [[MMExampleDrawerVisualStateManager sharedManager]
-                      drawerVisualStateBlockForDrawerSide:drawerSide];
-             if(block){
-                 block(drawerController, drawerSide, percentVisible);
-             }
-         }];
-        
-        self.window.rootViewController = drawerController;
-//    } else {
-////        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
-//        UISplitViewController *vc = [[UISplitViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
-//        
-//        WAAlbumViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-//        
-//        WAMenuViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
-//        leftSideDrawerViewController.albumVC = centerViewController;
-//        
-//        vc.viewControllers = @[leftSideDrawerViewController, centerViewController];
-//        
-//        self.window.rootViewController = vc;
-//    }
+    UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
+    
+    UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+    
+    MMDrawerController * drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:centerViewController
+                                             leftDrawerViewController:leftSideDrawerViewController
+                                             rightDrawerViewController:nil];
+    [drawerController setMaximumRightDrawerWidth:200.0];
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    [drawerController
+     setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         MMDrawerControllerDrawerVisualStateBlock block;
+         block = [[MMExampleDrawerVisualStateManager sharedManager]
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
+         if(block){
+             block(drawerController, drawerSide, percentVisible);
+         }
+     }];
+    
+    self.window.rootViewController = drawerController;
 
     [self.window makeKeyAndVisible];
     return YES;

@@ -72,4 +72,19 @@ SINGLETON_GCD(WADataEnvironment);
     return [NSDictionary dictionaryWithContentsOfFile:path];
 }
 
++ (void)cleanCache{
+    NSString *folder = [APP_SUPPORT stringByAppendingPathComponent:@"Albums"];
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:folder])
+    {
+        [manager removeItemAtPath:folder error:nil];
+    }
+    
+    [manager createDirectoryAtPath:folder
+       withIntermediateDirectories:YES
+                        attributes:nil
+                             error:NULL];
+}
+
 @end

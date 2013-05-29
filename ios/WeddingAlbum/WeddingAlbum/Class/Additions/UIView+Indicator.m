@@ -1,6 +1,6 @@
 //
 //  UIView+Indicator.m
-//  DoubanAlbum
+//  WeddingAlbum
 //
 //  Created by Tonny on 12-12-17.
 //  Copyright (c) 2012年 SlowsLab. All rights reserved.

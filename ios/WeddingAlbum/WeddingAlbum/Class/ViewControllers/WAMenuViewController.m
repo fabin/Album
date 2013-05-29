@@ -38,7 +38,10 @@
     _imgView.layer.cornerRadius = 34.5;
     
     _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
-    [self retrieveData];
+    
+    if (!_dataSource) {
+        [self retrieveData];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,5 +164,13 @@
                                            completion:nil];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    if ((orientation == UIInterfaceOrientationPortrait) ||
+        (orientation == UIInterfaceOrientationLandscapeRight))
+        return YES;
+    
+    return NO;
+}
 
 @end

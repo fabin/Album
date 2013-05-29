@@ -96,7 +96,6 @@
 // Get and display image
 - (void)displayImage {
 	if (_photo && _photoImageView.image == nil) {
-		
 		// Reset
 		self.maximumZoomScale = 1;
 		self.minimumZoomScale = 1;
@@ -106,7 +105,6 @@
 		// Get image from browser as it handles ordering of fetching
 		UIImage *img = [self.photoBrowser imageForPhoto:_photo];
 		if (img) {
-			
 			// Hide spinner
 			[_spinner stopAnimating];
 			
@@ -123,9 +121,9 @@
 
 			// Set zoom to minimum zoom
 			[self setMaxMinZoomScalesForCurrentBounds];
-			
+            
+//            _photoImageView.highlighted = NO;
 		} else {
-			
 			// Hide image view
 			_photoImageView.hidden = YES;
 			[_spinner startAnimating];
@@ -137,6 +135,21 @@
 
 // Image failed so just show black!
 - (void)displayImageFailure {
+//    UIImage *img = [UIImage imageNamed:@"bg_nopic.png"];
+//
+//    CGRect photoImageViewFrame;
+//    photoImageViewFrame.origin = CGPointZero;
+//    photoImageViewFrame.size = img.size;
+//    _photoImageView.frame = photoImageViewFrame;
+//    self.contentSize = photoImageViewFrame.size;
+//    
+//    // Set zoom to minimum zoom
+//    [self setMaxMinZoomScalesForCurrentBounds];
+    
+//    _photoImageView.highlightedImage = img;
+//    _photoImageView.highlighted = YES;
+    _photoImageView.hidden = NO;
+    
 	[_spinner stopAnimating];
 }
 

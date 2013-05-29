@@ -38,9 +38,11 @@
     _tableView.backgroundColor = RGBCOLOR(250, 250, 250);
     
     if (_albumKey) {
-//        _dataSource = [WADataEnvironment cachedPhotoListForName:_albumKey];
+        _dataSource = [WADataEnvironment cachedPhotoListForName:_albumKey];
         
-        [self retrieveData];
+        if (!_dataSource) {
+            [self retrieveData];
+        }
     }else{
         _shareBtn.hidden = YES;
         _tableView.hidden = YES;
@@ -97,16 +99,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 175.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10.0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
-    view.backgroundColor = RGBCOLOR(250, 250, 250);
-    return view;
 }
 
 #pragma mark - Actions
@@ -300,6 +292,15 @@
         return [MWPhoto photoWithURL:[NSURL URLWithString:dic[@"url"]]];
     }
     return nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    if ((orientation == UIInterfaceOrientationPortrait) ||
+        (orientation == UIInterfaceOrientationLandscapeRight))
+        return YES;
+    
+    return NO;
 }
 
 @end

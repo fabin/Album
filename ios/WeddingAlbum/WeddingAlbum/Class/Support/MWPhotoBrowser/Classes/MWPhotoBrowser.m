@@ -11,6 +11,8 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "UIView+Addition.h"
+#import "UIViewController+ResultTips.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -43,6 +45,8 @@
 	UIToolbar *_toolbar;
 	NSTimer *_controlVisibilityTimer;
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
+    UIBarButtonItem *_downloadBtn, *_shareBtn;
+    
     UIActionSheet *_actionsSheet;
     MBProgressHUD *_progressHUD;
     
@@ -287,15 +291,15 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     UIBarButtonItem *space1 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     
-    UIBarButtonItem *downloadBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_down.png"] style:UIBarButtonItemStylePlain target:self action:@selector(download:)] autorelease];
+    _downloadBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_down.png"] style:UIBarButtonItemStylePlain target:self action:@selector(savePhoto)] autorelease];
     
     UIBarButtonItem *space2 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     
-    UIBarButtonItem *shareBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_sharepic.png"] style:UIBarButtonItemStylePlain target:self action:@selector(actionButtonPressed:)] autorelease];
+    _shareBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_sharepic.png"] style:UIBarButtonItemStylePlain target:self action:@selector(actionButtonPressed:)] autorelease];
     
     UIBarButtonItem *space3 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil] autorelease];
     
-    NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:space0, cancelBtn, space1, downloadBtn, space2, shareBtn, space3, nil];
+    NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:space0, cancelBtn, space1, _downloadBtn, space2, _shareBtn, space3, nil];
     
 //    if (_displayActionButton) [items addObject:fixedLeftSpace];
 //    [items addObject:flexSpace];
@@ -356,6 +360,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_toolbar release], _toolbar = nil;
 //    [_previousButton release], _previousButton = nil;
 //    [_nextButton release], _nextButton = nil;
+    _downloadBtn = nil;
+    _shareBtn = nil;
+    
     self.progressHUD = nil;
     [super viewDidUnload];
 }
@@ -646,9 +653,17 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             // Successful load
             [page displayImage];
             [self loadAdjacentPhotosIfNecessary:photo];
+            
+            _downloadBtn.image = [UIImage imageNamed:@"btn_down.png"];
+            _shareBtn.enabled = YES;
         } else {
             // Failed to load
             [page displayImageFailure];
+            
+            [self showFailTips1:@"图片下载失败！"];
+            
+            _downloadBtn.image = [UIImage imageNamed:@"btn_update.png"];
+            _shareBtn.enabled = NO;
         }
     }
 }
@@ -881,6 +896,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	// Buttons
 //	_previousButton.enabled = (_currentPageIndex > 0);
 //	_nextButton.enabled = (_currentPageIndex < [self numberOfPhotos]-1);
+    
+    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
+    if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
+        _downloadBtn.enabled = YES;
+        _shareBtn.enabled = YES;
+    }else{
+        _shareBtn.enabled = NO;
+    }
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index {
@@ -919,11 +942,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         }
         
         // Status Bar
-        if ([UIApplication instancesRespondToSelector:@selector(setStatusBarHidden:withAnimation:)]) {
-            [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
-        } else {
-            [[UIApplication sharedApplication] setStatusBarHidden:hidden animated:animated];
-        }
+        [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
         
         // Get status bar height if visible
         if (![UIApplication sharedApplication].statusBarHidden) {
@@ -1000,11 +1019,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)cancel:(id)sender{
     [self dismissModalViewControllerAnimated:NO];
 }
-
-- (void)download:(id)sender{
-    [self savePhoto];   
-}
-
 
 - (void)doneButtonPressed:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
@@ -1122,6 +1136,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     if ([photo underlyingImage]) {
         [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Saving", @"Displayed with ellipsis as 'Saving...' when an item is in the process of being saved")]];
         [self performSelector:@selector(actuallySavePhoto:) withObject:photo afterDelay:0];
+    }else{
+        [photo loadUnderlyingImageAndNotify];
     }
 }
 
