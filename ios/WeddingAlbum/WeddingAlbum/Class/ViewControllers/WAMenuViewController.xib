@@ -48,11 +48,15 @@
 								<string key="NSFrame">{{249, 81}, {69, 69}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="641690583"/>
+								<reference key="NSNextKeyView" ref="501223051"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">profile_head.jpg</string>
+								</object>
 							</object>
 							<object class="IBUIImageView" id="501223051">
 								<reference key="NSNextResponder" ref="205269603"/>
@@ -60,7 +64,7 @@
 								<string key="NSFrame">{{249, 81}, {70, 70}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="892349763"/>
+								<reference key="NSNextKeyView" ref="641690583"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -76,9 +80,10 @@
 							<object class="IBUILabel" id="641690583">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{10, 181}, {548, 21}}</string>
+								<string key="NSFrame">{{10, 171}, {548, 21}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -107,10 +112,10 @@
 							<object class="IBUIButton" id="357899880">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{5, 5}, {44, 44}}</string>
+								<string key="NSFrame">{{10, 10}, {44, 44}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="501223051"/>
+								<reference key="NSNextKeyView" ref="892349763"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -375,7 +380,8 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="bg_head.png">{140, 140}</string>
-			<string key="btn_setting.png">{17, 17}</string>
+			<string key="btn_setting.png">{45, 30}</string>
+			<string key="profile_head.jpg">{70, 70}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

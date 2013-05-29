@@ -25,7 +25,7 @@
         img = [UIImage imageNamed:@"cell_mid.png"];
     }
     
-    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(22, 156, 22, 156)];
+    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 156, 20, 156)];
     UIImageView *tempView = [[UIImageView alloc] initWithImage:img];
     tempView.backgroundColor = [UIColor clearColor];
     [self setBackgroundView:tempView];

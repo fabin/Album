@@ -9,16 +9,20 @@
 #ifndef WeddingAlbum_CONSTANTS_h
 #define WeddingAlbum_CONSTANTS_h
 
-#define NEED_OUTPUT_LOG     1
+#define NEED_OUTPUT_LOG     0
 
 
 #define KeyServer               @"server"
 #define KeyOptionServer         @"option_image_server_domain"
 #define KeyCouple               @"profile_couple"
+#define KeyCoupleBoy                @"couple_name_boy"
+#define KeyCoupleGirl               @"couple_name_girl"
 
 #define CONFIG(key) [WADataEnvironment configForKey:key]
 
 #define is_iPhone ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+
+#define APP_SUPPORT                 [NSSearchPathForDirectoriesInDomains (NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 typedef void(^SLBlock)(void);
 typedef void(^SLBlockBlock)(SLBlock block);

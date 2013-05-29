@@ -15,4 +15,10 @@
 
 + (NSString *)configForKey:(NSString *)key;
 
++ (void)cacheAlbumList:(id)data forName:(NSString *)name;
++ (id)cachedAlbumeListForName:(NSString *)name;
+
++ (void)cachePhotoList:(id)data forName:(NSString *)name;
++ (id)cachedPhotoListForName:(NSString *)name;
+
 @end

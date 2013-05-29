@@ -19,32 +19,40 @@
     }
 }
 
-- (id)initWithOritation:(UIInterfaceOrientation)oritation reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithController:(UIViewController *)vc reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
+        UIInterfaceOrientation oritation = vc.interfaceOrientation;
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 175)];
-        view.backgroundColor = RGBCOLOR(250, 250, 250);
+        CGSize size = [UIApplication sharedApplication].keyWindow.frame.size;
+        CGFloat w = size.width;
+        CGFloat h = size.height;
         
         NSUInteger count = [WAAlbumCell countForOneRowWithOritation:oritation];
         
-        CGFloat w = [UIApplication sharedApplication].keyWindow.frame.size.width;
-        CGFloat h = [UIApplication sharedApplication].keyWindow.frame.size.height;
-        
         CGFloat s = (oritation == UIInterfaceOrientationLandscapeRight?MAX(w, h):MIN(w, h));
-        CGFloat width = (s-(count-1)*10.0)/count;
+        CGFloat width = (s-(count+1)*10.0)/count;
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, s, 175)];
+        view.backgroundColor = RGBCOLOR(250, 250, 250);
+
         
         _imgViews = [NSMutableArray arrayWithCapacity:count];
         for (int i=0; i<count; i++) {
             UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(10+(width+10)*i, 10, width, 165)];
-            imgView.tag = 0;
+            imgView.userInteractionEnabled = YES;
+            imgView.tag = i;
             imgView.contentMode = UIViewContentModeScaleAspectFill;
             imgView.clipsToBounds = YES;
             [view addSubview:imgView];
             
             [_imgViews addObject:imgView];
+            
+            UITapGestureRecognizer *gest = [[UITapGestureRecognizer alloc] initWithTarget:vc action:@selector(tapPicture:)];
+            [imgView addGestureRecognizer:gest];
         }
         
         [self.contentView addSubview:view];
@@ -60,6 +68,7 @@
 - (void)setData:(NSArray *)arr{
     [_imgViews enumerateObjectsUsingBlock:^(UIImageView *imgView, NSUInteger idx, BOOL *stop) {
         if (idx < arr.count) {
+            imgView.hidden = NO;
             NSDictionary *dic = arr[idx];
             NSString *url0 = dic[@"url"];
             [imgView setImageWithURL:[NSURL URLWithString:url0]];

@@ -8,6 +8,7 @@
 
 #import "WAHTTPClient.h"
 #import "JSONKit.h"
+#import "AFNetworkActivityIndicatorManager.h"
 
 @implementation WAHTTPClient
 
@@ -17,12 +18,16 @@ SINGLETON_GCD(WAHTTPClient);
 {
     NSString *server = CONFIG(KeyServer);
     if (!server){
-        server = [NSString stringWithFormat:@"http://%@", CONFIG(KeyOptionServer)];
+        server = CONFIG(KeyOptionServer);
+    }
+    
+    if (![server hasPrefix:@"http://"]){
+        server = [NSString stringWithFormat:@"http://%@", server];
     }
     
     self = [super initWithBaseURL:[NSURL URLWithString:server]];
     if (self) {
-        
+        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     }
     return self;
 }

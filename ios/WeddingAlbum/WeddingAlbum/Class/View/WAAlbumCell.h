@@ -16,7 +16,7 @@
     NSDictionary        *_dic2;
 }
 
-- (id)initWithOritation:(UIInterfaceOrientation)oritation reuseIdentifier:(NSString *)reuseIdentifier;
+- (id)initWithController:(UIViewController *)vc reuseIdentifier:(NSString *)reuseIdentifier;
 
 + (NSUInteger)countForOneRowWithOritation:(UIInterfaceOrientation)oritation;
 

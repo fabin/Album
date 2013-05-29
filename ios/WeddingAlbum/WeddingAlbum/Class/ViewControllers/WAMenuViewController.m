@@ -15,21 +15,13 @@
 #import "UIViewController+MMDrawerController.h"
 #import "WAAlbumViewController.h"
 #import "WASettingViewController.h"
+#import "UIView+Indicator.h"
 
 @interface WAMenuViewController ()
 
 @end
 
 @implementation WAMenuViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -45,6 +37,8 @@
     _imgView.backgroundColor = [UIColor redColor];
     
     _imgView.layer.cornerRadius = 34.5;
+    
+    _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
     [self retrieveData];
 }
 
@@ -79,6 +73,7 @@
         
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
     }
     
     NSUInteger row = indexPath.row;
@@ -139,21 +134,28 @@
 #pragma mark - DataRequest
 
 - (void)retrieveData{
+    UIView *headerView = self.tableView.tableHeaderView;
+    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 220) indicatorStyle:UIActivityIndicatorViewStyleWhite];
+    
     [WAHTTPClient albumListSuccess:^(id obj) {
+        [headerView hideIndicatorView];
         
         _dataSource = obj;
         [self.tableView reloadData];
         
+        NSString *title = CONFIG(KeyCouple);
+        [WADataEnvironment cacheAlbumList:obj forName:title];
     } failure:^(NSError *err) {
-        //TODO
-        _dataSource = @[@{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}];
-        [self.tableView reloadData];
+        [headerView hideIndicatorView];
     }];
 }
 
 - (IBAction)about:(id)sender {
-    WASettingViewController *vc = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
-    [self presentModalViewController:vc animated:YES];
+    WASettingViewController *albumVC = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
+    
+    [self.mm_drawerController setCenterViewController:albumVC
+                                   withCloseAnimation:YES
+                                           completion:nil];
 }
 
 
