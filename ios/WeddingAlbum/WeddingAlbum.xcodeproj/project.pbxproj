@@ -1063,6 +1063,7 @@
 				GCC_PREFIX_HEADER = "WeddingAlbum/WeddingAlbum-Prefix.pch";
 				INFOPLIST_FILE = "WeddingAlbum/WeddingAlbum-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1075,6 +1076,7 @@
 				GCC_PREFIX_HEADER = "WeddingAlbum/WeddingAlbum-Prefix.pch";
 				INFOPLIST_FILE = "WeddingAlbum/WeddingAlbum-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
