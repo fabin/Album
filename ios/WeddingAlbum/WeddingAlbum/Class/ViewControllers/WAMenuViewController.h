@@ -15,8 +15,8 @@
     
     __weak IBOutlet UIImageView *_imgView;
     __weak IBOutlet UILabel     *_titleLbl;
+    
+    BOOL                    _isLoading;
 }
-
-//@property (nonatomic, strong) WAAlbumViewController *albumVC;
 
 @end

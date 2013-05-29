@@ -15,6 +15,8 @@
 #import "UIView+Addition.h"
 #import "AFImageRequestOperation.h"
 #import "MBProgressHUD.h"
+#import "BundleHelper.h"
+#import "WASettingViewController.h"
 
 @interface WAAlbumViewController () <UIActionSheetDelegate, MWPhotoBrowserDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate>
 
@@ -44,7 +46,6 @@
             [self retrieveData];
         }
     }else{
-        _shareBtn.hidden = YES;
         _tableView.hidden = YES;
         
         UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
@@ -110,9 +111,9 @@
 - (IBAction)share:(UIButton *)button {
     UIActionSheet *sheet;
     if([MFMessageComposeViewController canSendText]){
-        sheet = [[UIActionSheet alloc] initWithTitle:@"分享给好友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
     }else{
-        sheet = [[UIActionSheet alloc] initWithTitle:@"分享给好友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", nil];
     }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -134,8 +135,7 @@
         browser.displayActionButton = YES;
         [browser setInitialPageIndex:row*[WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation]+gesture.view.tag];
         
-        [self presentModalViewController:browser
-                                animated:NO];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:browser animated:YES];
     }
 }
 
@@ -201,70 +201,90 @@
     
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:@"邮件分享"]) {
-        
-        NSString *url = [_dataSource valueForKeyPath:@"album.cover"];
-        if (!url) {
-            NSArray *albums = _dataSource[@"pictures"];
-            if(albums.count > 0){
-                NSDictionary *dic = albums[0];
-                url = dic[@"url"];
+        if ([MFMailComposeViewController canSendMail]){
+            if (_albumKey) {
+                [self shareAlbumViaEmail];
+            }else{
+                [self shareAppViaEmail];
             }
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发送邮件，请设置好邮件帐号。" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
         }
+    }else if ([title isEqualToString:@"短信分享"]) {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
         
-        SLObjectBlock sendMailBlock = ^(UIImage *image){
-            MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
-            emailer.mailComposeDelegate = self;
+        if (_albumKey) {
             NSString *name = [_dataSource valueForKeyPath:@"album.name"];
             if (!name) {
-                name = @"结婚相册";
+                controller.body = @"分享结婚相册";
+            }else{
+                controller.body = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];;
             }
-            
-            NSString *des = [_dataSource valueForKeyPath:@"album.description"];
-            if (!des) {
-                des = @"";
-            }
-            
-            NSString *sub = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];
-            [emailer setSubject:sub];
-            
-            NSString *body = [NSString stringWithFormat:@"\n\n%@ \n%@", des, url?url:@""];
-            [emailer setMessageBody:body isHTML:NO];
-            
-            if (image) {
-                [emailer addAttachmentData:UIImageJPEGRepresentation(image, 0.8) mimeType:@"png" fileName:@"Photo.png"];
-            }
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                emailer.modalPresentationStyle = UIModalPresentationPageSheet;
-            }
-            [self presentModalViewController:emailer animated:YES];
-            
-            [MBProgressHUD hideHUDForView:self.view animated:NO];
-        };
-        
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-                                                                                  imageProcessingBlock:nil
-                                                                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                   sendMailBlock(image);
-                                                                                               } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                                   
-                                                                                                   sendMailBlock(nil);
-                                                                                               }];
-        [[WAHTTPClient sharedWAHTTPClient] enqueueHTTPRequestOperation:operation];
-    }else if ([title isEqualToString:@"短信分享"]) {
-        NSString *name = [_dataSource valueForKeyPath:@"album.name"];
-        
-        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
-        if (!name) {
-            controller.body = @"分享结婚相册";
         }else{
-            controller.body = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];;
+            controller.body = [NSString stringWithFormat:@"分享app [%@] %@", [BundleHelper bundleDisplayNameString], CONFIG(KeyAppUrl)];;
         }
         
         controller.messageComposeDelegate = self;
-        [self presentModalViewController:controller animated:YES];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:controller animated:YES];
     }
+}
+
+- (void)shareAlbumViaEmail{
+    NSString *url = [_dataSource valueForKeyPath:@"album.cover"];
+    if (!url) {
+        NSArray *albums = _dataSource[@"pictures"];
+        if(albums.count > 0){
+            NSDictionary *dic = albums[0];
+            url = dic[@"url"];
+        }
+    }
+    
+    SLObjectBlock sendMailBlock = ^(UIImage *image){
+        MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
+        emailer.mailComposeDelegate = self;
+        NSString *name = [_dataSource valueForKeyPath:@"album.name"];
+        if (!name) {
+            name = @"结婚相册";
+        }
+        
+        NSString *des = [_dataSource valueForKeyPath:@"album.description"];
+        if (!des) {
+            des = @"";
+        }
+        
+        NSString *sub = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];
+        [emailer setSubject:sub];
+        
+        NSString *body = [NSString stringWithFormat:@"\n\n%@ \n%@", des, url?url:@""];
+        [emailer setMessageBody:body isHTML:NO];
+        
+        if (image) {
+            [emailer addAttachmentData:UIImageJPEGRepresentation(image, 0.8) mimeType:@"png" fileName:@"Photo.png"];
+        }
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            emailer.modalPresentationStyle = UIModalPresentationPageSheet;
+        }
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:emailer animated:YES];
+        
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+    };
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+                                                                              imageProcessingBlock:nil
+                                                                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                                                               sendMailBlock(image);
+                                                                                           } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                                               
+                                                                                               sendMailBlock(nil);
+                                                                                           }];
+    [[WAHTTPClient sharedWAHTTPClient] enqueueHTTPRequestOperation:operation];
+}
+
+- (void)shareAppViaEmail{
+    [WASettingViewController shareAppViaEmail:self];
 }
 
 #pragma mark - MFMessageComposeViewControllerDelegate

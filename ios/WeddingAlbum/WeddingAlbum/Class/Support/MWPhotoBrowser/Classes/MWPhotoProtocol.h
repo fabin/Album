@@ -51,6 +51,8 @@
 // as long as the image can be re-loaded (from cache, file, or URL)
 - (void)unloadUnderlyingImage;
 
+- (BOOL)isSuccessLoad;
+
 @optional
 
 // Return a caption string to be displayed over the image

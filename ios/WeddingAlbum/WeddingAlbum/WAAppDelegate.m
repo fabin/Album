@@ -22,6 +22,8 @@
     UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
     
     UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+//    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+//    nv.navigationBarHidden = YES;
     
     MMDrawerController * drawerController = [[MMDrawerController alloc]
                                              initWithCenterViewController:centerViewController
@@ -67,6 +69,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NOTI_RETRIEVE_ALBUMS" object:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -49,7 +49,7 @@
 		[self addSubview:_photoImageView];
 		
 		// Spinner
-		_spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		_spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 		_spinner.hidesWhenStopped = YES;
 		_spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
         UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -110,7 +110,7 @@
 			
 			// Set image
 			_photoImageView.image = img;
-			_photoImageView.hidden = NO;
+//			_photoImageView.hidden = NO;
 			
 			// Setup photo frame
 			CGRect photoImageViewFrame;
@@ -121,13 +121,10 @@
 
 			// Set zoom to minimum zoom
 			[self setMaxMinZoomScalesForCurrentBounds];
-            
-//            _photoImageView.highlighted = NO;
 		} else {
 			// Hide image view
-			_photoImageView.hidden = YES;
+//			_photoImageView.hidden = YES;
 			[_spinner startAnimating];
-			
 		}
 		[self setNeedsLayout];
 	}
@@ -135,20 +132,7 @@
 
 // Image failed so just show black!
 - (void)displayImageFailure {
-//    UIImage *img = [UIImage imageNamed:@"bg_nopic.png"];
-//
-//    CGRect photoImageViewFrame;
-//    photoImageViewFrame.origin = CGPointZero;
-//    photoImageViewFrame.size = img.size;
-//    _photoImageView.frame = photoImageViewFrame;
-//    self.contentSize = photoImageViewFrame.size;
-//    
-//    // Set zoom to minimum zoom
-//    [self setMaxMinZoomScalesForCurrentBounds];
-    
-//    _photoImageView.highlightedImage = img;
-//    _photoImageView.highlighted = YES;
-    _photoImageView.hidden = NO;
+    _photoImageView.image = [UIImage imageNamed:@"bg_nopic.png"];
     
 	[_spinner stopAnimating];
 }
@@ -156,7 +140,6 @@
 #pragma mark - Setup
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
-	
 	// Reset
 	self.maximumZoomScale = 1;
 	self.minimumZoomScale = 1;
@@ -196,13 +179,11 @@
 	// Reset position
 	_photoImageView.frame = CGRectMake(0, 0, _photoImageView.frame.size.width, _photoImageView.frame.size.height);
 	[self setNeedsLayout];
-
 }
 
 #pragma mark - Layout
 
 - (void)layoutSubviews {
-	
 	// Update tap view frame
 	_tapView.frame = self.bounds;
 	
@@ -280,12 +261,18 @@
 	
 	// Delay controls
 	[_photoBrowser hideControlsAfterDelay];
-	
 }
 
 // Image View
-- (void)imageView:(UIImageView *)imageView singleTapDetected:(UITouch *)touch { 
+- (void)imageView:(MWTapDetectingImageView *)imageView singleTapDetected:(UITouch *)touch { 
     [self handleSingleTap:[touch locationInView:imageView]];
+    if (![_photo isSuccessLoad]) { //error
+        imageView.image = nil;
+        ((MWPhoto *)_photo).underlyingImage = nil;
+        
+        [_spinner startAnimating];        
+        [self performSelector:@selector(displayImage) withObject:nil afterDelay:1.0];
+    }
 }
 - (void)imageView:(UIImageView *)imageView doubleTapDetected:(UITouch *)touch {
     [self handleDoubleTap:[touch locationInView:imageView]];
@@ -295,6 +282,7 @@
 - (void)view:(UIView *)view singleTapDetected:(UITouch *)touch {
     [self handleSingleTap:[touch locationInView:view]];
 }
+
 - (void)view:(UIView *)view doubleTapDetected:(UITouch *)touch {
     [self handleDoubleTap:[touch locationInView:view]];
 }

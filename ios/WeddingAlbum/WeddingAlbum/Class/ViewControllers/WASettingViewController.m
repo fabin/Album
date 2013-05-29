@@ -19,27 +19,25 @@
 
 @end
 
-@implementation WASettingViewController{
-    NSDictionary     *_dataSource;
-}
+@implementation WASettingViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    NSString *file = [[NSBundle mainBundle] pathForResource:@"About" ofType:@"plist"];
-    _dataSource = [NSDictionary dictionaryWithContentsOfFile:file];
-    
     _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
     
-    NSString *cong = _dataSource[@"congratulation"];
+    NSString *girlName = CONFIG(KeyCoupleGirl);
+    NSString *boyName = CONFIG(KeyCoupleBoy);
+    NSString *cong = [NSString stringWithFormat:@"       恭祝%@和%@喜结连理。愿你们的爱情生活，如同无花果树的果子渐渐成熟；又如葡萄树开花放香，作基督馨香的见证，与诸天穹苍一同地每日每夜述说着神的荣耀！", girlName, boyName];
+    
     CGFloat height = [cong sizeWithFont:[UIFont boldSystemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.width-20, MAXFLOAT)].height;
     _titleLbl.height = height;
-    _titleLbl.text = [NSString stringWithFormat:cong, CONFIG(KeyCoupleBoy), CONFIG(KeyCoupleGirl)];
+    _titleLbl.text = cong;
     
     NSString *appName = [BundleHelper bundleDisplayNameString];
     NSString *version = [BundleHelper bundleShortVersionString];
-    _footerLbl.text = [NSString stringWithFormat:@"%@ %@", appName, version];
+    _footerLbl.text = [NSString stringWithFormat:@"App Name: %@\nVersion: %@", appName, version];
     
     _headerView.height = height+230; //270
     _tableView.tableHeaderView = _headerView;
@@ -77,7 +75,6 @@
     
     [cell setBackgroundViewWithtableView:tableView indexPath:indexPath];
     
-//    NSUInteger section = indexPath.section;
     NSUInteger row = indexPath.row;
     
     if (row == 0) {
@@ -87,7 +84,6 @@
     }else if(row == 2){
         cell.textLabel.text = @"  推荐给好友";
     }
-    
     
     return cell;
 }
@@ -117,9 +113,9 @@
     }else if(row == 2){
         UIActionSheet *sheet;
         if([MFMessageComposeViewController canSendText]){
-            sheet = [[UIActionSheet alloc] initWithTitle:@"分享给好友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
+            sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
         }else{
-            sheet = [[UIActionSheet alloc] initWithTitle:@"分享给好友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", nil];
+            sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", nil];
         }
         
         [sheet showInView:self.view];
@@ -129,36 +125,43 @@
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:@"邮件分享"]) {
-        MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
-        emailer.mailComposeDelegate = self;
-        
-        [emailer setSubject:[NSString stringWithFormat:@"分享应用 [%@]", [BundleHelper bundleDisplayNameString]]];
-        
-        NSString *body = CONFIG(KeyAppUrl);
-        [emailer setMessageBody:body isHTML:NO];
-        
-        [emailer addAttachmentData:UIImageJPEGRepresentation([UIImage imageNamed:@"Icon.png"], 0.8) mimeType:@"png" fileName:@"Icon.png"];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            emailer.modalPresentationStyle = UIModalPresentationPageSheet;
-        }
-        [self presentModalViewController:emailer animated:YES];
-    }else if ([title isEqualToString:@"短信分享"]) {
-        NSString *name = [_dataSource valueForKeyPath:@"album.name"];
-        
-        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
-        if (!name) {
-            controller.body = @"分享结婚相册";
+        if ([MFMailComposeViewController canSendMail]){
+            [WASettingViewController shareAppViaEmail:self];
         }else{
-            controller.body = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发送邮件，请设置好邮件帐号。" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
         }
+    }else if ([title isEqualToString:@"短信分享"]) {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
+        controller.body = [NSString stringWithFormat:@"分享app [%@] %@", [BundleHelper bundleDisplayNameString], CONFIG(KeyAppUrl)];;
         
         controller.messageComposeDelegate = self;
         [self presentModalViewController:controller animated:YES];
     }
+}
+
++ (void)shareAppViaEmail:(id<MFMailComposeViewControllerDelegate>)vc{
+    MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
+    emailer.mailComposeDelegate = vc;
+    
+    [emailer setSubject:[NSString stringWithFormat:@"分享应用 [%@]", [BundleHelper bundleDisplayNameString]]];
+    
+    NSString *server = CONFIG(KeyServer);
+    if (![server hasPrefix:@"http://"]) {
+        server = [NSString stringWithFormat:@"http://%@", server];
+    }
+    NSString *body = [NSString stringWithFormat:@"\n\n\n专属相册《%@》的下载地址：%@/downloads", [BundleHelper bundleDisplayNameString], server];
+    [emailer setMessageBody:body isHTML:NO];
+    
+    [emailer addAttachmentData:UIImageJPEGRepresentation([UIImage imageNamed:@"Icon.png"], 0.8) mimeType:@"png" fileName:@"Icon.png"];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        emailer.modalPresentationStyle = UIModalPresentationPageSheet;
+    }
+    
+    [(UIViewController *)vc presentModalViewController:emailer animated:YES];
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate
