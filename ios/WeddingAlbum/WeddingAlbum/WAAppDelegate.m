@@ -7,21 +7,42 @@
 //
 
 #import "WAAppDelegate.h"
-
 #import "WAViewController.h"
+#import "WAMenuViewController.h"
+#import "MMDrawerController.h"
+#import "WAAlbumViewController.h"
+#import "MMExampleDrawerVisualStateManager.h"
 
 @implementation WAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPhone" bundle:nil];
-    } else {
-        self.viewController = [[WAViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
-    }
-    self.window.rootViewController = self.viewController;
+
+    UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
+    
+    UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+    
+    MMDrawerController * drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:centerViewController
+                                             leftDrawerViewController:leftSideDrawerViewController
+                                             rightDrawerViewController:nil];
+    [drawerController setMaximumRightDrawerWidth:200.0];
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    [drawerController
+     setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         MMDrawerControllerDrawerVisualStateBlock block;
+         block = [[MMExampleDrawerVisualStateManager sharedManager]
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
+         if(block){
+             block(drawerController, drawerSide, percentVisible);
+         }
+     }];
+    
+    self.window.rootViewController = drawerController;
+
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -51,6 +72,10 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    return UIInterfaceOrientationMaskPortrait|UIInterfaceOrientationMaskLandscapeRight;
 }
 
 @end

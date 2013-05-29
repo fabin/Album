@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>server</key>
+	<string>http://album.co-rising.com</string>
+	<key>option_image_server_domain</key>
+	<string>binshidai.com</string>
+	<key>profile_couple</key>
+	<string>吕伊莘&amp;罗天舒</string>
+	<key>couple_name_boy</key>
+	<string>罗天舒</string>
+	<key>couple_name_girl</key>
+	<string>吕伊莘</string>
+	<key>app_url</key>
+	<string>https://itunes.apple.com/cn/app/postcardlab-lite-chuang-yi/id618584093</string>
+	<key>email</key>
+	<string>test_slowslab@gmail.com</string>
+</dict>
+</plist>
