@@ -45,7 +45,7 @@
 							<object class="IBUIImageView" id="892349763">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">293</int>
-								<string key="NSFrame">{{249, 81}, {69, 69}}</string>
+								<string key="NSFrame">{{125, 81}, {69, 69}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="501223051"/>
@@ -53,15 +53,11 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">profile_head.jpg</string>
-								</object>
 							</object>
 							<object class="IBUIImageView" id="501223051">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">293</int>
-								<string key="NSFrame">{{249, 81}, {70, 70}}</string>
+								<string key="NSFrame">{{125, 81}, {70, 70}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="641690583"/>
@@ -80,31 +76,43 @@
 							<object class="IBUILabel" id="641690583">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{10, 171}, {548, 21}}</string>
+								<string key="NSFrame">{{10, 171}, {300, 21}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yNjI3NDUwOTggMC4yNjI3NDUwOTggMC4yNjI3NDUwOTgAA</bytes>
+								</object>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText"/>
-								<object class="NSColor" key="IBUITextColor" id="395051520">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xMjE1Njg2Mjc1IDAuMTE3NjQ3MDU4OCAwLjExNzY0NzA1ODgAA</bytes>
 								</object>
-								<nil key="IBUIHighlightedColor"/>
+								<object class="NSColor" key="IBUIHighlightedColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yNjI3NDUwOTggMC4yNjI3NDUwOTggMC4yNjI3NDUwOTgAA</bytes>
+								</object>
+								<object class="NSColor" key="IBUIShadowColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4zNTY4NjI3NDUxIDAuMzU2ODYyNzQ1MSAwLjM1Njg2Mjc0NTEAA</bytes>
+								</object>
+								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">1</int>
-									<double key="pointSize">17</double>
+									<double key="pointSize">18</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica</string>
-									<double key="NSSize">17</double>
+									<double key="NSSize">18</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -112,7 +120,7 @@
 							<object class="IBUIButton" id="357899880">
 								<reference key="NSNextResponder" ref="205269603"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 10}, {44, 44}}</string>
+								<string key="NSFrame">{{10, 4}, {44, 44}}</string>
 								<reference key="NSSuperview" ref="205269603"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="892349763"/>
@@ -121,7 +129,10 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="395051520"/>
+								<object class="NSColor" key="IBUIHighlightedTitleColor" id="395051520">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
@@ -145,7 +156,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrameSize">{568, 262}</string>
+						<string key="NSFrameSize">{320, 240}</string>
 						<reference key="NSSuperview" ref="873029372"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="357899880"/>
@@ -161,7 +172,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrame">{{0, 20}, {568, 300}}</string>
+				<string key="NSFrame">{{0, 20}, {320, 548}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="205269603"/>
@@ -170,10 +181,6 @@
 				<bool key="IBUIClipsSubviews">YES</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-					<int key="IBUIInterfaceOrientation">3</int>
-					<int key="interfaceOrientation">3</int>
-				</object>
 				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
 					<string key="IBUISimulatedSizeMetricsClass">IBUIScreenMetrics</string>
 					<object class="NSMutableDictionary" key="IBUINormalizedOrientationToSizeMap">
@@ -381,7 +388,6 @@
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="bg_head.png">{140, 140}</string>
 			<string key="btn_setting.png">{45, 30}</string>
-			<string key="profile_head.jpg">{70, 70}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

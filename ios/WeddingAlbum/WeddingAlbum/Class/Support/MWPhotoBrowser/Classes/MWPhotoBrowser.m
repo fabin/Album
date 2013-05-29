@@ -23,7 +23,7 @@
 #define PAGE_INDEX(page)        ([(page) tag] - PAGE_INDEX_TAG_OFFSET)
 
 // Private
-@interface MWPhotoBrowser () {
+@interface MWPhotoBrowser ()<MFMessageComposeViewControllerDelegate> {
     
 	// Data
     id <MWPhotoBrowserDelegate> _delegate;
@@ -871,7 +871,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Navigation
 
 - (void)updateNavigation {
-    
 	// Title
 	if ([self numberOfPhotos] > 1) {
 		self.title = [NSString stringWithFormat:@"%i %@ %i", _currentPageIndex+1, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];		
@@ -882,7 +881,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	// Buttons
 //	_previousButton.enabled = (_currentPageIndex > 0);
 //	_nextButton.enabled = (_currentPageIndex < [self numberOfPhotos]-1);
-	
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index {
@@ -1025,14 +1023,27 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             
             // Sheet
             if ([MFMailComposeViewController canSendMail]) {
-                self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:@"取消" destructiveButtonTitle:nil
-                                                        otherButtonTitles:@"复制", @"邮件分享",  @"短信分享", nil] autorelease];
+                if([MFMessageComposeViewController canSendText]){
+                    self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                            cancelButtonTitle:@"取消" destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"复制", @"邮件分享",  @"短信分享", nil] autorelease];
+                }else{
+                    self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                            cancelButtonTitle:@"取消" destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"复制", @"邮件分享", nil] autorelease];
+                }
             } else {
-                self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:@"取消"
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:@"复制", @"短信分享", nil] autorelease];
+                if([MFMessageComposeViewController canSendText]){
+                    self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                            cancelButtonTitle:@"取消"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"复制", @"短信分享", nil] autorelease];
+                }else{
+                    self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                            cancelButtonTitle:@"取消"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"复制", nil] autorelease];
+                }
             }
             _actionsSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -1057,7 +1068,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             } else if ([title isEqualToString:@"邮件分享"]) {
                 [self emailPhoto]; return;
             } else if ([title isEqualToString:@"短信分享"]) {
-                
+                [self sendMessage]; return;
             }
         }
     }
@@ -1122,14 +1133,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    [self showProgressHUDCompleteMessage: error ? NSLocalizedString(@"Failed", @"Informing the user a process has failed") : NSLocalizedString(@"Saved", @"Informing the user an item has been saved")];
+    [self showProgressHUDCompleteMessage: error ? NSLocalizedString(@"Failed", @"Informing the user a process has failed") : NSLocalizedString(@"保存成功", @"Informing the user an item has been saved")];
     [self hideControlsAfterDelay]; // Continue as normal...
 }
 
 - (void)copyPhoto {
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
     if ([photo underlyingImage]) {
-        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Copying", @"Displayed with ellipsis as 'Copying...' when an item is in the process of being copied")]];
+        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"复制中..", @"Displayed with ellipsis as 'Copying...' when an item is in the process of being copied")]];
         [self performSelector:@selector(actuallyCopyPhoto:) withObject:photo afterDelay:0];
     }
 }
@@ -1138,7 +1149,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     if ([photo underlyingImage]) {
         [[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation([photo underlyingImage])
                                 forPasteboardType:@"public.png"];
-        [self showProgressHUDCompleteMessage:NSLocalizedString(@"Copied", @"Informing the user an item has finished copying")];
+        [self showProgressHUDCompleteMessage:NSLocalizedString(@"复制成功!", @"Informing the user an item has finished copying")];
         [self hideControlsAfterDelay]; // Continue as normal...
     }
 }
@@ -1146,17 +1157,65 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)emailPhoto {
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
     if ([photo underlyingImage]) {
-        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Preparing", @"Displayed with ellipsis as 'Preparing...' when an item is in the process of being prepared")]];
+        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"准备中..", @"Displayed with ellipsis as 'Preparing...' when an item is in the process of being prepared")]];
         [self performSelector:@selector(actuallyEmailPhoto:) withObject:photo afterDelay:0];
     }
+}
+
+- (void)sendMessage{;
+    MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc] init];
+    controller.body = @"分享结婚相册";
+    
+    controller.messageComposeDelegate = self;
+    [self presentModalViewController:controller animated:YES];
+}
+
+#pragma mark - 
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    [controller dismissModalViewControllerAnimated:YES];
 }
 
 - (void)actuallyEmailPhoto:(id<MWPhoto>)photo {
     if ([photo underlyingImage]) {
         MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
         emailer.mailComposeDelegate = self;
-        [emailer setSubject:NSLocalizedString(@"Photo", nil)];
+        [emailer setSubject:NSLocalizedString(@"婚纱照片", nil)];
         [emailer addAttachmentData:UIImagePNGRepresentation([photo underlyingImage]) mimeType:@"png" fileName:@"Photo.png"];
+//        
+//        NSString *url = [_dataSource valueForKeyPath:@"album.cover"];
+//        if (!url) {
+//            NSArray *albums = _dataSource[@"pictures"];
+//            if(albums.count > 0){
+//                NSDictionary *dic = albums[0];
+//                url = dic[@"url"];
+//            }
+//        }
+//        
+//        SLObjectBlock sendMailBlock = ^(UIImage *image){
+//            MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
+//            emailer.mailComposeDelegate = self;
+//            NSString *name = [_dataSource valueForKeyPath:@"album.name"];
+//            if (!name) {
+//                name = @"结婚相册";
+//            }
+//            
+//            NSString *des = [_dataSource valueForKeyPath:@"album.description"];
+//            if (!des) {
+//                des = @"";
+//            }
+//            
+//            NSString *sub = [NSString stringWithFormat:@"分享结婚相册 [%@]", name];
+//            [emailer setSubject:sub];
+//            
+//            NSString *body = [NSString stringWithFormat:@"\n\n%@ \n%@", des, url?url:@""];
+//            [emailer setMessageBody:body isHTML:NO];
+//            
+//            if (image) {
+//                [emailer addAttachmentData:UIImageJPEGRepresentation(image, 0.8) mimeType:@"png" fileName:@"Photo.png"];
+//            }
+//        };
+        
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             emailer.modalPresentationStyle = UIModalPresentationPageSheet;
         }

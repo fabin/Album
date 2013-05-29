@@ -33,9 +33,8 @@
     NSString *title = CONFIG(KeyCouple);
     
     _titleLbl.text = title?title:@"新郎&新娘";
-//    _imgView.image = [UIImage imageNamed:@"Icon.png"];
+    _imgView.image = [UIImage imageNamed:@"profile_head.jpg"];
     _imgView.backgroundColor = [UIColor redColor];
-    
     _imgView.layer.cornerRadius = 34.5;
     
     _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
@@ -74,6 +73,8 @@
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+        cell.textLabel.shadowOffset = CGSizeMake(0, 1);
+        cell.textLabel.shadowColor = [UIColor blackColor];
     }
     
     NSUInteger row = indexPath.row;
@@ -117,9 +118,11 @@
     
     UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 20)];
     lbl.text = @"相册";
-    lbl.textColor = [UIColor whiteColor];
+    lbl.textColor = RGBCOLOR(157, 157, 157);
+    lbl.shadowColor = [UIColor blackColor];
+    lbl.shadowOffset = CGSizeMake(1, 1);
     lbl.backgroundColor = [UIColor clearColor];
-    lbl.font = [UIFont boldSystemFontOfSize:14];
+    lbl.font = [UIFont boldSystemFontOfSize:12];
     [imgView addSubview:lbl];
     
     return imgView;
@@ -135,7 +138,7 @@
 
 - (void)retrieveData{
     UIView *headerView = self.tableView.tableHeaderView;
-    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 220) indicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 200) indicatorStyle:UIActivityIndicatorViewStyleWhite];
     
     [WAHTTPClient albumListSuccess:^(id obj) {
         [headerView hideIndicatorView];
