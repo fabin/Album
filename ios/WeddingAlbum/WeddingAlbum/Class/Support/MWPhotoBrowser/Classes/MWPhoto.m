@@ -25,9 +25,6 @@
         
 }
 
-// Properties
-@property (nonatomic, retain) UIImage *underlyingImage;
-
 // Methods
 - (void)imageDidFinishLoadingSoDecompress;
 - (void)imageLoadingComplete;
@@ -38,7 +35,7 @@
 @implementation MWPhoto
 
 // Properties
-@synthesize underlyingImage = _underlyingImage, 
+@synthesize underlyingImage = _underlyingImage,
 caption = _caption;
 
 #pragma mark Class Methods
@@ -88,6 +85,10 @@ caption = _caption;
 }
 
 #pragma mark MWPhoto Protocol Methods
+
+- (BOOL)isSuccessLoad{
+    return _underlyingImage && self.success;
+}
 
 - (UIImage *)underlyingImage {
     return _underlyingImage;
@@ -172,6 +173,8 @@ caption = _caption;
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image {
     self.underlyingImage = image;
     [self imageDidFinishLoadingSoDecompress];
+    
+    self.success = YES;
 }
 
 // Called on main
@@ -179,6 +182,9 @@ caption = _caption;
     self.underlyingImage = nil;
     MWLog(@"SDWebImage failed to download image: %@", error);
     [self imageDidFinishLoadingSoDecompress];
+
+    self.underlyingImage = [UIImage imageNamed:@"bg_nopic.png"];
+    self.success = NO;
 }
 
 // Called on main
@@ -186,6 +192,13 @@ caption = _caption;
     // Finished compression so we're complete
     self.underlyingImage = image;
     [self imageLoadingComplete];
+    
+    if (image) {
+        self.success = YES;
+    }else{
+        self.underlyingImage = [UIImage imageNamed:@"bg_nopic.png"];
+        self.success = NO;
+    }
 }
 
 @end

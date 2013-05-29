@@ -70,7 +70,8 @@
         if (idx < arr.count) {
             imgView.hidden = NO;
             NSDictionary *dic = arr[idx];
-            NSString *url0 = dic[@"url"];
+            NSString *url0 = [NSString stringWithFormat:@"%@=s304", dic[@"url"]];
+            
             [imgView setImageWithURL:[NSURL URLWithString:url0]];
         }else{
             imgView.hidden = YES;

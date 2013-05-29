@@ -13,7 +13,7 @@
 #import "MWCaptionView.h"
 
 // Debug Logging
-#if 0 // Set to 1 to enable debug logging
+#if NEED_OUTPUT_LOG // Set to 1 to enable debug logging
 #define MWLog(x, ...) NSLog(x, ## __VA_ARGS__);
 #else
 #define MWLog(x, ...)
@@ -29,7 +29,8 @@
 @end
 
 // MWPhotoBrowser
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> 
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+}
 
 // Properties
 @property (nonatomic) BOOL displayActionButton;
