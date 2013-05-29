@@ -15,21 +15,13 @@
 #import "UIViewController+MMDrawerController.h"
 #import "WAAlbumViewController.h"
 #import "WASettingViewController.h"
+#import "UIView+Indicator.h"
 
 @interface WAMenuViewController ()
 
 @end
 
 @implementation WAMenuViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -41,11 +33,15 @@
     NSString *title = CONFIG(KeyCouple);
     
     _titleLbl.text = title?title:@"新郎&新娘";
-//    _imgView.image = [UIImage imageNamed:@"Icon.png"];
+    _imgView.image = [UIImage imageNamed:@"profile_head.jpg"];
     _imgView.backgroundColor = [UIColor redColor];
-    
     _imgView.layer.cornerRadius = 34.5;
-    [self retrieveData];
+    
+    _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
+    
+    if (!_dataSource) {
+        [self retrieveData];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,6 +75,9 @@
         
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+        cell.textLabel.shadowOffset = CGSizeMake(0, 1);
+        cell.textLabel.shadowColor = [UIColor blackColor];
     }
     
     NSUInteger row = indexPath.row;
@@ -97,13 +96,20 @@
 {
     NSDictionary *dic = _dataSource[indexPath.row];
     
-    WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-    albumVC.albumKey = dic[@"key"];
-    albumVC.title = dic[@"name"];
-    [self.mm_drawerController setCenterViewController:albumVC
-                                   withCloseAnimation:YES
-                                           completion:nil];
-    
+//    if (!_albumVC) {
+        WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+        albumVC.albumKey = dic[@"key"];
+        albumVC.title = dic[@"name"];
+        
+        [self.mm_drawerController setCenterViewController:albumVC
+                                       withCloseAnimation:YES
+                                               completion:nil];
+//    }else{
+//        _albumVC.albumKey = dic[@"key"];
+//        _albumVC.title = dic[@"name"];
+//        
+//        [_albumVC update];
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -115,9 +121,11 @@
     
     UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 20)];
     lbl.text = @"相册";
-    lbl.textColor = [UIColor whiteColor];
+    lbl.textColor = RGBCOLOR(157, 157, 157);
+    lbl.shadowColor = [UIColor blackColor];
+    lbl.shadowOffset = CGSizeMake(1, 1);
     lbl.backgroundColor = [UIColor clearColor];
-    lbl.font = [UIFont boldSystemFontOfSize:14];
+    lbl.font = [UIFont boldSystemFontOfSize:12];
     [imgView addSubview:lbl];
     
     return imgView;
@@ -132,21 +140,37 @@
 #pragma mark - DataRequest
 
 - (void)retrieveData{
+    UIView *headerView = self.tableView.tableHeaderView;
+    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 200) indicatorStyle:UIActivityIndicatorViewStyleWhite];
+    
     [WAHTTPClient albumListSuccess:^(id obj) {
+        [headerView hideIndicatorView];
         
         _dataSource = obj;
         [self.tableView reloadData];
         
+        NSString *title = CONFIG(KeyCouple);
+        [WADataEnvironment cacheAlbumList:obj forName:title];
     } failure:^(NSError *err) {
-        //TODO
-        _dataSource = @[@{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}, @{@"name":@"伦敦塔桥"}];
-        [self.tableView reloadData];
+        [headerView hideIndicatorView];
     }];
 }
 
 - (IBAction)about:(id)sender {
-    WASettingViewController *vc = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
-    [self presentModalViewController:vc animated:YES];
+    WASettingViewController *albumVC = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
+    
+    [self.mm_drawerController setCenterViewController:albumVC
+                                   withCloseAnimation:YES
+                                           completion:nil];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    if ((orientation == UIInterfaceOrientationPortrait) ||
+        (orientation == UIInterfaceOrientationLandscapeRight))
+        return YES;
+    
+    return NO;
 }
 
 @end

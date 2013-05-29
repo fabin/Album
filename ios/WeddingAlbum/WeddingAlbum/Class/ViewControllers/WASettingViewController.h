@@ -10,6 +10,8 @@
 
 @interface WASettingViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
     
+    __weak IBOutlet UITableView *_tableView;
+    __weak IBOutlet UIView *_headerView;
     __weak IBOutlet UIImageView *_imgView;
     __weak IBOutlet UILabel *_titleLbl;
     

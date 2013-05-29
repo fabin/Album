@@ -15,8 +15,16 @@
 #define KeyServer               @"server"
 #define KeyOptionServer         @"option_image_server_domain"
 #define KeyCouple               @"profile_couple"
+#define KeyCoupleBoy            @"couple_name_boy"
+#define KeyCoupleGirl           @"couple_name_girl"
+#define KeyAppUrl               @"app_url"
+#define KeyEmail                @"email"
 
 #define CONFIG(key) [WADataEnvironment configForKey:key]
+
+#define is_iPhone ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+
+#define APP_SUPPORT                 [NSSearchPathForDirectoriesInDomains (NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 typedef void(^SLBlock)(void);
 typedef void(^SLBlockBlock)(SLBlock block);
@@ -32,7 +40,6 @@ typedef void(^SLCancelBlock)(id viewController);
 typedef void(^SLFinishedBlock)(id viewController, id object);
 
 #define RGBCOLOR(r,g,b)             [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
-
 
 #if NEED_OUTPUT_LOG
     #define SLog(xx, ...)   NSLog(xx, ##__VA_ARGS__)
