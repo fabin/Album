@@ -72,7 +72,40 @@
             NSDictionary *dic = arr[idx];
             NSString *url0 = [NSString stringWithFormat:@"%@=s304", dic[@"url"]];
             
-            [imgView setImageWithURL:[NSURL URLWithString:url0]];
+//            [imgView setImageWithURL:[NSURL URLWithString:url0]];
+            //如果失败，使用备用服务器
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url0]];
+            [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+            
+            __weak UIImageView *weakImgView = imgView;
+            [imgView setImageWithURLRequest:request
+                           placeholderImage:nil
+                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                        weakImgView.image = image;
+                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                        NSURL *URL = [request URL];
+                                        NSString *host = [URL host];
+                                        
+                                        NSString *optionServer = CONFIG(KeyOptionServer);
+                                        if ([optionServer hasPrefix:@"http://"] && optionServer.length>7) {
+                                            optionServer = [optionServer substringWithRange:NSMakeRange(7, optionServer.length-7)];
+                                        }
+                                        
+                                        NSString *url = [URL absoluteString];
+                                        NSMutableString *muUrl = [NSMutableString stringWithString:url];
+                                        [muUrl replaceOccurrencesOfString:host withString:optionServer options:0 range:NSMakeRange(0, url.length)];
+                                        
+                                        NSMutableURLRequest *request1 = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:muUrl]];
+                                        [request1 addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+                                        
+                                        [weakImgView setImageWithURLRequest:request1
+                                                       placeholderImage:nil
+                                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                                    weakImgView.image = image;
+                                                                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                    weakImgView.image = nil;
+                                                                }];
+                                    }];
         }else{
             imgView.hidden = YES;
         }
