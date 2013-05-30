@@ -234,16 +234,8 @@
 }
 
 - (void)retrieveData{
-    NSString *title = self.title;
-    CGFloat width = [title sizeWithFont:_titleLbl.font].width;
-    
-    CGFloat left = width*0.5+self.view.width*0.5+10;
-    if (_dataSource.count==0 || left > _titleLbl.width+50) {
-        [self.view showIndicatorView];
-    }else{
-        [self.view showIndicatorViewAtPoint:CGPointMake(left, 12) indicatorStyle:UIActivityIndicatorViewStyleWhite];
-    }
-    
+    [self.view showIndicatorView];
+
     [WAHTTPClient photoListForKey:self.albumKey
                           success:^(NSDictionary *dic) {
                               [self.view hideIndicatorView];
