@@ -226,10 +226,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	
 	// View
 	self.view.backgroundColor = [UIColor blackColor];
-	
+    
+    if(!is_iPhone)
+        self.navigationController.view.clipsToBounds = YES;
+    
 	// Setup paging scrolling view
 	CGRect pagingScrollViewFrame = [self frameForPagingScrollView];
 	_pagingScrollView = [[UIScrollView alloc] initWithFrame:pagingScrollViewFrame];
@@ -241,7 +243,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	_pagingScrollView.backgroundColor = [UIColor blackColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
 	[self.view addSubview:_pagingScrollView];
-	
+    
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
     _toolbar.tintColor = nil;
@@ -274,7 +276,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)performLayout {
-    
     // Setup
     _performingLayout = YES;
     NSUInteger numberOfPhotos = [self numberOfPhotos];
@@ -293,11 +294,11 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Toolbar items & navigation
     UIBarButtonItem *fixedLeftSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil] autorelease];
     fixedLeftSpace.width = 32; // To balance action button
-    UIBarButtonItem *space0 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil] autorelease];
+    UIBarButtonItem *space0 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     
-    UIBarButtonItem *cancelBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_cancelpre.png"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
-    
-    UIBarButtonItem *space1 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
+//    UIBarButtonItem *cancelBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_cancelpre.png"] style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
+//    
+//    UIBarButtonItem *space1 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     
     _downloadBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_down.png"] style:UIBarButtonItemStylePlain target:self action:@selector(savePhoto)] autorelease];
     
@@ -305,9 +306,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     _shareBtn =[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_sharepic.png"] style:UIBarButtonItemStylePlain target:self action:@selector(actionButtonPressed:)] autorelease];
     
-    UIBarButtonItem *space3 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil] autorelease];
+    UIBarButtonItem *space3 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     
-    NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:space0, cancelBtn, space1, _downloadBtn, space2, _shareBtn, space3, nil];
+    NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:space0, _downloadBtn, space2, _shareBtn, space3, nil]; //cancelBtn, space1
     
 //    if (_displayActionButton) [items addObject:fixedLeftSpace];
 //    [items addObject:flexSpace];
@@ -323,22 +324,22 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
-        UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)] autorelease];
-        // Set appearance
-        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
-        }
-        self.navigationItem.rightBarButtonItem = doneButton;
+//        UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)] autorelease];
+//        // Set appearance
+//        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
+//            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+//            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+//            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
+//        }
+//        self.navigationItem.rightBarButtonItem = doneButton;
     } else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
         NSString *backButtonTitle = previousViewController.navigationItem.backBarButtonItem ? previousViewController.navigationItem.backBarButtonItem.title : previousViewController.title;
-        UIBarButtonItem *newBackButton = [[[UIBarButtonItem alloc] initWithTitle:backButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+        UIBarButtonItem *newBackButton = [[[UIBarButtonItem alloc] initWithTitle:backButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(back:)] autorelease];
         // Appearance
         if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
             [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -378,7 +379,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Appearance
 
 - (void)viewWillAppear:(BOOL)animated {
-    
 	// Super
 	[super viewWillAppear:animated];
 	
@@ -386,10 +386,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     if (SYSTEM_VERSION_LESS_THAN(@"5")) [self viewWillLayoutSubviews];
     
     // Status bar
-    if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
-    }
+//    if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+//        _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
+//    }
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
     
     // Navigation bar appearance
     if (!_viewIsActive && [self.navigationController.viewControllers objectAtIndex:0] != self) {
@@ -399,11 +401,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     // Update UI
 	[self hideControlsAfterDelay];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
     // Check that we're being popped for good
     if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
         ![self.navigationController.viewControllers containsObject:self]) {
@@ -413,22 +413,30 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         
         // Bar state / appearance
         [self restorePreviousNavBarAppearance:animated];
-        
     }
     
     // Controls
     [self.navigationController.navigationBar.layer removeAllAnimations]; // Stop all animations on nav bar
     [NSObject cancelPreviousPerformRequestsWithTarget:self]; // Cancel any pending toggles from taps
-    [self setControlsHidden:NO animated:NO permanent:YES];
+//    [self setControlsHidden:NO animated:NO permanent:YES];
     
     // Status bar
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
+//        [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
     }
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    // Set navigation bar frame
+//    CGRect navBarFrame = self.navigationController.navigationBar.frame;
+//    navBarFrame.origin.y = 0;
+//    self.navigationController.navigationBar.frame = navBarFrame;
     
 	// Super
 	[super viewWillDisappear:animated];
-    
+
+    [self cancelControlHiding];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -492,10 +500,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	
 	// Get paging scroll view frame to determine if anything needs changing
 	CGRect pagingScrollViewFrame = [self frameForPagingScrollView];
-    
-	// Frame needs changing
+    // Frame needs changing
 	_pagingScrollView.frame = pagingScrollViewFrame;
-	
+    
+    UIView *view = _pagingScrollView.superview.superview.superview;
+    view.clipsToBounds = NO;
+    
 	// Recalculate contentSize based on current orientation
 	_pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
 	
@@ -528,7 +538,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	// Remember page index before rotation
 	_pageIndexBeforeRotation = _currentPageIndex;
 	_rotating = YES;
+    
+    if ([self areControlsHidden]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
 	
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -541,11 +556,16 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	
 	// Delay control holding
 	[self hideControlsAfterDelay];
-	
+    if ([self areControlsHidden]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    }
+    
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	_rotating = NO;
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 #pragma mark - Data
@@ -804,15 +824,16 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         // photo loaded so load ajacent now
         [self loadAdjacentPhotosIfNecessary:currentPhoto];
     }
-    
 }
 
 #pragma mark - Frame Calculations
 
 - (CGRect)frameForPagingScrollView {
-    CGRect frame = self.view.bounds;// [[UIScreen mainScreen] bounds];
+    CGRect frame = self.view.bounds; //(is_iPhone?[[UIScreen mainScreen] bounds]:self.view.bounds);//
     frame.origin.x -= PADDING;
     frame.size.width += (2 * PADDING);
+    
+//    frame.origin.y -= 20; //to show below statusBar;
     return frame;
 }
 
@@ -865,7 +886,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - UIScrollView Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
     // Checks
 	if (!_viewIsActive || _performingLayout || _rotating) return;
 	
@@ -892,6 +912,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	// Update nav when page changes
 	[self updateNavigation];
+    
+//    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
+//    scrollView.scrollEnabled = ([photo underlyingImage]!=nil);
 }
 
 #pragma mark - Navigation
@@ -929,7 +952,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	
 	// Update timer to give more time
 	[self hideControlsAfterDelay];
-	
 }
 
 - (void)gotoPreviousPage { [self jumpToPageAtIndex:_currentPageIndex-1]; }
@@ -945,28 +967,28 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	
 	// Status bar and nav bar positioning
     if (self.wantsFullScreenLayout) {
-        
         // Get status bar height if visible
-        CGFloat statusBarHeight = 0;
-        if (![UIApplication sharedApplication].statusBarHidden) {
-            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-        }
+//        CGFloat statusBarHeight = 0;
+//        if (![UIApplication sharedApplication].statusBarHidden) {
+//            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+//            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
+//        }
         
         // Status Bar
         [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
         
         // Get status bar height if visible
-        if (![UIApplication sharedApplication].statusBarHidden) {
-            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-        }
+//        if (![UIApplication sharedApplication].statusBarHidden) {
+//            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+//            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
+//        }
         
         // Set navigation bar frame
-        CGRect navBarFrame = self.navigationController.navigationBar.frame;
-        navBarFrame.origin.y = statusBarHeight;
-        self.navigationController.navigationBar.frame = navBarFrame;
-        
+//        CGRect navBarFrame = self.navigationController.navigationBar.frame;
+//        if (navBarFrame.origin.y == 0) {
+//            navBarFrame.origin.y = 20;
+//            self.navigationController.navigationBar.frame = navBarFrame;
+//        }
     }
     
     // Captions
@@ -974,6 +996,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     for (MWZoomingScrollView *page in _visiblePages) {
         if (page.captionView) [captionViews addObject:page.captionView];
     }
+    
+//    [self.navigationController setNavigationBarHidden:hidden animated:animated];
+    
+    SLLog(@"self.navigationController.navigationBar %@", self.navigationController.navigationBar);
 	
 	// Animate
     if (animated) {
@@ -985,12 +1011,11 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[_toolbar setAlpha:alpha];
     for (UIView *v in captionViews) v.alpha = alpha;
 	if (animated) [UIView commitAnimations];
-	
+    
 	// Control hiding timer
 	// Will cancel existing timer but only begin hiding if
 	// they are visible
 	if (!permanent) [self hideControlsAfterDelay];
-	
 }
 
 - (void)cancelControlHiding {
@@ -1027,14 +1052,24 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - Misc
-
-- (void)cancel:(id)sender{
-    [self dismissModalViewControllerAnimated:YES];
+- (void)back:(id)sender{
+    UIView *view = _pagingScrollView.superview.superview.superview;
+    view.clipsToBounds = YES;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)doneButtonPressed:(id)sender {
-    [self dismissModalViewControllerAnimated:YES];
-}
+//- (void)cancel:(id)sender{
+//    UIView *view = _pagingScrollView.superview.superview.superview;
+//    view.clipsToBounds = YES;
+//    [self dismissModalViewControllerAnimated:YES];
+//}
+
+//
+//- (void)doneButtonPressed:(id)sender {
+//    UIView *view = _pagingScrollView.superview.superview.superview;
+//    view.clipsToBounds = YES;
+//    [self dismissModalViewControllerAnimated:YES];
+//}
 
 - (void)actionButtonPressed:(id)sender {
     if (_actionsSheet) {

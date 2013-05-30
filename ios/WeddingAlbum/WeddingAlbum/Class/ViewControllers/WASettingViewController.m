@@ -24,7 +24,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
     
     NSString *girlName = CONFIG(KeyCoupleGirl);
@@ -41,6 +40,24 @@
     
     _headerView.height = height+230; //270
     _tableView.tableHeaderView = _headerView;
+    
+    self.title = @"关于";
+    
+    BOOL isIphone = is_iPhone;
+    CGRect frame = CGRectMake(0, 0, 50, self.navigationController.navigationBar.height);;
+    if (isIphone) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        leftBtn.frame = frame;
+        leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, (isIphone?-5:-7), 0, (isIphone?5:7));
+        leftBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [leftBtn addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
+        [leftBtn setImage:[UIImage imageNamed:@"btn_side.png"] forState:UIControlStateNormal];
+        [leftBtn setImage:[UIImage imageNamed:@"btn_side_tapped.png"] forState:UIControlStateHighlighted];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
+    
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIColor colorWithWhite:0 alpha:0.3], UITextAttributeTextShadowColor, [NSValue valueWithCGSize:CGSizeMake(0, 0.5)], UITextAttributeTextShadowOffset, [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,6 +115,7 @@
         
         [cell showIndicatorViewAtPoint:CGPointMake(cell.width-50, cell.height*0.5-10)];
         [WADataEnvironment cleanCache];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NOTI_RETRIEVE_ALBUMS" object:nil];
         
         [cell performSelector:@selector(hideIndicatorView) withObject:nil afterDelay:1.0];
     }else if (row == 1) {

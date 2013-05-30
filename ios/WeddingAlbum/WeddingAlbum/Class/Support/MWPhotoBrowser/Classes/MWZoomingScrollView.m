@@ -63,6 +63,8 @@
 		self.decelerationRate = UIScrollViewDecelerationRateFast;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
+//        self.clipsToBounds = NO;
+//        _photoImageView.clipsToBounds = NO;
     }
     return self;
 }
@@ -164,12 +166,12 @@
 	}
     
 	// Calculate Max
-	CGFloat maxScale = 2.0; // Allow double scale
+	CGFloat maxScale = 4.0; // Allow double scale
     // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
     // maximum zoom scale to 0.5.
-	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
-		maxScale = maxScale / [[UIScreen mainScreen] scale];
-	}
+//	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
+//		maxScale = maxScale / [[UIScreen mainScreen] scale];
+//	}
 	
 	// Set
 	self.maximumZoomScale = maxScale;
@@ -263,16 +265,23 @@
 	[_photoBrowser hideControlsAfterDelay];
 }
 
+- (void)downLoadImageAgain{
+    if (![_photo isSuccessLoad] && ![_photo isLoading]) { //error
+        ((MWPhoto *)_photo).isLoading = YES;
+        
+        _photoImageView.image = nil;
+        ((MWPhoto *)_photo).underlyingImage = nil;
+        
+        [_spinner startAnimating];
+        [self performSelector:@selector(displayImage) withObject:nil afterDelay:0.5];
+    }
+}
+
 // Image View
 - (void)imageView:(MWTapDetectingImageView *)imageView singleTapDetected:(UITouch *)touch { 
     [self handleSingleTap:[touch locationInView:imageView]];
-    if (![_photo isSuccessLoad]) { //error
-        imageView.image = nil;
-        ((MWPhoto *)_photo).underlyingImage = nil;
-        
-        [_spinner startAnimating];        
-        [self performSelector:@selector(displayImage) withObject:nil afterDelay:1.0];
-    }
+    
+    [self downLoadImageAgain];
 }
 - (void)imageView:(UIImageView *)imageView doubleTapDetected:(UITouch *)touch {
     [self handleDoubleTap:[touch locationInView:imageView]];
@@ -281,6 +290,8 @@
 // Background View
 - (void)view:(UIView *)view singleTapDetected:(UITouch *)touch {
     [self handleSingleTap:[touch locationInView:view]];
+    
+    [self downLoadImageAgain];
 }
 
 - (void)view:(UIView *)view doubleTapDetected:(UITouch *)touch {
