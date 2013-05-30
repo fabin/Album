@@ -8,7 +8,6 @@
 
 #import "WAMenuViewController.h"
 #import <QuartzCore/QuartzCore.h>
-
 #import "UIImageView+AFNetworking.h"
 #import "WAHTTPClient.h"
 #import "WAAlbumViewController.h"
@@ -35,13 +34,11 @@
     _titleLbl.text = title?title:@"新郎&新娘";
     _imgView.image = [UIImage imageNamed:@"profile_head.jpg"];
     _imgView.backgroundColor = [UIColor redColor];
-    _imgView.layer.cornerRadius = 34.5;
+    _imgView.layer.cornerRadius = 34;
     
     _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
     
-    if (!_dataSource) {
-        [self retrieveData];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveData:) name:@"NOTI_RETRIEVE_ALBUMS" object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,14 +75,19 @@
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         cell.textLabel.shadowOffset = CGSizeMake(0, 1);
         cell.textLabel.shadowColor = [UIColor blackColor];
+        
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 14, 14)];
+        imgView.tag = 1;
+        [cell.contentView addSubview:imgView];
     }
     
     NSUInteger row = indexPath.row;
-    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_%d.png", row%10+1]];
+    UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1];
+    imgView.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_%d.png", row%10+1]];
     
     NSDictionary *dic = _dataSource[indexPath.row];
     NSString *title = dic[@"name"];
-    cell.textLabel.text = title;
+    cell.textLabel.text = [NSString stringWithFormat:@"      %@", title];
     
     return cell;
 }
@@ -96,20 +98,16 @@
 {
     NSDictionary *dic = _dataSource[indexPath.row];
     
-//    if (!_albumVC) {
-        WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-        albumVC.albumKey = dic[@"key"];
-        albumVC.title = dic[@"name"];
-        
-        [self.mm_drawerController setCenterViewController:albumVC
-                                       withCloseAnimation:YES
-                                               completion:nil];
-//    }else{
-//        _albumVC.albumKey = dic[@"key"];
-//        _albumVC.title = dic[@"name"];
-//        
-//        [_albumVC update];
-//    }
+    WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+    albumVC.albumKey = dic[@"key"];
+    albumVC.title = dic[@"name"];
+    
+//    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:albumVC];
+//    nv.navigationBarHidden = YES;
+    
+    [self.mm_drawerController setCenterViewController:albumVC
+                                   withCloseAnimation:YES
+                                           completion:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -119,7 +117,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_section.png"]];
     
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 20)];
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 290, 20)];
     lbl.text = @"相册";
     lbl.textColor = RGBCOLOR(157, 157, 157);
     lbl.shadowColor = [UIColor blackColor];
@@ -140,8 +138,10 @@
 #pragma mark - DataRequest
 
 - (void)retrieveData{
+    _isLoading = YES;
+    
     UIView *headerView = self.tableView.tableHeaderView;
-    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 200) indicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 195) indicatorStyle:UIActivityIndicatorViewStyleWhite];
     
     [WAHTTPClient albumListSuccess:^(id obj) {
         [headerView hideIndicatorView];
@@ -151,8 +151,10 @@
         
         NSString *title = CONFIG(KeyCouple);
         [WADataEnvironment cacheAlbumList:obj forName:title];
+        _isLoading = NO;
     } failure:^(NSError *err) {
         [headerView hideIndicatorView];
+        _isLoading = NO;
     }];
 }
 
@@ -160,6 +162,15 @@
     WASettingViewController *albumVC = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
     
     [self.mm_drawerController setCenterViewController:albumVC
+                                   withCloseAnimation:YES
+                                           completion:nil];
+}
+
+- (IBAction)showWelcome:(id)sender {
+    WAAlbumViewController *vc = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+    vc.title = CONFIG(KeyCouple);
+    
+    [self.mm_drawerController setCenterViewController:vc
                                    withCloseAnimation:YES
                                            completion:nil];
 }
@@ -172,5 +183,15 @@
     
     return NO;
 }
+
+#pragma mark - Notifications
+
+- (void)retrieveData:(NSNotification *)noti{
+    if (!_dataSource && !_isLoading) {
+        [self retrieveData];
+    }
+}
+
+
 
 @end

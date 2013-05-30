@@ -20,10 +20,15 @@
 // Properties
 @property (nonatomic, retain) NSString *caption;
 
+@property (nonatomic) BOOL success;
+
 // Class
 + (MWPhoto *)photoWithImage:(UIImage *)image;
 + (MWPhoto *)photoWithFilePath:(NSString *)path;
 + (MWPhoto *)photoWithURL:(NSURL *)url;
+
+// Properties
+@property (nonatomic, retain) UIImage *underlyingImage;
 
 // Init
 - (id)initWithImage:(UIImage *)image;

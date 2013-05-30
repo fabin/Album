@@ -263,6 +263,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	// Super
     [super viewDidLoad];
 	
+//    UIToolbar *topBar = [[UIToolbar alloc] initWithFrame:[self frameForTopbarAtOrientation:self.interfaceOrientation]];
+//    topBar.tintColor = [UIColor blackColor];
+//    if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
+//        [topBar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+//        [topBar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
+//    }
+//    topBar.barStyle = UIBarStyleBlackTranslucent;
+//    [self.view addSubview:topBar];
 }
 
 - (void)performLayout {
@@ -648,21 +656,20 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)handleMWPhotoLoadingDidEndNotification:(NSNotification *)notification {
     id <MWPhoto> photo = [notification object];
     MWZoomingScrollView *page = [self pageDisplayingPhoto:photo];
+    
     if (page) {
-        if ([photo underlyingImage]) {
+        if ([photo isSuccessLoad]) {
             // Successful load
             [page displayImage];
             [self loadAdjacentPhotosIfNecessary:photo];
             
-            _downloadBtn.image = [UIImage imageNamed:@"btn_down.png"];
+            _downloadBtn.enabled = YES;
             _shareBtn.enabled = YES;
         } else {
             // Failed to load
             [page displayImageFailure];
             
-            [self showFailTips1:@"图片下载失败！"];
-            
-            _downloadBtn.image = [UIImage imageNamed:@"btn_update.png"];
+            _downloadBtn.enabled = NO;
             _shareBtn.enabled = NO;
         }
     }
@@ -671,7 +678,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Paging
 
 - (void)tilePages {
-	
 	// Calculate which pages should be visible
 	// Ignore padding as paging bounces encroach on that
 	// and lead to false page loads
@@ -717,7 +723,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             captionView.frame = [self frameForCaptionView:captionView atIndex:index];
             [_pagingScrollView addSubview:captionView];
             page.captionView = captionView;
-            
 		}
 	}
 	
@@ -835,6 +840,13 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	return CGPointMake(newOffset, 0);
 }
 
+- (CGRect)frameForTopbarAtOrientation:(UIInterfaceOrientation)orientation {
+    CGFloat height = 44;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&
+        UIInterfaceOrientationIsLandscape(orientation)) height = 32;
+	return CGRectMake(0, 20, self.view.bounds.size.width, height);
+}
+
 - (CGRect)frameForToolbarAtOrientation:(UIInterfaceOrientation)orientation {
     CGFloat height = 44;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&
@@ -870,7 +882,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	if (_currentPageIndex != previousCurrentPage) {
         [self didStartViewingPageAtIndex:index];
     }
-	
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -898,11 +909,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 //	_nextButton.enabled = (_currentPageIndex < [self numberOfPhotos]-1);
     
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
-    if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
+    if ([self numberOfPhotos] > 0 && [photo isSuccessLoad]) {
         _downloadBtn.enabled = YES;
         _shareBtn.enabled = YES;
     }else{
         _shareBtn.enabled = NO;
+        _downloadBtn.enabled = NO;
     }
 }
 
@@ -1017,7 +1029,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Misc
 
 - (void)cancel:(id)sender{
-    [self dismissModalViewControllerAnimated:NO];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)doneButtonPressed:(id)sender {
@@ -1080,7 +1092,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             if ([title isEqualToString:@"复制"]) {
                 [self copyPhoto]; return;	
             } else if ([title isEqualToString:@"邮件分享"]) {
-                [self emailPhoto]; return;
+                if ([MFMailComposeViewController canSendMail]){
+                    [self emailPhoto]; return;
+                }else{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发送邮件，请设置好邮件帐号。" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    [alert show];
+                    return;
+                }
+                
             } else if ([title isEqualToString:@"短信分享"]) {
                 [self sendMessage]; return;
             }
