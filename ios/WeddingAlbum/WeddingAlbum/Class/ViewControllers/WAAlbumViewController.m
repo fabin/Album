@@ -24,6 +24,8 @@
 
 @implementation WAAlbumViewController{
     NSDictionary          *_dataSource;
+    
+    UIInterfaceOrientation _previewOrientation;
 }
 
 - (void)viewDidLoad
@@ -54,6 +56,72 @@
         imgView.frame = CGRectMake(self.view.width-250, self.view.height-250, 250, 250);
         [self.view addSubview:imgView];
     }
+    
+    [self setNavigationBar];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)setNavigationBar{
+    BOOL isIphone = is_iPhone;
+
+    CGRect frame = CGRectMake(0, 0, 50, self.navigationController.navigationBar.height);
+    if (isIphone) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        leftBtn.frame = frame;
+        leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, (isIphone?-5:-7), 0, (isIphone?5:7));
+        leftBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [leftBtn addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
+        [leftBtn setImage:[UIImage imageNamed:@"btn_side.png"] forState:UIControlStateNormal];
+        [leftBtn setImage:[UIImage imageNamed:@"btn_side_tapped.png"] forState:UIControlStateHighlighted];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
+    
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = frame;
+    rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, (isIphone?5:7), 0, (isIphone?-5:-7));
+    rightBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [rightBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setImage:[UIImage imageNamed:@"btn_share.png"] forState:UIControlStateNormal];
+    [rightBtn setImage:[UIImage imageNamed:@"btn_share_tapped.png"] forState:UIControlStateHighlighted];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    UIImage *image = [UIImage imageNamed:@"bg_nav.png"];
+    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [UIColor colorWithWhite:0 alpha:0.3], UITextAttributeTextShadowColor, [NSValue valueWithCGSize:CGSizeMake(0, 0.5)], UITextAttributeTextShadowOffset, [UIFont boldSystemFontOfSize:18], UITextAttributeFont, nil];
+}
+
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation  duration:(NSTimeInterval)duration {
+//    //[super willAnimateRotationToInterfaceOrientation:orientation duration:duration];
+//    CGRect frame = self.navigationController.navigationBar.frame;
+//    if (UIInterfaceOrientationIsPortrait(orientation)) {
+//        frame.size.height = 44;
+//    } else {
+//        frame.size.height = 32;
+//    }
+//    self.navigationController.navigationBar.frame = frame;
+//}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    if (_previewOrientation != self.interfaceOrientation) {
+        [_tableView reloadData];
+    }
+    
+    CGFloat height = is_iPhone?(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)?44:32):44;
+    self.navigationItem.rightBarButtonItem.customView.height = height;
+    self.navigationItem.leftBarButtonItem.customView.height = height;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    _previewOrientation = self.interfaceOrientation;
 }
 
 #pragma mark - Table view data source
@@ -135,7 +203,8 @@
         browser.displayActionButton = YES;
         [browser setInitialPageIndex:row*[WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation]+gesture.view.tag];
         
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:browser animated:YES];
+        [self.navigationController pushViewController:browser animated:YES];
+//        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:browser animated:YES];
     }
 }
 
@@ -148,9 +217,14 @@
 //    UIView *imgView = [self.view viewWithTag:100];
 //    [imgView removeFromSuperview];
 //}
+//
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [_tableView reloadData];
+    
+    CGFloat height = is_iPhone?(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)?44:32):44;
+    self.navigationItem.rightBarButtonItem.customView.height = height;
+    self.navigationItem.leftBarButtonItem.customView.height = height;
 }
 
 - (void)didReceiveMemoryWarning
@@ -160,16 +234,8 @@
 }
 
 - (void)retrieveData{
-    NSString *title = self.title;
-    CGFloat width = [title sizeWithFont:_titleLbl.font].width;
-    
-    CGFloat left = width*0.5+self.view.width*0.5+10;
-    if (_dataSource.count==0 || left > _titleLbl.width+50) {
-        [self.view showIndicatorView];
-    }else{
-        [self.view showIndicatorViewAtPoint:CGPointMake(left, 12) indicatorStyle:UIActivityIndicatorViewStyleWhite];
-    }
-    
+    [self.view showIndicatorView];
+
     [WAHTTPClient photoListForKey:self.albumKey
                           success:^(NSDictionary *dic) {
                               [self.view hideIndicatorView];
@@ -192,6 +258,8 @@
 - (void)viewDidUnload {
     _titleLbl = nil;
     _shareBtn = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
 
@@ -313,7 +381,8 @@
     NSArray *pictures = _dataSource[@"pictures"];
     if (index < pictures.count){
         NSDictionary *dic = pictures[index];
-        return [MWPhoto photoWithURL:[NSURL URLWithString:dic[@"url"]]];
+        NSString *url = [NSString stringWithFormat:@"%@=s1600", dic[@"url"]];
+        return [MWPhoto photoWithURL:[NSURL URLWithString:url]];
     }
     return nil;
 }
@@ -326,5 +395,7 @@
     
     return NO;
 }
+
+
 
 @end

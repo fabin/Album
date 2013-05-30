@@ -53,6 +53,8 @@
 
 - (BOOL)isSuccessLoad;
 
+- (BOOL)isLoading;
+
 @optional
 
 // Return a caption string to be displayed over the image
