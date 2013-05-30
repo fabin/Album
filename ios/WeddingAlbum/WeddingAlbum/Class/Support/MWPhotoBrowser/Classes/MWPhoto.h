@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString *caption;
 
 @property (nonatomic) BOOL success;
+@property (nonatomic) BOOL isLoading;
 
 // Class
 + (MWPhoto *)photoWithImage:(UIImage *)image;

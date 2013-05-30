@@ -9,7 +9,7 @@
 #ifndef WeddingAlbum_CONSTANTS_h
 #define WeddingAlbum_CONSTANTS_h
 
-#define NEED_OUTPUT_LOG     1
+#define NEED_OUTPUT_LOG     0
 
 
 #define KeyServer               @"server"

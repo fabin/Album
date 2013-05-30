@@ -15,7 +15,7 @@
     if (is_iPhone) {
         return (oritation == UIInterfaceOrientationLandscapeRight?3:2);
     }else{
-        return (oritation == UIInterfaceOrientationLandscapeRight?5:4);
+        return (oritation == UIInterfaceOrientationLandscapeRight?4:3);//5:4);
     }
 }
 
@@ -27,7 +27,7 @@
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        CGSize size = [UIApplication sharedApplication].keyWindow.frame.size;
+        CGSize size = vc.view.frame.size;//[UIApplication sharedApplication].keyWindow.frame.size;
         CGFloat w = size.width;
         CGFloat h = size.height;
         

@@ -12,7 +12,6 @@
 #import "WAHTTPClient.h"
 #import "WAAlbumViewController.h"
 #import "UIViewController+MMDrawerController.h"
-#import "WAAlbumViewController.h"
 #import "WASettingViewController.h"
 #import "UIView+Indicator.h"
 
@@ -38,6 +37,7 @@
     
     _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveDataNeedCheck:) name:@"NOTI_RETRIEVE_ALBUMS_NEEDCHECK" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveData:) name:@"NOTI_RETRIEVE_ALBUMS" object:nil];
 }
 
@@ -102,10 +102,13 @@
     albumVC.albumKey = dic[@"key"];
     albumVC.title = dic[@"name"];
     
-//    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:albumVC];
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:albumVC];
 //    nv.navigationBarHidden = YES;
+//    UIImage *image = [UIImage imageNamed:@"bg_nav.png"];
+//    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+//    [nv.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
-    [self.mm_drawerController setCenterViewController:albumVC
+    [self.mm_drawerController setCenterViewController:nv
                                    withCloseAnimation:YES
                                            completion:nil];
 }
@@ -140,28 +143,36 @@
 - (void)retrieveData{
     _isLoading = YES;
     
-    UIView *headerView = self.tableView.tableHeaderView;
-    [headerView showIndicatorViewAtPoint:CGPointMake(self.tableView.frame.size.width*0.5-10, 195) indicatorStyle:UIActivityIndicatorViewStyleWhite];
-    
+    UIView *view = self.mm_drawerController.view;
+    [view showIndicatorView];
+    view.userInteractionEnabled = NO;
     [WAHTTPClient albumListSuccess:^(id obj) {
-        [headerView hideIndicatorView];
-        
+        [view hideIndicatorView];
         _dataSource = obj;
         [self.tableView reloadData];
         
         NSString *title = CONFIG(KeyCouple);
         [WADataEnvironment cacheAlbumList:obj forName:title];
         _isLoading = NO;
+        
+        view.userInteractionEnabled = YES;
     } failure:^(NSError *err) {
-        [headerView hideIndicatorView];
+        [view hideIndicatorView];
         _isLoading = NO;
+        
+        view.userInteractionEnabled = YES;
     }];
 }
 
 - (IBAction)about:(id)sender {
-    WASettingViewController *albumVC = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
+    WASettingViewController *vc = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:vc];
     
-    [self.mm_drawerController setCenterViewController:albumVC
+    UIImage *image = [UIImage imageNamed:@"bg_nav.png"];
+    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [nv.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    
+    [self.mm_drawerController setCenterViewController:nv
                                    withCloseAnimation:YES
                                            completion:nil];
 }
@@ -169,8 +180,13 @@
 - (IBAction)showWelcome:(id)sender {
     WAAlbumViewController *vc = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
     vc.title = CONFIG(KeyCouple);
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:vc];
+    //    nv.navigationBarHidden = YES;
+    UIImage *image = [UIImage imageNamed:@"bg_nav.png"];
+    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [nv.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
-    [self.mm_drawerController setCenterViewController:vc
+    [self.mm_drawerController setCenterViewController:nv
                                    withCloseAnimation:YES
                                            completion:nil];
 }
@@ -186,12 +202,14 @@
 
 #pragma mark - Notifications
 
-- (void)retrieveData:(NSNotification *)noti{
+- (void)retrieveDataNeedCheck:(NSNotification *)noti{
     if (!_dataSource && !_isLoading) {
         [self retrieveData];
     }
 }
 
-
+- (void)retrieveData:(NSNotification *)noti{
+    [self retrieveData];
+}
 
 @end
