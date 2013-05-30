@@ -11,18 +11,18 @@
 
 // Private
 @interface MWPhoto () {
-
     // Image Sources
     NSString *_photoPath;
     NSURL *_photoURL;
 
+    NSURL *_photoOptionURL;
+    
     // Image
     UIImage *_underlyingImage;
 
     // Other
     NSString *_caption;
-    BOOL _loadingInProgress;
-        
+    BOOL _loadingInProgress;       
 }
 
 // Methods
@@ -36,7 +36,8 @@
 
 // Properties
 @synthesize underlyingImage = _underlyingImage,
-caption = _caption;
+caption = _caption,
+isLoading = _isLoading;
 
 #pragma mark Class Methods
 
@@ -90,11 +91,17 @@ caption = _caption;
     return _underlyingImage && self.success;
 }
 
+- (BOOL)isLoading{
+    return _isLoading;
+}
+
 - (UIImage *)underlyingImage {
     return _underlyingImage;
 }
 
 - (void)loadUnderlyingImageAndNotify {
+    _isLoading = NO;
+    
     NSAssert([[NSThread currentThread] isMainThread], @"This method must be called on the main thread.");
     _loadingInProgress = YES;
     if (self.underlyingImage) {
@@ -105,9 +112,11 @@ caption = _caption;
             // Load async from file
             [self performSelectorInBackground:@selector(loadImageFromFileAsync) withObject:nil];
         } else if (_photoURL) {
+            [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+            _isLoading = YES;
             // Load async from web (using SDWebImage)
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadWithURL:_photoURL delegate:self];
+            [manager downloadWithURL:(_photoOptionURL?_photoOptionURL:_photoURL) delegate:self];
         } else {
             // Failed - no source
             self.underlyingImage = nil;
@@ -118,6 +127,8 @@ caption = _caption;
 
 // Release if we can get it again from path or url
 - (void)unloadUnderlyingImage {
+    _isLoading = NO;
+    
     _loadingInProgress = NO;
     [[SDWebImageManager sharedManager] cancelForDelegate:self];
 	if (self.underlyingImage && (_photoPath || _photoURL)) {
@@ -171,24 +182,53 @@ caption = _caption;
 
 // Called on main
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image {
+    _isLoading = NO;
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    
     self.underlyingImage = image;
     [self imageDidFinishLoadingSoDecompress];
     
+    _photoOptionURL = nil;
     self.success = YES;
 }
 
 // Called on main
 - (void)webImageManager:(SDWebImageManager *)imageManager didFailWithError:(NSError *)error {
-    self.underlyingImage = nil;
-    MWLog(@"SDWebImage failed to download image: %@", error);
-    [self imageDidFinishLoadingSoDecompress];
-
-    self.underlyingImage = [UIImage imageNamed:@"bg_nopic.png"];
-    self.success = NO;
+    _isLoading = NO;
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    
+    if (_photoOptionURL) { //done with failure
+        [_photoOptionURL release]; _photoOptionURL = nil;
+        
+        self.underlyingImage = nil;
+        MWLog(@"SDWebImage failed to download image: %@", error);
+        [self imageDidFinishLoadingSoDecompress];
+        
+        self.underlyingImage = [UIImage imageNamed:@"bg_nopic.png"];
+        self.success = NO;
+    }else{//user option server to download picture again;
+        NSString *host = [_photoURL host];
+        
+        NSString *optionServer = CONFIG(KeyOptionServer);
+        if ([optionServer hasPrefix:@"http://"] && optionServer.length>7) {
+            optionServer = [optionServer substringWithRange:NSMakeRange(7, optionServer.length-7)];
+        }
+        
+        NSString *url = [_photoURL absoluteString];
+        NSMutableString *muUrl = [NSMutableString stringWithString:url];
+        [muUrl replaceOccurrencesOfString:host withString:optionServer options:0 range:NSMakeRange(0, url.length)];
+        
+        _photoOptionURL = nil;
+        _photoOptionURL = [[NSURL URLWithString:muUrl] copy];
+        
+        [self loadUnderlyingImageAndNotify];
+    }
 }
 
 // Called on main
 - (void)imageDecoder:(SDWebImageDecoder *)decoder didFinishDecodingImage:(UIImage *)image userInfo:(NSDictionary *)userInfo {
+    _isLoading = NO;
+    
     // Finished compression so we're complete
     self.underlyingImage = image;
     [self imageLoadingComplete];

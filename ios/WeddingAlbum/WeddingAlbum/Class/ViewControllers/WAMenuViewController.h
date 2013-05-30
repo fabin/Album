@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class WAAlbumViewController;
+//@class WAAlbumViewController;
 
 @interface WAMenuViewController : UITableViewController{
     NSMutableArray          *_dataSource;
@@ -18,5 +18,7 @@
     
     BOOL                    _isLoading;
 }
+
+//@property (strong, nonatomic) WAAlbumViewController *detailViewController;
 
 @end

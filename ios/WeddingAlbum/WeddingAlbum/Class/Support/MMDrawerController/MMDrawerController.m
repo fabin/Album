@@ -24,7 +24,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-CGFloat const MMDrawerDefaultWidth = 280.0f;
+static CGFloat MMDrawerDefaultWidth = 280.0f;
 CGFloat const MMDrawerDefaultAnimationVelocity = 840.0f;
 
 NSTimeInterval const MMDrawerDefaultFullAnimationDelay = 0.10f;
@@ -88,11 +88,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 @implementation MMDrawerController
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
+-(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController alwaysShowMenu:(BOOL)showMenu{
     NSParameterAssert(centerViewController);
     self = [self init];
     if(self){
-
+        self.needAlwaysShowMenu = showMenu;
+        if (showMenu) {
+            MMDrawerDefaultWidth = 190;
+        }
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
         [self setRightDrawerViewController:rightDrawerViewController];
@@ -117,11 +120,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController{
-    return [self initWithCenterViewController:centerViewController leftDrawerViewController:leftDrawerViewController rightDrawerViewController:nil];
+    return [self initWithCenterViewController:centerViewController leftDrawerViewController:leftDrawerViewController rightDrawerViewController:nil alwaysShowMenu:NO];
 }
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
-    return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
+    return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController alwaysShowMenu:NO];
 }
 
 #pragma mark - Open/Close methods
@@ -144,8 +147,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL))completion{
-    CGRect newFrame = self.view.bounds;
-    
     CGFloat distance = ABS(CGRectGetMinX(self.centerContainerView.frame));
     NSTimeInterval duration = [self animationDurationForAnimationDistance:distance];
     
@@ -173,7 +174,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
      delay:0.0
      options:UIViewAnimationOptionCurveEaseInOut
      animations:^{
-         [self.centerContainerView setFrame:newFrame];
+         [self.centerContainerView setFrame:[self frameForCenterView]];
          [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
      }
      completion:^(BOOL finished) {
@@ -193,7 +194,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     CGRect visibleRect = CGRectIntersection(self.view.bounds,sideDrawerViewController.view.frame);
     BOOL drawerFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleRect) ||
                               CGRectIsNull(visibleRect));
-    if(drawerFullyCovered){
+    if(drawerFullyCovered || self.needAlwaysShowMenu){
         [self prepareToPresentDrawer:drawerSide];
     }
     
@@ -243,9 +244,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(self.openSide != MMDrawerSideNone){
         [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
         
-        [self
-         closeDrawerAnimated:animated
-         completion:completion];
+        if (!self.needAlwaysShowMenu) {
+            [self closeDrawerAnimated:animated completion:completion];
+        }
     }
     else if(completion) {
         completion(NO);
@@ -289,7 +290,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
              delay:MMDrawerDefaultFullAnimationDelay
              options:UIViewAnimationOptionCurveEaseInOut
              animations:^{
-                 [self.centerContainerView setFrame:self.view.bounds];
+                 [self.centerContainerView setFrame:[self frameForCenterView]];
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
              }
              completion:^(BOOL finished) {
@@ -513,7 +514,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(void)setCenterViewController:(UIViewController *)centerViewController{
     if(_centerContainerView == nil){
-        _centerContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
+        _centerContainerView = [[UIView alloc] initWithFrame:[self frameForCenterView]];
         [_centerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [_centerContainerView setBackgroundColor:[UIColor clearColor]];
         [self.view addSubview:_centerContainerView];
@@ -527,12 +528,26 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     _centerViewController = centerViewController;
     
     [self addChildViewController:_centerViewController];
-    [_centerViewController.view setFrame:self.view.bounds];
+    if (!self.needAlwaysShowMenu){
+        [_centerViewController.view setFrame:self.view.bounds];
+    }else{
+        [_centerViewController.view setFrame:_centerContainerView.bounds];
+    }
+    
     [self.centerContainerView addSubview:_centerViewController.view];
     [self.view bringSubviewToFront:self.centerContainerView];
     [_centerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
     [self updateShadowForCenterView];
+}
+
+- (CGRect)frameForCenterView{
+    CGRect frame = self.view.bounds;
+    if (!self.needAlwaysShowMenu) return frame;
+    
+    frame.size.width = frame.size.width-MMDrawerDefaultWidth;
+    frame.origin.x = MMDrawerDefaultWidth;
+    return frame;
 }
 
 -(void)setShowsShadow:(BOOL)showsShadow{
@@ -772,6 +787,8 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 
 #pragma mark - Helpers
 -(void)setupGestureRecognizers{
+    if (self.needAlwaysShowMenu) return;
+    
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
     [pan setDelegate:self];
     [self.view addGestureRecognizer:pan];

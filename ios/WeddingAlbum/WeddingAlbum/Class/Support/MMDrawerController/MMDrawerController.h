@@ -90,6 +90,8 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 
 @interface MMDrawerController : UIViewController
 
+
+@property (nonatomic) BOOL       needAlwaysShowMenu;
 ///---------------------------------------
 /// @name Accessing Drawer Container View Controller Properties
 ///---------------------------------------
@@ -177,7 +179,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+-(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController alwaysShowMenu:(BOOL)showMenu;
 
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left view controller.

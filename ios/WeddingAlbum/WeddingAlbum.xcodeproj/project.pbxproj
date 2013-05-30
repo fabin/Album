@@ -169,7 +169,7 @@
 		E1918C7717547D0100984C77 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1918C7517547D0100984C77 /* InfoPlist.strings */; };
 		E1918C7917547D0100984C77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C7817547D0100984C77 /* main.m */; };
 		E1918C7D17547D0100984C77 /* WAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1918C7C17547D0100984C77 /* WAAppDelegate.m */; };
-		E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */; };
+		E1CF0C3817573DCD00A075D5 /* WAViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CF0C3717573DCD00A075D5 /* WAViewController_iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -388,7 +388,7 @@
 		E1918C7A17547D0100984C77 /* WeddingAlbum-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WeddingAlbum-Prefix.pch"; sourceTree = "<group>"; };
 		E1918C7B17547D0100984C77 /* WAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WAAppDelegate.h; sourceTree = "<group>"; };
 		E1918C7C17547D0100984C77 /* WAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WAAppDelegate.m; sourceTree = "<group>"; };
-		E1918C8817547D0100984C77 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WAViewController_iPhone.xib; sourceTree = "<group>"; };
+		E1CF0C3717573DCD00A075D5 /* WAViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WAViewController_iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -754,7 +754,7 @@
 				E14EDF1D17549597007981AD /* Class */,
 				E1918C7B17547D0100984C77 /* WAAppDelegate.h */,
 				E1918C7C17547D0100984C77 /* WAAppDelegate.m */,
-				E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */,
+				E1CF0C3717573DCD00A075D5 /* WAViewController_iPad.xib */,
 				E14EDF6B1754A8C5007981AD /* CONSTANTS.h */,
 				E14EDF701754AB67007981AD /* SINGLETONGCD.h */,
 				E14EDF6C1754A9DB007981AD /* WADataEnvironment.h */,
@@ -829,7 +829,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1918C7717547D0100984C77 /* InfoPlist.strings in Resources */,
-				E1918C8917547D0100984C77 /* WAViewController_iPhone.xib in Resources */,
 				E14EDF3617549656007981AD /* WAMenuViewController.xib in Resources */,
 				E14EDF3B1754969A007981AD /* WAAlbumViewController.xib in Resources */,
 				E14EDF421754A13E007981AD /* Configs.plist in Resources */,
@@ -940,6 +939,7 @@
 				E16BAD6B175642A800F80E0C /* Default-Portrait~ipad.png in Resources */,
 				E16BAD6D175642AB00F80E0C /* Default-Landscape@2x~ipad.png in Resources */,
 				E16BAD6F175642B700F80E0C /* Default-Landscape~ipad.png in Resources */,
+				E1CF0C3817573DCD00A075D5 /* WAViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,14 +1005,6 @@
 				E1918C7617547D0100984C77 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E1918C8717547D0100984C77 /* WAViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1918C8817547D0100984C77 /* en */,
-			);
-			name = WAViewController_iPhone.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
