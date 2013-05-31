@@ -112,7 +112,6 @@ isLoading = _isLoading;
             // Load async from file
             [self performSelectorInBackground:@selector(loadImageFromFileAsync) withObject:nil];
         } else if (_photoURL) {
-            [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
             _isLoading = YES;
             // Load async from web (using SDWebImage)
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -183,8 +182,6 @@ isLoading = _isLoading;
 // Called on main
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image {
     _isLoading = NO;
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-    
     self.underlyingImage = image;
     [self imageDidFinishLoadingSoDecompress];
     
@@ -195,7 +192,6 @@ isLoading = _isLoading;
 // Called on main
 - (void)webImageManager:(SDWebImageManager *)imageManager didFailWithError:(NSError *)error {
     _isLoading = NO;
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     
     if (_photoOptionURL) { //done with failure
         [_photoOptionURL release]; _photoOptionURL = nil;

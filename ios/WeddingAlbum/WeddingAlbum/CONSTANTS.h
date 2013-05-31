@@ -11,7 +11,6 @@
 
 #define NEED_OUTPUT_LOG     0
 
-
 #define KeyServer               @"server"
 #define KeyOptionServer         @"option_image_server_domain"
 #define KeyCouple               @"profile_couple"

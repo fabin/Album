@@ -50,16 +50,23 @@
     }else{
         _tableView.hidden = YES;
         
-        UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
+        UIImageView *imgView = nil;
+        if (is_iPhone) {
+            imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
+            imgView.frame = CGRectMake(0.0, ([UIScreen mainScreen].bounds.size.height==568?100:55), 320, 250);
+        }else{
+            imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome_pad.png"]];
+            if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+                imgView.frame = CGRectMake(150 , 60, 488, 524);
+            }else{
+                imgView.frame = CGRectMake(39 , 145, 488, 524);
+            }
+        }
         imgView.tag = 100;
-        imgView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-        imgView.frame = CGRectMake(self.view.width-250, self.view.height-250, 250, 250);
         [self.view addSubview:imgView];
     }
     
     [self setNavigationBar];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)setNavigationBar{
@@ -116,6 +123,15 @@
     CGFloat height = is_iPhone?(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)?44:32):44;
     self.navigationItem.rightBarButtonItem.customView.height = height;
     self.navigationItem.leftBarButtonItem.customView.height = height;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    if (!_albumKey) {
+        UIView *imgView = [self.view subviewWithTag:100];
+        imgView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -202,22 +218,15 @@
         MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         browser.displayActionButton = YES;
         [browser setInitialPageIndex:row*[WAAlbumCell countForOneRowWithOritation:self.interfaceOrientation]+gesture.view.tag];
-        
+
         [self.navigationController pushViewController:browser animated:YES];
-//        [[UIApplication sharedApplication].keyWindow.rootViewController presentModalViewController:browser animated:YES];
+        
+        if (!is_iPhone) {
+            [self mm_drawerController].needAlwaysShowMenu = NO;
+            [[self mm_drawerController] closeDrawerAnimated:YES completion:nil];
+        }
     }
 }
-
-//- (void)update{
-//    _titleLbl.text = self.title;
-//    [self retrieveData];
-//
-//    _tableView.hidden = NO;
-//    
-//    UIView *imgView = [self.view viewWithTag:100];
-//    [imgView removeFromSuperview];
-//}
-//
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [_tableView reloadData];

@@ -14,12 +14,15 @@
 #import "UIViewController+MMDrawerController.h"
 #import "WASettingViewController.h"
 #import "UIView+Indicator.h"
+#import "MBProgressHUD.h"
 
 @interface WAMenuViewController ()
 
 @end
 
-@implementation WAMenuViewController
+@implementation WAMenuViewController{
+    NSUInteger          _selectedRow;
+}
 
 - (void)viewDidLoad
 {
@@ -65,13 +68,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_menucell.png"]];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_cell_acc.png"]];
         
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
+        
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         cell.textLabel.shadowOffset = CGSizeMake(0, 1);
         cell.textLabel.shadowColor = [UIColor blackColor];
@@ -79,6 +84,8 @@
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 14, 14)];
         imgView.tag = 1;
         [cell.contentView addSubview:imgView];
+        
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_menucell_tapped.png"]];
     }
     
     NSUInteger row = indexPath.row;
@@ -96,6 +103,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _selectedRow = indexPath.row;
+    
     NSDictionary *dic = _dataSource[indexPath.row];
     
     WAAlbumViewController *albumVC = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
@@ -103,11 +112,6 @@
     albumVC.title = dic[@"name"];
     
     UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:albumVC];
-//    nv.navigationBarHidden = YES;
-//    UIImage *image = [UIImage imageNamed:@"bg_nav.png"];
-//    image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-//    [nv.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    
     [self.mm_drawerController setCenterViewController:nv
                                    withCloseAnimation:YES
                                            completion:nil];
@@ -144,27 +148,30 @@
     _isLoading = YES;
     
     UIView *view = self.mm_drawerController.view;
-    [view showIndicatorView];
-    view.userInteractionEnabled = NO;
+//    [view showIndicatorView];
+    
+    [MBProgressHUD showHUDAddedTo:view animated:YES];
     [WAHTTPClient albumListSuccess:^(id obj) {
-        [view hideIndicatorView];
+        [MBProgressHUD hideHUDForView:view animated:YES];
+        
+//        [view hideIndicatorView];
         _dataSource = obj;
         [self.tableView reloadData];
         
         NSString *title = CONFIG(KeyCouple);
         [WADataEnvironment cacheAlbumList:obj forName:title];
         _isLoading = NO;
-        
-        view.userInteractionEnabled = YES;
     } failure:^(NSError *err) {
-        [view hideIndicatorView];
-        _isLoading = NO;
+        [MBProgressHUD hideHUDForView:view animated:YES];
         
-        view.userInteractionEnabled = YES;
+//        [view hideIndicatorView];
+        _isLoading = NO;
     }];
 }
 
 - (IBAction)about:(id)sender {
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0] animated:YES];
+    
     WASettingViewController *vc = [[WASettingViewController alloc] initWithNibName:@"WASettingViewController" bundle:nil];
     UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:vc];
     
@@ -178,6 +185,8 @@
 }
 
 - (IBAction)showWelcome:(id)sender {
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0] animated:YES];
+    
     WAAlbumViewController *vc = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
     vc.title = CONFIG(KeyCouple);
     UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:vc];

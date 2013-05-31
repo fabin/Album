@@ -7,7 +7,6 @@
 //
 
 #import "WAAppDelegate.h"
-#import "WAViewController.h"
 #import "WAMenuViewController.h"
 #import "MMDrawerController.h"
 #import "WAAlbumViewController.h"
@@ -19,54 +18,37 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-//    if (is_iPhone) {
-        UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
-        
-        UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-        centerViewController.title = CONFIG(KeyCouple);
-        UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-        
-        MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                                 initWithCenterViewController:nv
-                                                 leftDrawerViewController:leftSideDrawerViewController
-                                                 rightDrawerViewController:nil
-                                                 alwaysShowMenu:!is_iPhone];
+    UIViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
     
-        [drawerController setMaximumRightDrawerWidth:200.0];
-        [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
-        [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-        
-        [drawerController
-         setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
-             MMDrawerControllerDrawerVisualStateBlock block;
-             block = [[MMExampleDrawerVisualStateManager sharedManager]
-                      drawerVisualStateBlockForDrawerSide:drawerSide];
-             if(block){
-                 block(drawerController, drawerSide, percentVisible);
-             }
-         }];
+    UIViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
+    centerViewController.title = CONFIG(KeyCouple);
+    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+    
+    MMDrawerController * drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:nv
+                                             leftDrawerViewController:leftSideDrawerViewController
+                                             rightDrawerViewController:nil
+                                             alwaysShowMenu:!is_iPhone];
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    [drawerController
+     setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         MMDrawerControllerDrawerVisualStateBlock block;
+         block = [[MMExampleDrawerVisualStateManager sharedManager]
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
+         if(block){
+             block(drawerController, drawerSide, percentVisible);
+         }
+     }];
     
     if (!is_iPhone) {
         [drawerController openDrawerSide:MMDrawerSideLeft animated:NO completion:nil];
     }
     
-        self.window.rootViewController = drawerController;
-//    }else{
-//        UISplitViewController *splitVC = [[UISplitViewController alloc] initWithNibName:@"WAViewController_iPad" bundle:nil];
-//        
-//        WAMenuViewController * leftSideDrawerViewController = [[WAMenuViewController alloc] initWithNibName:@"WAMenuViewController" bundle:nil];
-////        UINavigationController *nv0 = [[UINavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
-////
-//        WAAlbumViewController * centerViewController = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-//        
-//        centerViewController.title = CONFIG(KeyCouple);
-////        UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-//        [splitVC setViewControllers:@[leftSideDrawerViewController, centerViewController]];
-//        
-//        self.window.rootViewController = splitVC;
-//    }
-
+    self.window.rootViewController = drawerController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
