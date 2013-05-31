@@ -477,10 +477,15 @@ static SDWebImageManager *instance;
                 failure(error);
             }
 #endif
-
-            [downloaders removeObjectAtIndex:uidx];
-            [downloadInfo removeObjectAtIndex:uidx];
-            [downloadDelegates removeObjectAtIndex:uidx];
+            if (uidx < downloaders.count) {
+                [downloaders removeObjectAtIndex:uidx];
+            }
+            if (uidx < downloadInfo.count) {
+                [downloadInfo removeObjectAtIndex:uidx];
+            }
+            if (uidx < downloadDelegates.count) {
+                [downloadDelegates removeObjectAtIndex:uidx];
+            }
         }
     }
 

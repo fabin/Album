@@ -541,6 +541,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     [self updateShadowForCenterView];
 }
 
+- (void)updateCenterViewFrame{
+    _centerContainerView.frame = [self frameForCenterView];
+}
+
 - (CGRect)frameForCenterView{
     CGRect frame = self.view.bounds;
     if (!self.needAlwaysShowMenu) return frame;
@@ -851,7 +855,9 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                 break;
             case MMDrawerOpenCenterInteractionModeNavigationBarOnly:
                 [navBar setUserInteractionEnabled:YES];
-                [centerContentView setUserInteractionEnabled:NO];
+                if (!self.needAlwaysShowMenu) {
+                    [centerContentView setUserInteractionEnabled:NO];
+                }
                 break;
                 
             case MMDrawerOpenCenterInteractionModeFull:
