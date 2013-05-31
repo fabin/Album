@@ -322,4 +322,5 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 -(void)setDrawerVisualStateBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible))drawerVisualStateBlock;
 
+- (void)updateCenterViewFrame;
 @end

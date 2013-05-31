@@ -13,6 +13,7 @@
 #import "SDImageCache.h"
 #import "UIView+Addition.h"
 #import "UIViewController+ResultTips.h"
+#import "UIViewController+MMDrawerController.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -437,6 +438,16 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[super viewWillDisappear:animated];
 
     [self cancelControlHiding];
+    
+//    UIView *view = _pagingScrollView.superview.superview.superview;
+//    view.clipsToBounds = YES;
+    
+    if(!is_iPhone){
+        [self mm_drawerController].needAlwaysShowMenu = YES;
+        
+        [[self mm_drawerController] updateCenterViewFrame];
+        [[self mm_drawerController] openDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -1052,11 +1063,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - Misc
-- (void)back:(id)sender{
-    UIView *view = _pagingScrollView.superview.superview.superview;
-    view.clipsToBounds = YES;
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 //- (void)cancel:(id)sender{
 //    UIView *view = _pagingScrollView.superview.superview.superview;
