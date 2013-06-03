@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+#files img {
+	margin: 12px;
+}
+</style>
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/jquery.file.upload/css/style.css">
+<link rel="stylesheet"
+	href="/static/bootstrap/css/bootstrap-responsive.min.css">
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<link rel="stylesheet"
+	href="/static/jquery.file.upload/css/jquery.fileupload-ui.css">
+<title>Setting - Albums</title>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="/">婚纱相册</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="#">新建相册</a></li>
+						<li class="active"><a href="#">设置</a></li>
+						<li><a href="#about">关于</a></li>
+						<li><a href="#contact">联系我们</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		{% if updated %}
+		<div class="alert alert-success">设置成功</div>
+		{% endif %}
+		<form id='form' class="form-horizontal" method="post"
+			action="/settings">
+			<input id='setting_key' type="hidden" value="">
+			<div class="control-group">
+				<label class="control-label" for="girlName">女方姓名</label>
+				<div class="controls">
+					<input type="text" id='girlName' name='girlName'
+						value="{{setting.girlName}}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="boyName">男方姓名</label>
+				<div class="controls">
+					<input type="text" id='boyName' name='boyName'
+						value='{{setting.boyName}}'>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="appName">App Name</label>
+				<div class="controls">
+					<input type="text" id='appName' name='appName'
+						value='{{setting.appName}}'>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="head">头像</label>
+				<div class="controls">
+					{% if setting.appHead: %}
+					<img id='head' src='{{setting.appHead}}=s120-c'>
+					{% else %}
+					<img id='head'>
+					{%endif%}
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<span class="btn btn-success fileinput-button"> <i
+						class="icon-plus icon-white"></i> <span>换头像...</span> <!-- The file input field used as target for the file upload widget -->
+						<input id="fileuploadHead" type="file" name="files[]">
+					</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="welcomeImage">欢迎图片</label>
+				<div class="controls">
+					{% if setting.appWelcome: %}
+					<img id='welcomeImage' src='{{setting.appWelcome}}=s360'>
+					{% else %}
+					<img id='welcomeImage'>
+					{%endif%}
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<span class="btn btn-success fileinput-button"> <i
+						class="icon-plus icon-white"></i> <span>换欢迎图片...</span> <!-- The file input field used as target for the file upload widget -->
+						<input id="fileuploadWelcome" type="file" name="files[]">
+					</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="congratulationImage">祝贺图片</label>
+				<div class="controls">
+					<img id='congratulationImage' src="{{setting.appCongratulation}}">
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<span class="btn btn-success fileinput-button"> <i
+						class="icon-plus icon-white"></i> <span>换祝贺图片...</span> <!-- The file input field used as target for the file upload widget -->
+						<input id="fileuploadCongratulation" type="file" name="files[]">
+					</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<div id="progress"
+						class="progress progress-success progress-striped">
+						<div class="bar"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<a id='update' type="submit" class="btn btn-primary"><i
+						class="icon-plus icon-white"></i> <span>提交</span></a>
+				</div>
+			</div>
+			<input type="hidden" id='appHead' name='appHead'
+				value='{{setting.appHead}}'> <input type="hidden"
+				id='appWelcome' name='appWelcome' value='{{setting.appWelcome}}'>
+			<input type="hidden" id='appCongratulation' name='appCongratulation'
+				value='{{setting.appCongratulation}}'>
+		</form>
+		<!-- The container for the uploaded files -->
+		<div id="files"></div>
+	</div>
+	<script src="/static/js/jquery-1.9.1.min.js"></script>
+	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+	<script src="/static/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="/static/jquery.file.upload/js/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="/static/jquery.file.upload/js/jquery.fileupload.js"></script>
+	<script src="/static/js/app/setting.js"></script>
+</body>
+</html>

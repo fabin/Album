@@ -19,6 +19,8 @@ handlers:
   script: interface.app
 - url: /downloads.*
   script: downloads.app
+- url: /settings.*
+  script: settings.app
 - url: .*
   script: albums.app
 
