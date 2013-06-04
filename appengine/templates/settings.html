@@ -77,15 +77,14 @@ body {
 					<label class="control-label" for="appName">App Name</label>
 					<div class="controls">
 						<input type="text" id='appName' name='appName'
-							value='{{setting.appName}}'>
+							value='{{appSetting.appName}}'>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="head">头像</label>
 					<div class="controls">
-						{% if setting.appHead: %} <img id='head'
-							src='{{setting.appHead}}=s120-c'> {% else %} <img id='head'>
-						{%endif%}
+						<img id='head'
+							src='{{appSetting.appHead}}=s120-c'>
 					</div>
 				</div>
 				<div class="control-group">
@@ -99,9 +98,8 @@ body {
 				<div class="control-group">
 					<label class="control-label" for="welcomeImage">欢迎图片</label>
 					<div class="controls">
-						{% if setting.appWelcome: %} <img id='welcomeImage'
-							src='{{setting.appWelcome}}=s360'> {% else %} <img
-							id='welcomeImage'> {%endif%}
+						<img id='welcomeImage'
+							src='{{appSetting.appWelcome}}=s360'>
 					</div>
 				</div>
 				<div class="control-group">
@@ -115,7 +113,7 @@ body {
 				<div class="control-group">
 					<label class="control-label" for="congratulationImage">祝贺图片</label>
 					<div class="controls">
-						<img id='congratulationImage' src="{{setting.appCongratulation}}">
+						<img id='congratulationImage' src="{{appSetting.appCongratulation}}">
 					</div>
 				</div>
 				<div class="control-group">
@@ -165,10 +163,10 @@ body {
 				</div>
 			</div>
 			<input type="hidden" id='appHead' name='appHead'
-				value='{{setting.appHead}}'> <input type="hidden"
-				id='appWelcome' name='appWelcome' value='{{setting.appWelcome}}'>
+				value='{{appSetting.appHead}}'> <input type="hidden"
+				id='appWelcome' name='appWelcome' value='{{appSetting.appWelcome}}'>
 			<input type="hidden" id='appCongratulation' name='appCongratulation'
-				value='{{setting.appCongratulation}}'>
+				value='{{appSetting.appCongratulation}}'>
 		</form>
 		<!-- The container for the uploaded files -->
 		<div id="files"></div>

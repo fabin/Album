@@ -27,17 +27,19 @@ from upload import UploadHandler
 class Settings(db.Model):
     girlName = db.StringProperty()
     boyName = db.StringProperty()
-    appName = db.StringProperty()
-    appHead = db.StringProperty()
-    appWelcome = db.StringProperty()
-    appCongratulation = db.StringProperty()
-    cover = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
 
 class WebSetting(db.Model):
     praise1 = db.StringProperty()
     praise2 = db.StringProperty()
     praise3 = db.StringProperty()
+    
+class AppSetting(db.Model):
+    appName = db.StringProperty()
+    appHead = db.StringProperty()
+    appWelcome = db.StringProperty()
+    appCongratulation = db.StringProperty()
+    cover = db.StringProperty()
     
     
 def create_setting_key(setting_name=None):
@@ -53,12 +55,16 @@ class SettingsHandler(BaseHandler):
         if isinstance(setting, Settings):
             webSettings = WebSetting.all().ancestor(setting).fetch(1)
             webSetting = webSettings[0] if len(webSettings) > 0 else {}
+            appSettings = AppSetting.all().ancestor(setting).fetch(1)
+            appSetting = appSettings[0] if len(appSettings) > 0 else {}
         else:
             webSetting = {}
+            appSetting = {}
             
         template_values = {
             'setting' : setting,
-            'webSetting' : webSetting
+            'webSetting' : webSetting,
+            'appSetting' : appSetting
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')
         self.response.write(template.render(template_values))
@@ -71,12 +77,15 @@ class SettingsHandler(BaseHandler):
             setting = Settings(parent=db.Key.from_path('Settings', 'default_setting'))
         setting.girlName = self.request.get('girlName')
         setting.boyName = self.request.get('boyName')
-        setting.appName = self.request.get('appName')
-        setting.appHead = self.request.get('appHead')
-        setting.appWelcome = self.request.get('appWelcome')
-        setting.appCongratulation = self.request.get('appCongratulation')
-        
         setting.save()
+        
+        appSettings = AppSetting.all().ancestor(setting).fetch(1)
+        appSetting = appSettings[0] if len(appSettings) > 0 else AppSetting(parent=setting)
+        appSetting.appName = self.request.get('appName')
+        appSetting.appHead = self.request.get('appHead')
+        appSetting.appWelcome = self.request.get('appWelcome')
+        appSetting.appCongratulation = self.request.get('appCongratulation')
+        appSetting.save()
         
         webSettings = WebSetting.all().ancestor(setting).fetch(1)
         webSetting = webSettings[0] if len(webSettings) > 0 else WebSetting(parent=setting)
@@ -86,9 +95,10 @@ class SettingsHandler(BaseHandler):
         webSetting.save()
         
         template_values = {
-            'setting':setting,
-            'webSetting':webSetting,
-            'updated':True
+            'setting' : setting,
+            'appSetting' : appSetting,
+            'webSetting' : webSetting,
+            'updated' : True
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')
         self.response.write(template.render(template_values))
