@@ -17,14 +17,9 @@
 #
 from __future__ import with_statement
 from base import JINJA_ENVIRONMENT, BaseHandler
-from google.appengine.api import files, images, users
-from google.appengine.ext import blobstore, db
-from google.appengine.ext.db import BadKeyError
-from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import  db
 import json
 import logging
-import re
-import urllib
 import webapp2
 from upload import UploadHandler
 
@@ -39,7 +34,7 @@ class Settings(db.Model):
     cover = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
 
-class Praise(db.Model):
+class WebSetting(db.Model):
     praise1 = db.StringProperty()
     praise2 = db.StringProperty()
     praise3 = db.StringProperty()
@@ -55,12 +50,15 @@ class SettingsHandler(BaseHandler):
         setting = settings[0] if len(settings) > 0 else {}
         logging.info("get setting = " + str(setting))
         
-        praises = Praise.all().ancestor(setting).fetch(1)
-        praise = praises[0] if len(praises) > 0 else {}
-        
+        if isinstance(setting, Settings):
+            webSettings = WebSetting.all().ancestor(setting).fetch(1)
+            webSetting = webSettings[0] if len(webSettings) > 0 else {}
+        else:
+            webSetting = {}
+            
         template_values = {
             'setting' : setting,
-            'praise' : praise
+            'webSetting' : webSetting
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')
         self.response.write(template.render(template_values))
@@ -80,16 +78,16 @@ class SettingsHandler(BaseHandler):
         
         setting.save()
         
-        praises = Praise.all().ancestor(setting).fetch(1)
-        praise = praises[0] if len(praises) > 0 else Praise(parent=setting)
-        praise.praise1 = self.request.get('praise1')
-        praise.praise2 = self.request.get('praise2')
-        praise.praise3 = self.request.get('praise3')
-        praise.save()
+        webSettings = WebSetting.all().ancestor(setting).fetch(1)
+        webSetting = webSettings[0] if len(webSettings) > 0 else WebSetting(parent=setting)
+        webSetting.praise1 = self.request.get('praise1')
+        webSetting.praise2 = self.request.get('praise2')
+        webSetting.praise3 = self.request.get('praise3')
+        webSetting.save()
         
         template_values = {
             'setting':setting,
-            'praise':praise,
+            'webSetting':webSetting,
             'updated':True
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')
