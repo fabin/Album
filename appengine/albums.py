@@ -26,6 +26,7 @@ import logging
 import re
 import urllib
 import webapp2
+import album_settings
 
 
 EXPIRATION_TIME = 300  # seconds
@@ -49,8 +50,11 @@ class Albums(BaseHandler):
 
     def get(self):
         greetings_query = Album.all().order('-date')
-        albums = greetings_query.fetch(10)
-
+        albums = greetings_query.fetch(30)
+        settings_query = album_settings.Settings.all().order('date')
+        settings = settings_query.fetch(1)
+        setting = settings[0] if len(settings) > 0 else {}
+        
         user = users.get_current_user()
         if user:
             url = users.create_logout_url(self.request.uri)
@@ -64,7 +68,8 @@ class Albums(BaseHandler):
             'url_log': url,
             'url_linktext': url_linktext,
             'user': user,
-            'isAdmin': users.is_current_user_admin()
+            'isAdmin': users.is_current_user_admin(),
+            'setting': setting
         }
         
         template = JINJA_ENVIRONMENT.get_template('/templates/albums.html')

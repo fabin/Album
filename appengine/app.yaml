@@ -20,7 +20,7 @@ handlers:
 - url: /downloads.*
   script: downloads.app
 - url: /settings.*
-  script: settings.app
+  script: album_settings.app
 - url: .*
   script: albums.app
 

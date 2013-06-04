@@ -11,7 +11,6 @@
 #
 
 from __future__ import with_statement
-from albums import JINJA_ENVIRONMENT
 from google.appengine.api import files, images
 from google.appengine.ext import blobstore, db
 import albums
@@ -20,6 +19,7 @@ import logging
 import re
 import urllib
 import webapp2
+from base import JINJA_ENVIRONMENT
 
 MIN_FILE_SIZE = 1  # bytes
 MAX_FILE_SIZE = 5000000  # bytes
