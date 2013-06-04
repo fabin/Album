@@ -39,6 +39,11 @@ class Settings(db.Model):
     cover = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
 
+class Praise(db.Model):
+    praise1 = db.StringProperty()
+    praise2 = db.StringProperty()
+    praise3 = db.StringProperty()
+    
     
 def create_setting_key(setting_name=None):
     return db.Key.from_path('Settings', setting_name or 'default_setting')
@@ -49,8 +54,13 @@ class SettingsHandler(BaseHandler):
         settings = settings_query.fetch(1)
         setting = settings[0] if len(settings) > 0 else {}
         logging.info("get setting = " + str(setting))
+        
+        praises = Praise.all().ancestor(setting).fetch(1)
+        praise = praises[0] if len(praises) > 0 else {}
+        
         template_values = {
-            'setting':setting
+            'setting' : setting,
+            'praise' : praise
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')
         self.response.write(template.render(template_values))
@@ -69,8 +79,17 @@ class SettingsHandler(BaseHandler):
         setting.appCongratulation = self.request.get('appCongratulation')
         
         setting.save()
+        
+        praises = Praise.all().ancestor(setting).fetch(1)
+        praise = praises[0] if len(praises) > 0 else Praise(parent=setting)
+        praise.praise1 = self.request.get('praise1')
+        praise.praise2 = self.request.get('praise2')
+        praise.praise3 = self.request.get('praise3')
+        praise.save()
+        
         template_values = {
             'setting':setting,
+            'praise':praise,
             'updated':True
             }
         template = JINJA_ENVIRONMENT.get_template('/templates/settings.html')

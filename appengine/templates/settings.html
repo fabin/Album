@@ -12,6 +12,10 @@ body {
 #files img {
 	margin: 12px;
 }
+
+.control-group .help-inline {
+	color: #468847;
+}
 </style>
 <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/static/jquery.file.upload/css/style.css">
@@ -44,78 +48,106 @@ body {
 		{% if updated %}
 		<div class="alert alert-success">设置成功</div>
 		{% endif %}
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#goble">全局设置</a></li>
+			<li><a href="#web">Web设置</a></li>
+			<li><a href="#app">App设置</a></li>
+		</ul>
 		<form id='form' class="form-horizontal" method="post"
 			action="/settings">
-			<input id='setting_key' type="hidden" value="">
-			<div class="control-group">
-				<label class="control-label" for="girlName">女方姓名</label>
-				<div class="controls">
-					<input type="text" id='girlName' name='girlName'
-						value="{{setting.girlName}}">
+			<div id='goble'>
+				<input id='setting_key' type="hidden" value="">
+				<div class="control-group">
+					<label class="control-label" for="girlName">女方姓名</label>
+					<div class="controls">
+						<input type="text" id='girlName' name='girlName'
+							value="{{setting.girlName}}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="boyName">男方姓名</label>
+					<div class="controls">
+						<input type="text" id='boyName' name='boyName'
+							value='{{setting.boyName}}'>
+					</div>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="boyName">男方姓名</label>
-				<div class="controls">
-					<input type="text" id='boyName' name='boyName'
-						value='{{setting.boyName}}'>
+			<div id='app'>
+				<div class="control-group">
+					<label class="control-label" for="appName">App Name</label>
+					<div class="controls">
+						<input type="text" id='appName' name='appName'
+							value='{{setting.appName}}'>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="head">头像</label>
+					<div class="controls">
+						{% if setting.appHead: %} <img id='head'
+							src='{{setting.appHead}}=s120-c'> {% else %} <img id='head'>
+						{%endif%}
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<span class="btn btn-success fileinput-button"> <i
+							class="icon-plus icon-white"></i> <span>换头像...</span> <!-- The file input field used as target for the file upload widget -->
+							<input id="fileuploadHead" type="file" name="files[]">
+						</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="welcomeImage">欢迎图片</label>
+					<div class="controls">
+						{% if setting.appWelcome: %} <img id='welcomeImage'
+							src='{{setting.appWelcome}}=s360'> {% else %} <img
+							id='welcomeImage'> {%endif%}
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<span class="btn btn-success fileinput-button"> <i
+							class="icon-plus icon-white"></i> <span>换欢迎图片...</span> <!-- The file input field used as target for the file upload widget -->
+							<input id="fileuploadWelcome" type="file" name="files[]">
+						</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="congratulationImage">祝贺图片</label>
+					<div class="controls">
+						<img id='congratulationImage' src="{{setting.appCongratulation}}">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<span class="btn btn-success fileinput-button"> <i
+							class="icon-plus icon-white"></i> <span>换祝贺图片...</span> <!-- The file input field used as target for the file upload widget -->
+							<input id="fileuploadCongratulation" type="file" name="files[]">
+						</span>
+					</div>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="appName">App Name</label>
-				<div class="controls">
-					<input type="text" id='appName' name='appName'
-						value='{{setting.appName}}'>
+			<div id='web'>
+				<div class="control-group">
+					<label class="control-label" for="praise1">赞美语一</label>
+					<div class="controls">
+						<input type="text" id='praise1' name='praise1'
+							value="{{praise.praise1}}"><span class="help-inline">如：相识在华灯初上的傍晚</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="head">头像</label>
-				<div class="controls">
-					{% if setting.appHead: %}
-					<img id='head' src='{{setting.appHead}}=s120-c'>
-					{% else %}
-					<img id='head'>
-					{%endif%}
+				<div class="control-group">
+					<label class="control-label" for="praise1">赞美语二</label>
+					<div class="controls">
+						<input type="text" id='praise2' name='praise2'
+							value="{{praise.praise2}}"><span class="help-inline">如：相结在美丽的上海</span>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<span class="btn btn-success fileinput-button"> <i
-						class="icon-plus icon-white"></i> <span>换头像...</span> <!-- The file input field used as target for the file upload widget -->
-						<input id="fileuploadHead" type="file" name="files[]">
-					</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="welcomeImage">欢迎图片</label>
-				<div class="controls">
-					{% if setting.appWelcome: %}
-					<img id='welcomeImage' src='{{setting.appWelcome}}=s360'>
-					{% else %}
-					<img id='welcomeImage'>
-					{%endif%}
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<span class="btn btn-success fileinput-button"> <i
-						class="icon-plus icon-white"></i> <span>换欢迎图片...</span> <!-- The file input field used as target for the file upload widget -->
-						<input id="fileuploadWelcome" type="file" name="files[]">
-					</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="congratulationImage">祝贺图片</label>
-				<div class="controls">
-					<img id='congratulationImage' src="{{setting.appCongratulation}}">
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<span class="btn btn-success fileinput-button"> <i
-						class="icon-plus icon-white"></i> <span>换祝贺图片...</span> <!-- The file input field used as target for the file upload widget -->
-						<input id="fileuploadCongratulation" type="file" name="files[]">
-					</span>
+				<div class="control-group">
+					<label class="control-label" for="praise3">赞美语三</label>
+					<div class="controls">
+						<input type="text" id='praise3' name='praise3'
+							value="{{praise.praise3}}"><span class="help-inline">如：相知一生相伴一世</span>
+					</div>
 				</div>
 			</div>
 			<div class="control-group">
@@ -142,6 +174,7 @@ body {
 		<div id="files"></div>
 	</div>
 	<script src="/static/js/jquery-1.9.1.min.js"></script>
+	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 	<script src="/static/jquery.file.upload/js/vendor/jquery.ui.widget.js"></script>
 	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->

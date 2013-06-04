@@ -28,7 +28,6 @@ import urllib
 import webapp2
 import album_settings
 
-
 EXPIRATION_TIME = 300  # seconds
 
 class Album(db.Model):
@@ -55,6 +54,9 @@ class Albums(BaseHandler):
         settings = settings_query.fetch(1)
         setting = settings[0] if len(settings) > 0 else {}
         
+        praises = album_settings.Praise.all().ancestor(setting).fetch(1)
+        praise = praises[0] if len(praises) > 0 else {}
+        
         user = users.get_current_user()
         if user:
             url = users.create_logout_url(self.request.uri)
@@ -65,6 +67,7 @@ class Albums(BaseHandler):
 
         template_values = {
             'albums': albums,
+            'praise' : praise,
             'url_log': url,
             'url_linktext': url_linktext,
             'user': user,
