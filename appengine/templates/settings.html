@@ -127,6 +127,20 @@ body {
 			</div>
 			<div id='web'>
 				<div class="control-group">
+					<label class="control-label" for="coverImage">祝贺图片</label>
+					<div class="controls">
+						<img id='coverImage' src="{{webSetting.cover}}=s1600">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<span class="btn btn-success fileinput-button"> <i
+							class="icon-plus icon-white"></i> <span>换祝封面图片...</span> <!-- The file input field used as target for the file upload widget -->
+							<input id="fileuploadCover" type="file" name="files[]">
+						</span>
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label" for="praise1">赞美语一</label>
 					<div class="controls">
 						<input type="text" id='praise1' name='praise1'
@@ -167,6 +181,8 @@ body {
 				id='appWelcome' name='appWelcome' value='{{appSetting.appWelcome}}'>
 			<input type="hidden" id='appCongratulation' name='appCongratulation'
 				value='{{appSetting.appCongratulation}}'>
+			<input type="hidden" id='cover' name='cover'
+				value='{{webSetting.cover}}'>
 		</form>
 		<!-- The container for the uploaded files -->
 		<div id="files"></div>

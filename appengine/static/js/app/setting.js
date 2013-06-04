@@ -1,11 +1,13 @@
 $(function() {
 	'use strict';
 	// Change this to the location of your server-side upload handler:
-	initUploadItem('#fileuploadHead', '#appHead', 'img#head', '=s120-c')
+	initUploadItem('#fileuploadHead', '#appHead', 'img#head', '=s120-c');
 	initUploadItem('#fileuploadWelcome', '#appWelcome', 'img#welcomeImage',
-			'=s360')
+			'=s360');
 	initUploadItem('#fileuploadCongratulation', '#appCongratulation',
-			'img#congratulationImage', '=s480')
+			'img#congratulationImage', '=s480');
+	initUploadItem('#fileuploadCover', '#cover', 'img#coverImage', '=s1600');
+
 	$('#update').click(function() {
 		var info = $('.alert-success');
 		if (info.length >= 0) {

@@ -14,7 +14,11 @@
 <body>
 	<div id="cover">
 		<div class='landscape'>
+			{% if webSetting.cover: %}
+			<img alt="" src="{{webSetting.cover}}=s1024">
+			{% else %}
 			<img alt="" src="/static/img/Green-Grass-lite.jpg">
+			{% endif %}
 		</div>
 		<div class="covershadowPosition covershadow"></div>
 		<div class="covershadowPosition profile">
