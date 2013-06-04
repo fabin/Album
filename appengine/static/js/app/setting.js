@@ -7,6 +7,7 @@ $(function() {
 	initUploadItem('#fileuploadCongratulation', '#appCongratulation',
 			'img#congratulationImage', '=s480');
 	initUploadItem('#fileuploadCover', '#cover', 'img#coverImage', '=s1600');
+	initUploadItem('#fileuploadWebHead', '#webHead', 'img#webHeadImage', '=s120-c');
 
 	$('#update').click(function() {
 		var info = $('.alert-success');

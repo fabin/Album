@@ -34,6 +34,7 @@ class WebSetting(db.Model):
     praise2 = db.StringProperty()
     praise3 = db.StringProperty()
     cover = db.StringProperty()
+    head = db.StringProperty()
     
 class AppSetting(db.Model):
     appName = db.StringProperty()
@@ -93,6 +94,7 @@ class SettingsHandler(BaseHandler):
         webSetting.praise2 = self.request.get('praise2')
         webSetting.praise3 = self.request.get('praise3')
         webSetting.cover = self.request.get('cover')
+        webSetting.head = self.request.get('webHead')
         webSetting.save()
         
         template_values = {

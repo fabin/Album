@@ -127,7 +127,21 @@ body {
 			</div>
 			<div id='web'>
 				<div class="control-group">
-					<label class="control-label" for="coverImage">祝贺图片</label>
+					<label class="control-label" for="headImage">封面头像</label>
+					<div class="controls">
+						<img id='webHeadImage' src="{{webSetting.head}}=s120-c">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<span class="btn btn-success fileinput-button"> <i
+							class="icon-plus icon-white"></i> <span>换封面头像...</span> <!-- The file input field used as target for the file upload widget -->
+							<input id="fileuploadWebHead" type="file" name="files[]">
+						</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="coverImage">封面图片</label>
 					<div class="controls">
 						<img id='coverImage' src="{{webSetting.cover}}=s1600">
 					</div>
@@ -135,7 +149,7 @@ body {
 				<div class="control-group">
 					<div class="controls">
 						<span class="btn btn-success fileinput-button"> <i
-							class="icon-plus icon-white"></i> <span>换祝封面图片...</span> <!-- The file input field used as target for the file upload widget -->
+							class="icon-plus icon-white"></i> <span>换封面图片...</span> <!-- The file input field used as target for the file upload widget -->
 							<input id="fileuploadCover" type="file" name="files[]">
 						</span>
 					</div>
@@ -183,6 +197,8 @@ body {
 				value='{{appSetting.appCongratulation}}'>
 			<input type="hidden" id='cover' name='cover'
 				value='{{webSetting.cover}}'>
+			<input type="hidden" id='webHead' name='webHead'
+				value='{{webSetting.head}}'>
 		</form>
 		<!-- The container for the uploaded files -->
 		<div id="files"></div>
