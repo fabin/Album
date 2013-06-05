@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.View;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -57,8 +58,27 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 
 		setTitle(mTitleRes);
 
-		// set the Behind View
-		setBehindContentView(R.layout.menu_frame);
+		// set the Above View
+		setContentView(R.layout.content_frame);
+
+		// check if the content frame contains the menu frame
+		if (findViewById(R.id.menu_frame) == null)
+		{
+			setBehindContentView(R.layout.menu_frame);
+			getSlidingMenu().setSlidingEnabled(true);
+			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			// show home as up so we can toggle
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		else
+		{
+			// add a dummy view
+			View v = new View(this);
+			setBehindContentView(v);
+			getSlidingMenu().setSlidingEnabled(false);
+			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		}
+				
 		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
 		Log.i(TAG, "savedInstanceState == null ? " + savedInstanceState);
 		if (savedInstanceState == null)
@@ -82,15 +102,13 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
 
 		setSlidingActionBarEnabled(true);
 		sm.setBehindScrollScale(0.0f);
 		sm.setBehindCanvasTransformer(mTransformer);
 
-		// set the Above View
-		setContentView(R.layout.content_frame);
+		
 		int containerId = R.id.content_frame;
 		albumsFragmentManager = new AlbumsFragmentManager(this, containerId);
 		albumsFragmentManager.onCreate(savedInstanceState);

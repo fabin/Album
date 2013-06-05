@@ -18,7 +18,7 @@
 
     <dimen name="slidingmenu_offset">500dp</dimen>
 
-    <integer name="pictures_grid_num_cols">2</integer>
+    <integer name="pictures_grid_num_cols">3</integer>
 
     <string name="value_test">values-xlarge</string>
 </resources>
