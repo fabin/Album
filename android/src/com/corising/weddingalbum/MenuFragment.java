@@ -18,6 +18,7 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,14 +32,16 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.corising.weddingalbum.dao.HttpResonseDAO;
 import com.corising.weddingalbum.dao.HttpResponseFactory;
 
-public class MenuFragment extends SherlockListFragment implements OnItemClickListener
+public class MenuFragment extends SherlockListFragment implements OnItemClickListener, OnClickListener
 {
 	private static final String	TAG	= MenuFragment.class.getName();
 	private Activity			activity;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.menu_frame_content, null);
+		View v = inflater.inflate(R.layout.menu_frame_content, null);
+		v.findViewById(R.id.profile_content).setOnClickListener(this);
+		return v;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -206,5 +209,14 @@ public class MenuFragment extends SherlockListFragment implements OnItemClickLis
 	{
 		Album album = (Album) view.getTag();
 		((AlbumFragmentChangeSupport) activity).onPictureFragmentChanged(album.getKey());
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		if (v.getId() == R.id.profile_content)
+		{
+			((AlbumFragmentChangeSupport) activity).onPictureFragmentChanged(WelcomeFragment.class.getName());
+		}
 	}
 }

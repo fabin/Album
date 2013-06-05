@@ -24,7 +24,7 @@
 
             <ImageView
                 style="@style/help_category_content_item_image_style"
-                android:src="@drawable/profile_head" />
+                android:src="@drawable/ic_launcher" />
 
             <TextView
                 android:id="@+id/help_congratulations_details"

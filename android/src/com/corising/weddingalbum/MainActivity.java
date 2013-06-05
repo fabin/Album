@@ -21,7 +21,6 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 	private static final String		TAG	= MainActivity.class.getName();
 	private int						mTitleRes;
 	private CanvasTransformer		mTransformer;
-	protected ListFragment			mFrag;
 	private AlbumsFragmentManager	albumsFragmentManager;
 
 	public MainActivity()
@@ -81,11 +80,13 @@ public class MainActivity extends SlidingFragmentActivity implements AlbumFragme
 				
 		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
 		Log.i(TAG, "savedInstanceState == null ? " + savedInstanceState);
+		ListFragment mFrag;
 		if (savedInstanceState == null)
 		{
 			mFrag = new MenuFragment();
 			t.replace(R.id.menu_frame, mFrag);
 			t.commit();
+			
 		}
 		else
 		{
