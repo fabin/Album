@@ -17,6 +17,7 @@
 from albums import Album, Picture
 import json
 import webapp2
+import album_settings
 
 class InterfaceAlbumsHandler(webapp2.RequestHandler):
 
@@ -66,5 +67,22 @@ class InterfaceAlbumDetailsHandler(webapp2.RequestHandler):
         self.response.write(s)
 
 
-app = webapp2.WSGIApplication([('/interface/albums', InterfaceAlbumsHandler), ('/interface/album/([^/]+)', InterfaceAlbumDetailsHandler)],
+class InterfaceAppSettingHandler(webapp2.RequestHandler):
+    def get(self):
+        settings_query = album_settings.Settings.all().order('date')
+        settings = settings_query.fetch(1)
+        setting = settings[0] if len(settings) > 0 else {}
+        if isinstance(setting, album_settings.Settings):
+            appSettings = album_settings.AppSetting.all().ancestor(setting).fetch(1)
+            appSetting = appSettings[0] if len(appSettings) > 0 else {}
+        result = {}
+        result['appName'] = appSetting.appName
+        result['appHead'] = appSetting.appHead
+        result['appWelcome'] = appSetting.appWelcome
+        result['appCongratulation'] = appSetting.appCongratulation
+        s = json.dumps(result, separators=(',', ':'))
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(s)
+
+app = webapp2.WSGIApplication([('/interface/albums', InterfaceAlbumsHandler), ('/interface/album/([^/]+)', InterfaceAlbumDetailsHandler), ('/interface/appSetting', InterfaceAppSettingHandler)],
                               debug=True)
