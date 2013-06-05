@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- <string name="server">http://10.0.201.59:8080</string> -->
+<!--     <string name="server">http://192.168.1.3:8080</string> -->
+    <string name="server">http://yingnahongfan.co-rising.com</string>
+    <string name="option_image_server_domain">binshidai.com</string>
+    <string name="couple_name_girl">苏颖娜</string>
+    <string name="couple_name_boy">杨宏帆</string>
+    <string name="profile_couple">苏颖娜 &amp; 杨宏帆</string>
+    <string name="app_name">颖娜&amp;宏帆</string>
+
+</resources>
