@@ -116,9 +116,9 @@
 
 #cover .profile .details .textcontainer .text .descItem .descItemDetails
 	{
-	filter: alpha(opacity =   
+	filter: alpha(opacity =        
 		                                                         
-		     67);
+		          67);
 	opacity: .67;
 	color: #fff;
 }
@@ -139,11 +139,11 @@
 	width: 100%;
 }
 
-#cover .admin, #cover .admin a {
+#cover .admin,#cover .admin a {
 	color: #fff;
-	filter: alpha(opacity =   
+	filter: alpha(opacity =        
 		                                                         
-		     67);
+		          67);
 	opacity: .67;
 	text-decoration: none;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
@@ -159,14 +159,20 @@
 
 #albums .album {
 	float: left;
+	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	border: 1px solid #c4c4c4;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#c4c4c4',
+		Direction=135, Strength=2); /*for ie6,7,8*/
 	-webkit-box-shadow: 0 1px 2px #c4c4c4;
+	-moz-box-shadow: 0 1px 2px #c4c4c4;
 	box-shadow: 0 1px 2px #c4c4c4;
 	background-color: #fff;
 	border-top: 5px solid #fff;
 	margin: 30px 10px;
-	width: 320px;
+	width: 317px;
+	height: 320px;
 }
 
 #albums .albumTopColor-0 {
