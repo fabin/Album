@@ -1,5 +1,5 @@
-application: album-wedding
-#application: album-yingnahongfan
+#application: album-wedding
+application: album-yingnahongfan
 version: 1
 runtime: python27
 api_version: 1
