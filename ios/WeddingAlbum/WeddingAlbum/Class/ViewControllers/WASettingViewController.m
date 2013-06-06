@@ -27,14 +27,14 @@
     [super viewDidLoad];
     NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:@"appCongratulation"];
     if (url){
-        [_imgView setImageWithURL:[NSURL URLWithString:url]];
-    }else{
-        _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
+        [_imgView setReloadImageIfFailedWithUrl:url placeholderImage:nil];
+//    }else{
+//        _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
     }
     
-    NSString *girlName = CONFIG(KeyCoupleGirl);
-    NSString *boyName = CONFIG(KeyCoupleBoy);
-    NSString *cong = [NSString stringWithFormat:@"       恭祝%@和%@喜结连理。愿你们的爱情生活，如同无花果树的果子渐渐成熟；又如葡萄树开花放香，作基督馨香的见证，与诸天穹苍一同地每日每夜述说着神的荣耀！", girlName, boyName];
+    NSString *girlName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleGirl];
+    NSString *boyName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleBoy];
+    NSString *cong = [NSString stringWithFormat:@"       恭祝%@和%@喜结连理。愿你们的爱情生活，如同无花果树的果子渐渐成熟；又如葡萄树开花放香，作基督馨香的见证，与诸天穹苍一同地每日每夜述说着神的荣耀！", girlName?girlName:@"新娘", boyName?boyName:@"新郎"];
     
     CGFloat height = [cong sizeWithFont:[UIFont boldSystemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.width-20, MAXFLOAT)].height;
     _titleLbl.height = height;
@@ -42,6 +42,7 @@
     
     NSString *appName = [BundleHelper bundleDisplayNameString];
     NSString *version = [BundleHelper bundleShortVersionString];
+    
     _footerLbl.text = [NSString stringWithFormat:@"App Name: %@\nVersion: %@", appName, version];
     
     _headerView.height = height+230; //270

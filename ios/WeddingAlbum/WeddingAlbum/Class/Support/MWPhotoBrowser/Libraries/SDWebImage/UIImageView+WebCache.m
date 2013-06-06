@@ -57,6 +57,7 @@
 
     if (url)
     {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [manager downloadWithURL:url delegate:self options:options success:success failure:failure];
     }
 }
@@ -75,6 +76,34 @@
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image
 {
     self.image = image;
+}
+
+- (void)setReloadImageIfFailedWithUrl:(NSString *)url placeholderImage:(UIImage *)placeholder{
+    __weak UIImageView *weakImgView = self;
+    [self setImageWithURL:[NSURL URLWithString:url]
+            placeholderImage:placeholder
+                     success:^(UIImage *image) {
+                         weakImgView.image = image;
+                     } failure:^(NSError *error) {
+                         NSURL *URL = [NSURL URLWithString:url];
+                         NSString *host = [URL host];
+                         
+                         NSString *optionServer = CONFIG(KeyOptionServer);
+                         if ([optionServer hasPrefix:@"http://"] && optionServer.length>7) {
+                             optionServer = [optionServer substringWithRange:NSMakeRange(7, optionServer.length-7)];
+                         }
+                         
+                         NSString *url = [URL absoluteString];
+                         NSMutableString *muUrl = [NSMutableString stringWithString:url];
+                         [muUrl replaceOccurrencesOfString:host withString:optionServer options:0 range:NSMakeRange(0, url.length)];
+                         
+                         [weakImgView setImageWithURL:[NSURL URLWithString:muUrl]
+                                              success:^(UIImage *image) {
+                                                  weakImgView.image = image;
+                                              } failure:^(NSError *error) {
+                                                  weakImgView.image = nil;
+                                              }];
+                     }];
 }
 
 @end

@@ -75,32 +75,8 @@
             
 //            [imgView setImageWithURL:[NSURL URLWithString:url0]];
             //如果失败，使用备用服务器
-            
-            __weak UIImageView *weakImgView = imgView;
-            [imgView setImageWithURL:[NSURL URLWithString:url0]
-                    placeholderImage:[UIImage imageNamed:@"pic_default.png"]
-                             success:^(UIImage *image) {
-                                 weakImgView.image = image;
-                             } failure:^(NSError *error) {
-                                 NSURL *URL = [NSURL URLWithString:url0];
-                                 NSString *host = [URL host];
-                                 
-                                 NSString *optionServer = CONFIG(KeyOptionServer);
-                                 if ([optionServer hasPrefix:@"http://"] && optionServer.length>7) {
-                                     optionServer = [optionServer substringWithRange:NSMakeRange(7, optionServer.length-7)];
-                                 }
-                                 
-                                 NSString *url = [URL absoluteString];
-                                 NSMutableString *muUrl = [NSMutableString stringWithString:url];
-                                 [muUrl replaceOccurrencesOfString:host withString:optionServer options:0 range:NSMakeRange(0, url.length)];
-                                 
-                                 [weakImgView setImageWithURL:[NSURL URLWithString:muUrl]
-                                                      success:^(UIImage *image) {
-                                                          weakImgView.image = image;
-                                                      } failure:^(NSError *error) {
-                                                          weakImgView.image = nil;
-                                                      }];
-                             }];
+
+            [imgView setReloadImageIfFailedWithUrl:url0 placeholderImage:[UIImage imageNamed:@"pic_default.png"]];
         }else{
             imgView.hidden = YES;
         }
