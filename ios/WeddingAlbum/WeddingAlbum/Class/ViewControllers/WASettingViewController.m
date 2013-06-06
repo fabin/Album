@@ -119,24 +119,34 @@
         
         [cell performSelector:@selector(hideIndicatorView) withObject:nil afterDelay:1.0];
     }else if (row == 1) {
-        MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
-        emailer.mailComposeDelegate = self;
-        NSArray *toRecipients = [NSArray arrayWithObject:CONFIG(KeyEmail)];
-        [emailer setToRecipients:toRecipients];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            emailer.modalPresentationStyle = UIModalPresentationPageSheet;
-        }
-        [self presentModalViewController:emailer animated:YES];
-    }else if(row == 2){
-        UIActionSheet *sheet;
-        if([MFMessageComposeViewController canSendText]){
-            sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
+        if(NSClassFromString(@"MFMailComposeViewController") && [MFMailComposeViewController canSendMail]){
+            MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
+            emailer.mailComposeDelegate = self;
+            NSString *email = CONFIG(KeyEmail);
+            if (email) {
+                [emailer setToRecipients:@[email]];
+            }
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                emailer.modalPresentationStyle = UIModalPresentationFormSheet;
+            }
+            [self presentModalViewController:emailer animated:YES];
         }else{
-            sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发送邮件，请设置好邮件帐号。" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
         }
-        
-        [sheet showInView:self.view];
+    }else if(row == 2){
+        if([MFMessageComposeViewController canSendText]){
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"告诉朋友" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"邮件分享", @"短信分享", nil];
+            [sheet showInView:self.view];
+        }else{
+            if (NSClassFromString(@"MFMailComposeViewController") && [MFMailComposeViewController canSendMail]){
+                [WASettingViewController shareAppViaEmail:self];
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"不能发送邮件，请设置好邮件帐号。" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }
+        }
     }
 }
 
@@ -180,7 +190,7 @@
     [emailer addAttachmentData:UIImageJPEGRepresentation([UIImage imageNamed:@"Icon.png"], 0.8) mimeType:@"png" fileName:@"Icon.png"];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        emailer.modalPresentationStyle = UIModalPresentationPageSheet;
+        emailer.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
     [(UIViewController *)vc presentModalViewController:emailer animated:YES];

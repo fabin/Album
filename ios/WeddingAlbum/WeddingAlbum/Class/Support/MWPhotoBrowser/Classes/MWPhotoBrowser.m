@@ -1293,7 +1293,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 //        };
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            emailer.modalPresentationStyle = UIModalPresentationPageSheet;
+            emailer.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         [self presentModalViewController:emailer animated:YES];
         [emailer release];
