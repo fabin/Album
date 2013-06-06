@@ -8,13 +8,14 @@
 
 #import "WAMenuViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "UIImageView+AFNetworking.h"
+//#import "UIImageView+AFNetworking.h"
 #import "WAHTTPClient.h"
 #import "WAAlbumViewController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "WASettingViewController.h"
 #import "UIView+Indicator.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 
 @interface WAMenuViewController ()
 
@@ -31,7 +32,17 @@
     self.tableView.backgroundColor = RGBCOLOR(67, 67, 67);
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
 
-    NSString *title = CONFIG(KeyCouple);
+    NSString *bName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleBoy];
+    NSString *gName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleGirl];
+    
+    if (!bName) {
+        bName = @"新郎";
+    }
+    if (!gName) {
+        gName = @"新娘";
+    }
+    
+    NSString *title = [NSString stringWithFormat:@"%@&%@", bName, gName];
     
     _imgView.layer.cornerRadius = 34;
     
@@ -41,6 +52,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveData:) name:@"NOTI_RETRIEVE_ALBUMS" object:nil];
     
     [self retrieveAppSetting];
+    
+    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:@"appHead"];
+    if (url) {
+        [_imgView setReloadImageIfFailedWithUrl:url placeholderImage:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -157,7 +173,12 @@
         _dataSource = obj;
         [self.tableView reloadData];
         
-        NSString *title = CONFIG(KeyCouple);
+        NSString *bName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleBoy];
+        NSString *gName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleGirl];
+        if (!bName) bName = @"新郎";
+        if (!gName) gName = @"新娘";
+        
+        NSString *title = [NSString stringWithFormat:@"%@&%@", bName, gName];
         [WADataEnvironment cacheAlbumList:obj forName:title];
         _isLoading = NO;
     } failure:^(NSError *err) {
@@ -171,12 +192,33 @@
 - (void)retrieveAppSetting{
     [WAHTTPClient appSettingSuccess:^(id obj) {
         NSString *url = [obj objectForKey:@"appHead"];
-        [_imgView setImageWithURL:[NSURL URLWithString:url]];
+        if(url){
+            [[NSUserDefaults standardUserDefaults] setObject:url forKey:@"appHead"];
+            [_imgView setReloadImageIfFailedWithUrl:url placeholderImage:nil];
+        }
         
         NSString *bName = [obj objectForKey:@"boyName"];
+        if (!bName) {
+            bName = @"新郎";
+        }
         NSString *gName = [obj objectForKey:@"girlName"];
-        _titleLbl.text = [NSString stringWithFormat:@"%@&%@", gName, bName];
+        if (!gName) {
+            gName = @"新娘";
+        }
         
+        NSString *title = [NSString stringWithFormat:@"%@&%@", gName, bName];
+        _titleLbl.text = title;
+        UINavigationController *vc = (UINavigationController *)[[self mm_drawerController] centerViewController];
+        if ([vc respondsToSelector:@selector(topViewController)]) {
+            WAAlbumViewController *alVC = [[vc viewControllers] objectAtIndex:0];
+            
+            if (!alVC.albumKey) {
+                alVC.title = title;
+            }
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:gName forKey:KeyCoupleGirl];
+        [[NSUserDefaults standardUserDefaults] setObject:bName forKey:KeyCoupleBoy];
         
         NSString *appWelcome = [obj objectForKey:@"appWelcome"];
         if (appWelcome){
@@ -191,6 +233,8 @@
         }else{
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"appCongratulation"];
         }
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
     } failure:^(NSError *error) {
         _titleLbl.text = @"新娘&新郎";
     }];
@@ -215,7 +259,10 @@
     [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0] animated:YES];
     
     WAAlbumViewController *vc = [[WAAlbumViewController alloc] initWithNibName:@"WAAlbumViewController" bundle:nil];
-    vc.title = CONFIG(KeyCouple);
+    NSString *bName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleBoy];
+    NSString *gName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleGirl];
+    if (bName && gName) vc.title = [NSString stringWithFormat:@"%@&%@", gName, bName];
+
     UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:vc];
     //    nv.navigationBarHidden = YES;
     UIImage *image = [UIImage imageNamed:@"bg_nav.png"];

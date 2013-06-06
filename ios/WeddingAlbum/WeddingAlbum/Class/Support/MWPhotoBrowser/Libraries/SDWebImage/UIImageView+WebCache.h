@@ -111,6 +111,9 @@
  * @param failure A block object to be executed when the image request failed. This block has no return value and takes the error object describing the network or parsing error that occurred (may be nil).
  */
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
+
+///Tonny Add this Line
+- (void)setReloadImageIfFailedWithUrl:(NSString *)url placeholderImage:(UIImage *)placeholder;
 #endif
 
 /**

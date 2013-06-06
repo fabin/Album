@@ -37,7 +37,9 @@
     if (self.title) {
         _titleLbl.text = self.title;
     }else{
-        _titleLbl.text = CONFIG(KeyCouple);
+        NSString *bName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleBoy];
+        NSString *gName = [[NSUserDefaults standardUserDefaults] objectForKey:KeyCoupleGirl];
+        if (bName && gName) self.title = [NSString stringWithFormat:@"%@&%@", gName, bName];
     }
     
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -68,7 +70,7 @@
                 imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
                 
                 if (url) {
-                    [imgView setImageWithURL:[NSURL URLWithString:url]];
+                    [imgView setReloadImageIfFailedWithUrl:url placeholderImage:nil];
                 }
             }
             
@@ -92,7 +94,7 @@
                 imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome_pad.png"]];
                 
                 if (url) {
-                    [imgView setImageWithURL:[NSURL URLWithString:url]];
+                    [imgView setReloadImageIfFailedWithUrl:url placeholderImage:nil];
                 }
             }
             

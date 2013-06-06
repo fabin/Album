@@ -6,12 +6,6 @@
 	<string>http://album.co-rising.com</string>
 	<key>option_image_server_domain</key>
 	<string>binshidai.com</string>
-	<key>profile_couple</key>
-	<string>吕伊莘&amp;罗天舒</string>
-	<key>couple_name_boy</key>
-	<string>罗天舒</string>
-	<key>couple_name_girl</key>
-	<string>吕伊莘</string>
 	<key>email</key>
 	<string>test_slowslab@gmail.com</string>
 </dict>
