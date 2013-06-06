@@ -7,7 +7,8 @@ $(function() {
 	initUploadItem('#fileuploadCongratulation', '#appCongratulation',
 			'img#congratulationImage', '=s480');
 	initUploadItem('#fileuploadCover', '#cover', 'img#coverImage', '=s1600');
-	initUploadItem('#fileuploadWebHead', '#webHead', 'img#webHeadImage', '=s120-c');
+	initUploadItem('#fileuploadWebHead', '#webHead', 'img#webHeadImage',
+			'=s120-c');
 
 	$('#update').click(function() {
 		var info = $('.alert-success');
@@ -18,7 +19,6 @@ $(function() {
 	});
 
 	$('.nav-tabs li a').each(function(index) {
-		console.log($(this).attr('href'))
 		var $a = $(this);
 		var $li = $(this).parent();
 		$a.click(function() {
@@ -39,7 +39,6 @@ function hiddenAllTabContent() {
 		var $li = $(this).parent();
 		$li.removeClass('active');
 		var id = $(this).attr('href');
-		console.log('hiddening ' + id)
 		$(id).css({
 			'display' : 'none'
 		});
@@ -59,9 +58,7 @@ function initUploadItem(trigger, hiddenInput, img, tail) {
 			data.submit();
 		},
 		done : function(e, data) {
-			console.log('data.result = %o', data.result);
 			$.each(data.result, function(index, file) {
-				console.log('file = %o', file);
 				$(hiddenInput).val(file.url);
 				$(img).attr('src', file.url + tail)
 			});
