@@ -17,6 +17,8 @@
 #import "MBProgressHUD.h"
 #import "BundleHelper.h"
 #import "WASettingViewController.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
 
 @interface WAAlbumViewController () <UIActionSheetDelegate, MWPhotoBrowserDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate>
 
@@ -50,15 +52,52 @@
     }else{
         _tableView.hidden = YES;
         
+        NSString *appWelcome = [[NSUserDefaults standardUserDefaults] objectForKey:@"appWelcome"];
         UIImageView *imgView = nil;
         if (is_iPhone) {
-            imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
+            UIImage *img = nil;
+            NSString *url = nil;
+            if (appWelcome) {
+                url = [NSString stringWithFormat:@"%@=s640-c", appWelcome];
+                img = [[SDImageCache sharedImageCache] imageFromKey:url];
+            }
+            
+            if (img){
+                imgView = [[UIImageView alloc] initWithImage:img];
+            }else{
+                imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome.png"]];
+                
+                if (url) {
+                    [imgView setImageWithURL:[NSURL URLWithString:url]];
+                }
+            }
+            
+            imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.clipsToBounds = NO;
             imgView.frame = CGRectMake(0.0, ([UIScreen mainScreen].bounds.size.height==568?100:55), 320, 250);
             
             UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapView:)];
             [self.view addGestureRecognizer:gesture];
         }else{
-            imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome_pad.png"]];
+            UIImage *img = nil;
+            NSString *url = nil;
+            if (appWelcome) {
+                url = [NSString stringWithFormat:@"%@=s488-c", appWelcome];
+                img = [[SDImageCache sharedImageCache] imageFromKey:appWelcome];
+            }
+            
+            if (img){
+                imgView = [[UIImageView alloc] initWithImage:img];
+            }else{
+                imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_welcome_pad.png"]];
+                
+                if (url) {
+                    [imgView setImageWithURL:[NSURL URLWithString:url]];
+                }
+            }
+            
+            imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.clipsToBounds = NO;
             if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
                 imgView.frame = CGRectMake(150 , 60, 488, 524);
             }else{
