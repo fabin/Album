@@ -72,6 +72,8 @@
                 }
             }
             
+            imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.clipsToBounds = NO;
             imgView.frame = CGRectMake(0.0, ([UIScreen mainScreen].bounds.size.height==568?100:55), 320, 250);
             
             UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapView:)];
@@ -94,6 +96,8 @@
                 }
             }
             
+            imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.clipsToBounds = NO;
             if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
                 imgView.frame = CGRectMake(150 , 60, 488, 524);
             }else{
