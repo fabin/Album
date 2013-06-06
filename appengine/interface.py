@@ -76,6 +76,8 @@ class InterfaceAppSettingHandler(webapp2.RequestHandler):
             appSettings = album_settings.AppSetting.all().ancestor(setting).fetch(1)
             appSetting = appSettings[0] if len(appSettings) > 0 else {}
         result = {}
+        result['girlName'] = setting.girlName
+        result['boyName'] = setting.boyName
         result['appName'] = appSetting.appName
         result['appHead'] = appSetting.appHead
         result['appWelcome'] = appSetting.appWelcome
