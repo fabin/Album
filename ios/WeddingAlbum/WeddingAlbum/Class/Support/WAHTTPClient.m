@@ -59,4 +59,20 @@ SINGLETON_GCD(WAHTTPClient);
                                }];
 }
 
++ (void)appSettingSuccess:(SLObjectBlock)success failure:(SLErrorBlock)failure{
+    [[self sharedWAHTTPClient] getPath:@"interface/appSetting"
+                            parameters:nil
+                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                   NSDictionary *dic = [responseObject objectFromJSONData];
+                                   SLLog(@"result %@", arr);
+                                   if (dic.count > 0) {
+                                       success(dic);
+                                   }else{
+                                       failure(nil);
+                                   }
+                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                   failure(error);
+                               }];
+}
+
 @end

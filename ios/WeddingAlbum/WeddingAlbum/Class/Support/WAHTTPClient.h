@@ -15,4 +15,6 @@
 + (void)albumListSuccess:(SLObjectBlock)success failure:(SLErrorBlock)failure;
 
 + (void)photoListForKey:(NSString *)key success:(SLObjectBlock)success failure:(SLErrorBlock)failure;
+
++ (void)appSettingSuccess:(SLObjectBlock)success failure:(SLErrorBlock)failure;
 @end
