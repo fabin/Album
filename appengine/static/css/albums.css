@@ -78,13 +78,14 @@
 	margin-bottom: 5px;
 	white-space: nowrap;
 	font-size: 28px;
-	margin: 0 10px 0 0;
-	max-width: 482px;
+	line-height: 28px;
 	text-align: left;
+	max-width: 482px;
 }
 
 #cover .profile .details .textcontainer .text .descItem {
 	display: inline-block;
+	*display: inline;
 	margin: 5px 15px 0 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -116,9 +117,9 @@
 
 #cover .profile .details .textcontainer .text .descItem .descItemDetails
 	{
-	filter: alpha(opacity =        
+	filter: alpha(opacity =           
 		                                                         
-		          67);
+		             67);
 	opacity: .67;
 	color: #fff;
 }
@@ -141,9 +142,9 @@
 
 #cover .admin,#cover .admin a {
 	color: #fff;
-	filter: alpha(opacity =        
+	filter: alpha(opacity =           
 		                                                         
-		          67);
+		             67);
 	opacity: .67;
 	text-decoration: none;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);

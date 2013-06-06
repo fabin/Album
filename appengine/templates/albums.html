@@ -9,6 +9,19 @@
 <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery.corner.js"></script>
 <script type="text/javascript" src="/static/js/app/albums.js"></script>
+<!--[if lt IE 8]>
+<style type="text/css">
+#cover .profile .details .textcontainer {
+position:relative;
+width:expression(this.childNodes[0].offsetWidth+"px");
+}
+#cover .profile .details .textcontainer .text {
+position:absolute;
+top:50%;
+margin-top:expression(-this.offsetHeight/2);
+}
+</style>
+<![endif]-->
 <title>Albums</title>
 </head>
 <body>
