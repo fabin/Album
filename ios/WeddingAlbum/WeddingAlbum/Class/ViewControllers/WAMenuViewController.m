@@ -33,15 +33,14 @@
 
     NSString *title = CONFIG(KeyCouple);
     
-    _titleLbl.text = title?title:@"新郎&新娘";
-    _imgView.image = [UIImage imageNamed:@"profile_head.jpg"];
-    _imgView.backgroundColor = [UIColor redColor];
     _imgView.layer.cornerRadius = 34;
     
     _dataSource = [WADataEnvironment cachedAlbumeListForName:title];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveDataNeedCheck:) name:@"NOTI_RETRIEVE_ALBUMS_NEEDCHECK" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retrieveData:) name:@"NOTI_RETRIEVE_ALBUMS" object:nil];
+    
+    [self retrieveAppSetting];
 }
 
 - (void)didReceiveMemoryWarning
@@ -166,6 +165,34 @@
         
 //        [view hideIndicatorView];
         _isLoading = NO;
+    }];
+}
+
+- (void)retrieveAppSetting{
+    [WAHTTPClient appSettingSuccess:^(id obj) {
+        NSString *url = [obj objectForKey:@"appHead"];
+        [_imgView setImageWithURL:[NSURL URLWithString:url]];
+        
+        NSString *bName = [obj objectForKey:@"boyName"];
+        NSString *gName = [obj objectForKey:@"girlName"];
+        _titleLbl.text = [NSString stringWithFormat:@"%@&%@", gName, bName];
+        
+        
+        NSString *appWelcome = [obj objectForKey:@"appWelcome"];
+        if (appWelcome){
+            [[NSUserDefaults standardUserDefaults] setObject:appWelcome forKey:@"appWelcome"];
+        }else{
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"appWelcome"];
+        }
+        
+        NSString *appCongratulation = [obj objectForKey:@"appCongratulation"];
+        if (appCongratulation){
+            [[NSUserDefaults standardUserDefaults] setObject:appCongratulation forKey:@"appCongratulation"];
+        }else{
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"appCongratulation"];
+        }
+    } failure:^(NSError *error) {
+        _titleLbl.text = @"新娘&新郎";
     }];
 }
 

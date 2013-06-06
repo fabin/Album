@@ -14,6 +14,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "UIView+Addition.h"
 #import "UIView+Indicator.h"
+#import "UIImageView+WebCache.h"
 
 @interface WASettingViewController () <MFMailComposeViewControllerDelegate, UIActionSheetDelegate, MFMessageComposeViewControllerDelegate>
 
@@ -24,7 +25,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
+    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:@"appCongratulation"];
+    if (url){
+        [_imgView setImageWithURL:[NSURL URLWithString:url]];
+    }else{
+        _imgView.image = [UIImage imageNamed:@"pic_couple.jpg"];
+    }
     
     NSString *girlName = CONFIG(KeyCoupleGirl);
     NSString *boyName = CONFIG(KeyCoupleBoy);

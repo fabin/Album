@@ -19,6 +19,5 @@
 
 @property (nonatomic, copy) NSString *albumKey;
 
-
 //- (void)update;
 @end
