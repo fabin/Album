@@ -555,7 +555,7 @@
 		E16BAD6A175642A600F80E0C /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		E16BAD6C175642AA00F80E0C /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		E16BAD6E175642B600F80E0C /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		E1918C6917547D0100984C77 /* WeddingAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1918C6917547D0100984C77 /* WeddingAlbum-YishenTianshu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WeddingAlbum-YishenTianshu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1918C6C17547D0100984C77 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E1918C6E17547D0100984C77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E1918C7017547D0100984C77 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -926,7 +926,7 @@
 		E1918C6A17547D0100984C77 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1918C6917547D0100984C77 /* WeddingAlbum.app */,
+				E1918C6917547D0100984C77 /* WeddingAlbum-YishenTianshu.app */,
 				D5382BD91761B86F009C2C93 /* WeddingAlbum copy.app */,
 			);
 			name = Products;
@@ -1006,7 +1006,7 @@
 			);
 			name = "WeddingAlbum-YishenTianshu";
 			productName = WeddingAlbum;
-			productReference = E1918C6917547D0100984C77 /* WeddingAlbum.app */;
+			productReference = E1918C6917547D0100984C77 /* WeddingAlbum-YishenTianshu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

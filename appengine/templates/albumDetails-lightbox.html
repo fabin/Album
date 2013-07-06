@@ -7,29 +7,29 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<link href="/static/photoswipe/styles.css" type="text/css"
-	rel="stylesheet" />
-
-<link href="/static/photoswipe/photoswipe.css" type="text/css"
-	rel="stylesheet" />
 
 <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
-<style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
 <link rel="stylesheet"
 	href="/static/bootstrap/css/bootstrap-responsive.min.css">
 <!-- Bootstrap CSS fixes for IE6 -->
 <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-<script type="text/javascript" src="/static/photoswipe/lib/klass.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/lightbox/js/jquery-1.7.2.min.js"></script>
+<script src="/static/js/app/album.details-lightbox.js"
+	type="text/javascript"></script>
+<script src="/static/lightbox/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="/static/lightbox/js/jquery.smooth-scroll.min.js"></script>
+<script src="/static/lightbox/js/lightbox.js"></script>
+<link rel="stylesheet" href="/static/lightbox/css/screen.css" type="text/css"
+	media="screen" />
+<link rel="stylesheet" href="/static/lightbox/css/lightbox.css" type="text/css"
+	media="screen" />
 
-<script type="text/javascript"
-	src="/static/photoswipe/code.photoswipe.jquery-3.0.5.min.js"></script>
-
-<script src="/static/js/app/album.details.js" type="text/javascript"></script>
+<style>
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
 </head>
 <body>
 
@@ -58,13 +58,13 @@
 		</div>
 		{% endif %}
 	</div>
-
 	<ul id="Gallery" class="gallery">
 		{% for picture in pictures %}
-		<li><a href="{{picture.image}}=s780"><img
+		<li><a href="{{picture.image}}=s1600" rel="lightbox[pictures]"><img
 				src="{{picture.image}}=s240-c" alt="{{picture.name}}" /></a></li> {% endfor
 		%}
 	</ul>
+
 
 
 </body>

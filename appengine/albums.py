@@ -123,7 +123,7 @@ class AlbumDetails(BaseHandler):
             
             pictures = Picture.all().ancestor(album)
             isAdmin = users.is_current_user_admin()
-            template = JINJA_ENVIRONMENT.get_template('/templates/albumDetails.html')
+            template = JINJA_ENVIRONMENT.get_template('/templates/albumDetails-lightbox.html')
             template_values = {
             'isAdmin': isAdmin,
             'album': album,
