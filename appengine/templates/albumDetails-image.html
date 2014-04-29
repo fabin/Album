@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{album.name}} - 婚纱相册</title>
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/static/bootstrap/css/bootstrap-responsive.min.css">
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<script type="text/javascript"
+	src="/static/lightbox/js/jquery-1.7.2.min.js"></script>
+<script src="/static/lightbox/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="/static/js/freewall.js"></script>
+<script src="/static/js/app/album.details-image.js"></script>
+
+<style type="text/css">
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+	background: #f0953c;
+}
+
+.free-wall {
+	margin: 15px;
+}
+
+.brick img {
+	margin: 0;
+	display: block;
+}
+
+.cell {
+	display: block;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: absolute;
+	background-color: #222;
+}
+</style>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="/">婚纱相册</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="#">{{album.name}}</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		{% if isAdmin: %}
+		<div>
+			<a id='upload' class="btn btn-primary" href="/upload/{{album.key()}}"><i
+				class="icon-plus icon-white"></i> <span>上传</span></a> <a id='edit'
+				class="btn btn-success" href="/albums/create?album={{album.key()}}"><i
+				class="icon-pencil icon-white"></i> <span>编辑</span></a> <a id='delete'
+				class="btn btn-danger" href="/albums/delete/{{album.key()}}"><i
+				class="icon-trash icon-white"></i> <span>删除</span></a>
+		</div>
+		{% endif %}
+	</div>
+
+</body>
+</html>
