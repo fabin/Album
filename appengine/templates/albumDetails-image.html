@@ -13,8 +13,7 @@
 <!-- Bootstrap CSS fixes for IE6 -->
 <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
 <script type="text/javascript"
-	src="/static/lightbox/js/jquery-1.7.2.min.js"></script>
-<script src="/static/lightbox/js/jquery-ui-1.8.18.custom.min.js"></script>
+	src="/static/js/jquery-1.9.1.min.js"></script>
 <script src="/static/js/freewall.js"></script>
 <script src="/static/js/app/album.details-image.js"></script>
 
@@ -69,6 +68,13 @@ body {
 				class="icon-trash icon-white"></i> <span>删除</span></a>
 		</div>
 		{% endif %}
+	</div>
+	<div id="freewall" class="free-wall">
+		{% for picture in pictures %} <a class="fancybox"
+			data-fancybox-group="gallery" href="{{picture.image}}=s1600"><span
+			class='cell'
+			style="background-image: url('{{picture.image}}=s480-c');"> </span></a>
+		{% endfor %}
 	</div>
 
 </body>
