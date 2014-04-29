@@ -15,6 +15,10 @@
 <script type="text/javascript"
 	src="/static/js/jquery-1.9.1.min.js"></script>
 <script src="/static/js/freewall.js"></script>
+
+<script type="text/javascript" src="/static/fancybox2/jquery.fancybox.js?v=2.1.5"></script>
+	<link rel="stylesheet" type="text/css" href="/static/fancybox2/jquery.fancybox.css?v=2.1.5" media="screen" />
+
 <script src="/static/js/app/album.details-image.js"></script>
 
 <style type="text/css">
@@ -71,7 +75,7 @@ body {
 	</div>
 	<div id="freewall" class="free-wall">
 		{% for picture in pictures %} <a class="fancybox"
-			data-fancybox-group="gallery" href="{{picture.image}}=s1600"><span
+			data-fancybox-group="gallery" href="{{picture.image}}=s1024?xx.jpg"><span
 			class='cell'
 			style="background-image: url('{{picture.image}}=s480-c');"> </span></a>
 		{% endfor %}

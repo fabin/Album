@@ -18,4 +18,6 @@ $(document).ready(function() {
 	wall.fitWidth();
 	// for scroll bar appear;
 	$(window).trigger("resize");
+	
+	$('.fancybox').fancybox();
 });
