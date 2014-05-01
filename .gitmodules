@@ -1,0 +1,3 @@
+[submodule "ImageLoader"]
+	path = ImageLoader
+	url = git://github.com/fabin/ImageLoader.git
