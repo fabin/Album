@@ -1,6 +1,3 @@
 [submodule "ImageLoader"]
 	path = ImageLoader
 	url = git://github.com/fabin/ImageLoader.git
-[submodule "ActionBarSherlock"]
-	path = ActionBarSherlock
-	url = git://github.com/JakeWharton/ActionBarSherlock.git
